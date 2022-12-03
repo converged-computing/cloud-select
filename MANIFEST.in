@@ -1,0 +1,12 @@
+include README.md LICENSE
+recursive-include cloud_select *.png
+recursive-include cloud_select *.sh
+recursive-include cloud_select *
+recursive-include registry *
+recursive-include * *.png
+prune env*
+global-exclude .env
+global-exclude *.py[co]
+recursive-exclude .git *
+global-exclude __pycache__
+prune docs*

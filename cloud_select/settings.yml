@@ -1,0 +1,8 @@
+# The cloud cost estimator settings file allows for customization
+# of setting for the estimator.
+
+# clouds to include (currently supported are aws and google)
+clouds: [aws, google]
+
+# config editor
+config_editor: vim
