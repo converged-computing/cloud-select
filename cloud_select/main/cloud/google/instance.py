@@ -10,8 +10,11 @@ class GoogleCloudInstance(Instance):
     def attr_cpus(self):
         return self.data.get("guestCpus")
 
-    def attr_memory_gb(self):
-        return self.data["memoryMb"] / 1024
+    def attr_memory(self):
+        """
+        Memory is in GB
+        """
+        return int(self.data["memoryMb"] / 1024)
 
     def attr_free_tier(self):
         """
@@ -25,20 +28,44 @@ class GoogleCloudInstance(Instance):
         # We treat booleans as lowercase strings
         return str("micro" in self.name).lower()
 
+    def attr_ipv6(self):
+        """
+        Determine if an instance can support ipv6
+        As far as I can tell - they all can be configured with a subnet that does?
 
-# select(Cloud, Instance) :-
-#    has_attr(Cloud, Instance, "gpu", "false"),
-#    has_attr(Cloud, Instance, "memory", 4),
-#    has_attr(Cloud, Instance, "free_tier", "false"),
-#    has_attr(Cloud, Instance, "ipv6", "false").
+        https://cloud.google.com/compute/docs/ip-addresses/configure-ipv6-address
+        """
+        return True
 
-#        "imageSpaceGb": 0,
-#        "maximumPersistentDisks": 128,
-#        "maximumPersistentDisksSizeGb": "263168",
-#        "selfLink": "https://www.googleapis.com/compute/v1/projects/dinodev/zones/us-west1-a/machineTypes/t2d-standard-8",
-#        "isSharedCpu": false
+    def attr_gpu(self):
+        """
+        Determine if an instance can support gpu
 
-# TODO logic for gpus https://cloud.google.com/compute/docs/gpus
+        https://cloud.google.com/compute/docs/gpus
+
+        To run NVIDIA A100 GPUs, you must use the accelerator-optimized (A2) machine type.
+        """
+        accels = self.data.get("accelerators", []) or []
+        return len(accels) > 1 or "gpu" in self.name.lower()
+
+    def attr_gpus(self):
+        """
+        Determine number of gpus an instance can support.
+
+        https://cloud.google.com/compute/docs/gpus
+
+        To run NVIDIA A100 GPUs, you must use the accelerator-optimized (A2) machine type.
+        """
+        accels = self.data.get("accelerators", []) or []
+        count = None
+
+        # List of [{'guestAcceleratorType': 'nvidia-tesla-a100', 'guestAcceleratorCount': 8}]
+        if accels:
+            for accel in accels:
+                found_count = accel.get("guestAcceleratorCount")
+                if found_count and count is None or found_count > count:
+                    count = found_count
+        return count
 
 
 class GoogleCloudInstanceGroup(InstanceGroup):

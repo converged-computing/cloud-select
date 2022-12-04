@@ -18,7 +18,7 @@ class Solver:
         Create a solver to generate facts and rules for an ASP program.
         """
         self.driver = PyclingoDriver(out=out)
-        self.setup = SolverSetup()
+        self.setup = SolverSetup(out=out)
 
     def add_properties(self, props):
         """
@@ -58,10 +58,14 @@ class SolverSetup:
     The solver setup handles parsing facts and rules.
     """
 
-    def __init__(self):
+    # Prefixes that provide extra info about property
+    prefixes = ["range:"]
+
+    def __init__(self, out=None):
         self.instances = {}
         self.properties = {}
         self.logic_programs = []
+        self.out = out
 
     def setup(self, driver):
         """
@@ -109,7 +113,7 @@ class SolverSetup:
         program on the fly with custom selections.
         """
         self.properties = props
-        tmpfile = write_instance_select_program(props)
+        tmpfile = write_instance_select_program(props, out=self.out)
         self.logic_programs.append(tmpfile)
 
     def gen_properties(self):
@@ -120,4 +124,6 @@ class SolverSetup:
         """
         self.gen.h2("Properties (attributes)")
         for prop, _ in self.properties.items():
+            for prefix in self.prefixes:
+                prop = prop.replace(prefix, "", 1)
             self.gen.fact(fn.attr(prop))

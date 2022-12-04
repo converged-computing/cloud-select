@@ -41,7 +41,7 @@ instance_properties = {
         "description": "Max of total number of GPUs (e.g., 4) if --gpus-min not set, it is 0",
     },
     "gpu": {"type": "boolean", "description": "GPU-enabled instance type."},
-    "gpu-memory-total": {
+    "gpu-memory": {
         "type": "number",
         "description": "Total memory across GPUs in GiB (e.g., 4) sets --gpu-memory-min and --gpu-memory-max to the same value",
     },

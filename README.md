@@ -1,6 +1,6 @@
 # Cloud Select
 
-![docs/assets/img/cloud-select-transparent.png](docs/assets/img/cloud-select-transparent.png)
+![docs/assets/img/logo-transparent.png](docs/assets/img/logo-transparent.png)
 
 This is a tool that helps a user select a cloud. It will make it easy for an HPC user to say:
 
@@ -81,10 +81,23 @@ There are a lot of variables to select from, see:
 $ cloud-select instance --help
 ```
 
-Let's ask for an exact amount of memory (as opposed to a min and/or max)
+Let's ask for an exact amount of memory (as opposed to a min and/or max). This will not print instance
+atoms to the screen.
 
 ```bash
 $ cloud-select instance --memory 4
+```
+
+If you want to see the atoms:
+
+```bash
+$ cloud-select --verbose instance --memory 4
+```
+
+Or write the atoms to file:
+
+```bash
+$ cloud-select instance --memory 4 --out atoms.lp
 ```
 
 
@@ -103,12 +116,22 @@ The implementation needs three parts: 1. a database of contender machines that i
 1. Start with APIs that can list instance types. We likely want to filter down into different groups.
 2. Think about how to do a mapping across clouds. Likely this means being able to generalize (e.g., describe based on memory, size, GPU or other features, etc)
 3. Save metadata about instances given the above attributes.
-4. Can we generate an archspec hierarchy for cloud?
+4. Can we generate a solve to find an optimal instance?
 
-Create a simple web app (and underlying user interface) that allows to define a jobspec
-Jobspec → filter to top options → price API
+As an example use case, we could create a simple web app (and underlying user interface) that allows to define a jobspec
+Jobspec → filter to top options → price API.
+
+> Why Python?
 
 To start, I was thinking we should use Python APIs for quick prototyping
+
+> Why use ASP / clingo and do a solve?
+
+Given matching requests for amounts, this is probablhy overkill - we could have iterables over a range of options filter this very easily.
+The honest answer is that I thought it would be more fun to try using ASP. We can always
+remove it for a simpler solution, as it does go against my better jugment to add extra dependencies that aren't needed.
+That said, if the solve becomes more complex, it could be cool to have it.
+
 
 ## Previous Art
 
@@ -126,7 +149,9 @@ I think I'm still going to use Python for faster prototyping.
 - Add Docker build / automated builds
 - finish algorithm - should first filter based on common standard, then use clingo solver
 - ensure that required set of attributes for each instance are returned (e.g., name, cpu, memory)
-
+- properties testing for min/max logic
+- the template generated should be easy to write to the output file too.
+- how to handle instances that don't have an attribute of interest? Should we unselect them?
 
 Planning for min/max stuff
 

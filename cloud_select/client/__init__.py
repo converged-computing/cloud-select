@@ -31,7 +31,6 @@ def add_instance_arguments(command):
 
         choices = attrs.get("enum")
         default_type = str
-        action = None
         default = attrs.get("default")
 
         # It's either a string...
@@ -39,8 +38,6 @@ def add_instance_arguments(command):
             default_type = int
         elif typ == "boolean" or "boolean" in typ:
             default_type = bool
-            # Assume default is always false for now
-            action = "store_true"
             default = None
 
         elif typ == "array":
@@ -54,7 +51,7 @@ def add_instance_arguments(command):
             command.add_argument(
                 f"--{name}",
                 help=attrs.get("description") or f"The --{name} flag.",
-                action=action,
+                action=argparse.BooleanOptionalAction,  # THis ensures the default can be None
                 default=default,
             )
         else:
@@ -86,6 +83,14 @@ def get_parser():
         "--quiet",
         dest="quiet",
         help="suppress additional output.",
+        default=False,
+        action="store_true",
+    )
+
+    parser.add_argument(
+        "--verbose",
+        dest="verbose",
+        help="print additional solver output (atoms).",
         default=False,
         action="store_true",
     )

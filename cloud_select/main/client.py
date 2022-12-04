@@ -4,8 +4,6 @@
 # SPDX-License-Identifier: (MIT)
 
 
-import sys
-
 import cloud_select.defaults as defaults
 import cloud_select.main.cache as cache
 import cloud_select.main.cloud as clouds
@@ -129,7 +127,7 @@ class Client:
         # By here we have a lookup *by cloud) of instance groups
         # Filter down kwargs to those relevant to instances
         properties = solve.Properties(schemas.instance_properties, **kwargs)
-        solver = solve.Solver(out=sys.stdout if not self.quiet else None)
+        solver = solve.Solver(out=out)
         max_results = max_results or self.settings.max_results or 20
 
         # 1. write mapping of common features into functions
@@ -139,6 +137,6 @@ class Client:
             solver.add_instances(cloud_name, instance_group)
         solver.add_properties(properties.defined)
 
-        # TODO parse instance facts from here
+        # TODO filter down if properties include_list / exclude_list patterns defined
         # use lookup to return to user, likely add costs
         return solver.solve()
