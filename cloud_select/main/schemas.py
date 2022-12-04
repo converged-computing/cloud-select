@@ -59,11 +59,6 @@ instance_properties = {
         "description": "Hypervisor.",
         "enum": ["xen", "nitro"],
     },
-    "max-results": {
-        "type": "number",
-        "description": "Maximum results to return per cloud provider.",
-        "default": 20,
-    },
     "memory": {
         "type": "number",
         "description": "Total memory needed and sets memory min and max to the same value.",
@@ -88,15 +83,15 @@ instance_properties = {
         "type": "number",
         "description": "Maximum amount of local instance storage in GiB. If --instance-storage-min not set, is 0.",
     },
-    "vcpus": {
+    "cpus": {
         "type": "number",
         "description": "Number of vcpus available to the instance type. Sets min and -max to the same value.",
     },
-    "vcpus-min": {
+    "cpus-min": {
         "type": "number",
         "description": "Minimum number of vcpus available to the instance type. If max not set, is infinity.",
     },
-    "vcpus-max": {
+    "cpus-max": {
         "type": "number",
         "description": "Maximum number of vcpus available to the instance type. If min not set, is 0.",
     },
@@ -165,6 +160,11 @@ instance_properties = {
 settingsProperties = {
     "cache_dir": {"type": "string"},
     "config_editor": {"type": "string"},
+    "max-results": {
+        "type": "number",
+        "description": "Maximum results to return per cloud provider.",
+        "default": 20,
+    },
     "instances": {
         "type": "object",
         "properties": instance_properties,

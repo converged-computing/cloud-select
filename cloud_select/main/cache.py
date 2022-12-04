@@ -86,7 +86,7 @@ class Cache:
         stats = os.stat(cache_file)
 
         # Convert cache_expire hours to seconds
-        expire_seconds = self._cache_expire_hours * 60
+        expire_seconds = self._cache_expire_hours * 60 * 60
 
         # And determine if the time now since modified is greater than expire
         return (time.time() - stats.st_mtime) > expire_seconds

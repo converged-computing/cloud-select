@@ -1,0 +1,31 @@
+{
+    "name": "Cloud Select Development Environment",
+    "dockerFile": "Dockerfile",
+    "context": "../",
+
+    "customizations": {
+      "vscode": {
+        "settings": {
+          "terminal.integrated.defaultProfile.linux": "bash",
+
+          // Ensure that Python autocomplete works out of the box
+          "python.autoComplete.extraPaths": [
+            "/workspaces/cloud-select",
+            "/usr/local/lib/python3.8",
+            "/usr/local/lib/python3.8/site-packages"
+          ],
+          "python.analysis.extraPaths": [
+            "/workspaces/cloud-select",
+            "/usr/local/lib/python3.8",
+            "/usr/local/lib/python3.8/site-packages"
+          ]
+        },
+        // Note to Flux Developers! We can add extensions here that you like
+        "extensions": [
+		    	"ms-python.python"
+    		]
+      }
+    },
+    // Needed for git security feature (this assumes you locally cloned to flux-core)
+    "postStartCommand": "git config --global --add safe.directory /workspaces/cloud-select"
+  }

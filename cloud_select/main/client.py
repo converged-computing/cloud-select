@@ -4,9 +4,13 @@
 # SPDX-License-Identifier: (MIT)
 
 
+import sys
+
 import cloud_select.defaults as defaults
 import cloud_select.main.cache as cache
 import cloud_select.main.cloud as clouds
+import cloud_select.main.schemas as schemas
+import cloud_select.main.solve as solve
 from cloud_select.logger import logger
 
 from .settings import Settings
@@ -19,6 +23,7 @@ class Client:
 
     def __init__(self, **kwargs):
         validate = kwargs.get("validate", True)
+        self.quiet = kwargs.get("quiet", False)
         self.settings = Settings(kwargs.get("settings_file"), validate)
         self.set_clouds(kwargs.get("clouds"))
 
@@ -108,7 +113,7 @@ class Client:
                 items[cloud_name] = updated
         return items
 
-    def instance_select(self, **kwargs):
+    def instance_select(self, max_results=20, out=None, **kwargs):
         """
         Select an instance.
 
@@ -122,16 +127,18 @@ class Client:
             )
 
         # By here we have a lookup *by cloud) of instance groups
+        # Filter down kwargs to those relevant to instances
+        properties = solve.Properties(schemas.instance_properties, **kwargs)
+        solver = solve.Solver(out=sys.stdout if not self.quiet else None)
+        max_results = max_results or self.settings.max_results or 20
 
-        # TODO
         # 1. write mapping of common features into functions
         # 2. filter down to desired set based on these common functions
-        print("VANESSA TODO")
-        import IPython
-
-        IPython.embed()
-
         for cloud_name, instance_group in instances.items():
+            # Generate facts for instances
+            solver.add_instances(cloud_name, instance_group)
+        solver.add_properties(properties.defined)
 
-            # TODO filter down to desired set based on provided attributes
-            instance_group.select(**kwargs)
+        # TODO parse instance facts from here
+        # use lookup to return to user, likely add costs
+        return solver.solve()

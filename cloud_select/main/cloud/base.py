@@ -68,10 +68,31 @@ class Instance(CloudData):
     Base of an instance.
 
     This class defines the different common attributes that we want
-    to expose. Likely we should add them via a data file.
+    to expose. If a cloud instance (json) result differs, it should
+    override this function.
     """
 
-    pass
+    @property
+    def attribute_getters(self):
+        """
+        function names we can call to get an instance attribute.
+        """
+        fields = []
+        for func in dir(self):
+            if func.startswith("attr_"):
+                fields.append(func)
+        return fields
+
+    # Attributes shared between clouds (maybe)
+    def attr_description(self):
+        return self.data.get("description")
+
+    def attr_zone(self):
+        return self.data.get("zone")
+
+    @property
+    def name(self):
+        return self.data.get("name")
 
 
 class InstanceGroup(CloudData):

@@ -1,5 +1,7 @@
 # Cloud Select
 
+![docs/assets/img/cloud-select.png](docs/assets/img/cloud-select.png)
+
 This is a tool that helps a user select a cloud. It will make it easy for an HPC user to say:
 
 > I need 4 nodes with these criteria, to run in the cloud.
@@ -123,6 +125,43 @@ I think I'm still going to use Python for faster prototyping.
 - add tests and testing workflow (and linting)
 - Add Docker build / automated builds
 - finish algorithm - should first filter based on common standard, then use clingo solver
+- ensure that required set of attributes for each instance are returned (e.g., name, cpu, memory)
+
+
+Planning for min/max stuff
+
+```lp
+need_at_least("cpus", 8).
+
+#constant max_cpus = 128.
+
+​select(Cloud, Instance) :-
+  need_at_least(Name, N),
+  has_attr(Cloud, Instance, Name, M),
+  M >= N,
+  M <= max_cpus, M >= 0,
+  N <= max_cpus, N >= 0.
+```
+
+And for minimizing cost:
+
+```lp
+% generate a bunch of candidate_instance() predicates for each instance type that matches the user request
+candidate_instance(Cloud, Instance) :-
+  cloud_instance_type(Cloud, Instance),
+  instance_attr(Cloud, Instance, Name, Value) : requested_attr(Name, Value).
+
+% Tell clingo to select exactly one (at least one and at most one) of them
+1 { select(Cloud, Instance) : candidate_instance(Cloud, Instance) } 1.
+
+% associate the cost from your input facts with every candidate instance
+selected_instance_cost(Cloud, Instance, Cost) :-
+  select(Cloud, Instance),
+  instance_cost(Cloud, Instance, Cost).
+
+% tell clingo to find the solution (the one select() it got to choose with minimal cost
+#minimize { Cost,Cloud,Instance : selected_instance_cost(Cloud, Instance, Cost) }.cv
+```
 
 ## License
 

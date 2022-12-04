@@ -41,7 +41,7 @@ def add_instance_arguments(command):
             default_type = bool
             # Assume default is always false for now
             action = "store_true"
-            default = False
+            default = None
 
         elif typ == "array":
             typ = attrs["items"]["type"]
@@ -102,6 +102,12 @@ def get_parser():
         help="directory for data cache (defaults to ~/.cloud-select/cache).",
     )
 
+    parser.add_argument(
+        "--max-results",
+        dest="max_results",
+        help="Maximum results to return per cloud provider.",
+        type=int,
+    )
     parser.add_argument(
         "--cloud",
         dest="clouds",
@@ -169,6 +175,11 @@ cloud-select -c rm:registry:/tmp/registry""",
         formatter_class=argparse.RawTextHelpFormatter,
     )
 
+    instance.add_argument(
+        "--outfile-asp",
+        dest="out",
+        help="Write ASP atoms to output file.",
+    )
     # Add attributes from spec
     add_instance_arguments(instance)
     return parser

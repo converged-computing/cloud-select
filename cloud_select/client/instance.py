@@ -23,6 +23,14 @@ def main(args, parser, extra, subparser):
     # Update config settings on the fly
     cli.settings.update_params(args.config_params)
 
+    # Are we writing to an output file?
+    out = None
+    if args.out is not None and not args.quiet:
+        out = open(args.out, "w")
+    delattr(args, "out")
+
     # And select the instance
-    instances = cli.instance_select(**args.__dict__)
+    instances = cli.instance_select(**args.__dict__, out=out)
     print(json.dumps(instances, indent=4))
+    if out:
+        out.close()
