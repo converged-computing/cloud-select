@@ -1,6 +1,8 @@
 # Cloud Select
 
-![docs/assets/img/logo-transparent.png](docs/assets/img/logo-transparent.png)
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/converged-computing/cloud-select/blob/main/docs/assets/img/logo-transparent.png">
+    <img style="width: 250px; float: right; padding-left: 20px;" src="https://github.com/converged-computing/cloud-select/raw/main/docs/assets/img/logo-transparent.png" alt="Cloud Select Logo">
+</a>
 
 This is a tool that helps a user select a cloud. It will make it easy for an HPC user to say:
 
