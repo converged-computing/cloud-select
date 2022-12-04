@@ -1,6 +1,6 @@
 # Cloud Select
 
-![docs/assets/img/cloud-select.png](docs/assets/img/cloud-select.png)
+![docs/assets/img/cloud-select-transparent.png](docs/assets/img/cloud-select-transparent.png)
 
 This is a tool that helps a user select a cloud. It will make it easy for an HPC user to say:
 
