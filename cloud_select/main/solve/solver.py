@@ -4,6 +4,8 @@
 # SPDX-License-Identifier: (MIT)
 
 
+import os
+
 from .asp import PyclingoDriver, fn
 from .template import write_instance_select_program
 
@@ -62,6 +64,7 @@ class SolverSetup:
         self.instances = {}
         self.properties = {}
         self.logic_programs = []
+        self.cleanup_files = []
         self.out = out
 
     def setup(self, driver):
@@ -112,6 +115,16 @@ class SolverSetup:
         self.properties = props
         tmpfile = write_instance_select_program(props, out=self.out)
         self.logic_programs.append(tmpfile)
+        self.cleanup_files.append(tmpfile)
+
+    def __exit__(self):
+        """
+        Cleanup any temporary files
+        """
+        print("CLEANING UP")
+        for filename in self.cleanup_files:
+            if os.path.exists(filename):
+                os.remove(filename)
 
     def gen_properties(self):
         """

@@ -73,7 +73,7 @@ For Google Cloud, you can generally [provide your default credentials](https://c
 $ gcloud auth application-default login
 ```
 
-to be discovered by the client.
+to be discovered by the client. **You will need to enable the billing and compute APIs.**
 
 ### Commands
 

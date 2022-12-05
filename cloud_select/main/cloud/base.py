@@ -143,3 +143,11 @@ class InstanceGroup(CloudData):
         """
         for item in self.data:
             yield self.Instance(item)
+
+
+class Prices(CloudData):
+    """
+    Cloud pricing
+    """
+
+    pass

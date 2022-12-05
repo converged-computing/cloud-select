@@ -97,7 +97,7 @@ def get_tmpfile(tmpdir=None, prefix=""):
     """
 
     # First priority for the base goes to the user requested.
-    tmpdir = get_tmpdir(tmpdir)
+    tmpdir = tempfile.gettempdir()
 
     # If tmpdir is set, add to prefix
     if tmpdir:

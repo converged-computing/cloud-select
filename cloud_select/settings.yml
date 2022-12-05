@@ -6,3 +6,6 @@ clouds: [aws, google]
 
 # config editor
 config_editor: vim
+
+# disable adding prices?
+disable_prices: false
