@@ -5,7 +5,7 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <a target="_blank" rel="noopener noreferrer" href="https://github.com/converged-computing/cloud-select/blob/main/docs/assets/img/logo-transparent.png">
-    <img style="width: 250px; float: right; padding-left: 20px;" src="https://github.com/converged-computing/cloud-select/raw/main/docs/assets/img/logo-transparent.png" alt="Cloud Select Logo">
+    <img align="right" style="width: 250px; float: right; padding-left: 20px;" src="https://github.com/converged-computing/cloud-select/raw/main/docs/assets/img/logo-transparent.png" alt="Cloud Select Logo">
 </a>
 
 This is a tool that helps a user select a cloud. It will make it easy for an HPC user to say:
@@ -152,6 +152,7 @@ I think I'm still going to use Python for faster prototyping.
 - should be able to set custom instances per cloud - either directly for a cloud, or generic string to match (e.g., "east")
 - some logic to standardize regions (e.g., "east")
 - add tests and testing workflow
+  - properties testing for handling min/max/numbers
 - Add Docker build / automated builds
 - ensure that required set of attributes for each instance are returned (e.g., name, cpu, memory)
 - how to handle instances that don't have an attribute of interest? Should we unselect them?
