@@ -17,7 +17,7 @@ class GoogleCloudInstance(Instance):
             "name": self.name,
             "memory": self.attr_memory(),
             "cpus": self.attr_cpus(),
-            "gpus": self.attr_gpus() or 0,
+            "gpus": self.attr_gpus(),
             "description": self.attr_description(),
         }
 

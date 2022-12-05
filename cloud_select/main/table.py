@@ -84,7 +84,7 @@ class Table:
         # Count entries for each column
         for entry in self.data:
             for column, value in entry.items():
-                if value:
+                if value is not None:
                     column_counts[column] += 1
 
         # Get column titles
@@ -110,8 +110,8 @@ class Table:
 
             parsed = []
             for column in columns:
-                content = str(row[column]) if row[column] else ""
-                if content and len(content) > column_width:
+                content = str(row[column]) if row[column] is not None else ""
+                if content is not None and len(content) > column_width:
                     content = content[:column_width] + "..."
                 parsed.append(content)
             yield parsed

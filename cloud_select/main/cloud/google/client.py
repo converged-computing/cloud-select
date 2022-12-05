@@ -10,6 +10,7 @@ from cloud_select.logger import logger
 
 from ..base import CloudProvider
 from .instance import GoogleCloudInstanceGroup
+from .prices import GoogleCloudPrices
 
 
 class GoogleCloud(CloudProvider):
@@ -29,6 +30,7 @@ class GoogleCloud(CloudProvider):
         self.regions = ["us-east1", "us-west1", "us-central1"]
         self.project = None
         self.compute_cli = None
+        self.billing_cli = None
 
         try:
             self._set_services()
@@ -37,15 +39,37 @@ class GoogleCloud(CloudProvider):
             self.has_auth = False
         super(GoogleCloud, self).__init__()
 
+    def prices(self):
+        """
+        Use the API to retrieve and return prices to cache.
+        """
+        if not self.has_auth:
+            return self.no_auth_message("prices, authentication not set.")
+
+        # Get services first - there are almost 2k! Look for compute engine
+        logger.info(f"Retrieving prices for {self.name}")
+        services = self._retry_request(self.billing_cli.services().list())
+        services = [
+            x for x in services["services"] if x["displayName"] == "Compute Engine"
+        ]
+
+        # Bail out if we don't have one service
+        if len(services) != 1:
+            return self.no_auth_message("prices, cannot find Compute Engine service.")
+
+        # Get metadata about compute (ALL prices here)
+        prices = self._retry_request(
+            self.billing_cli.services().skus().list(parent=services[0]["name"])
+        )
+        return self.load_prices(prices)
+
     def instances(self):
         """
         Use the API to retrieve (and return) instances within a set of regions.
         """
         if not self.has_auth:
-            logger.info(
-                f"Cannot retrieve instances for {self.name}, authentication not set."
-            )
-            return []
+            return self.no_auth_message("instances, authentication not set.")
+
         logger.info(f"Retrieving instances for {self.name}")
 
         # Regular expression to determine if zone in region
@@ -67,15 +91,28 @@ class GoogleCloud(CloudProvider):
         # Return a wrapped set of instances
         return self.load_instances(machine_types)
 
+    def load_prices(self, data):
+        """
+        Load prices data from json instal class
+        """
+        return GoogleCloudPrices(data)
+
     def load_instances(self, data):
         """
         Load instance data from json.
         """
         return GoogleCloudInstanceGroup(data)
 
+    def fail_message(self, message):
+        """
+        Shared message and empty return if auth not set
+        """
+        logger.info(f"{self.name}: cannot retrieve {message}.")
+        return []
+
     def _set_services(self):
         """
-        Use Google Discovery Build to generate an API client for compute.
+        Use Google Discovery Build to generate an API client for compute and billing.
         """
         import google.auth
         import google_auth_httplib2
@@ -104,6 +141,13 @@ class GoogleCloud(CloudProvider):
         authorized_http = google_auth_httplib2.AuthorizedHttp(creds)
         self.compute_cli = discovery_build(
             "compute",
+            "v1",
+            cache_discovery=False,
+            http=authorized_http,
+            requestBuilder=build_request,
+        )
+        self.billing_cli = discovery_build(
+            "cloudbilling",
             "v1",
             cache_discovery=False,
             http=authorized_http,

@@ -36,7 +36,7 @@ def write_instance_select_program(props, tmpfile=None, out=None):
             "Cannot load instance-select.lp, possible problem with installation."
         )
     select_program = generate_instance_select_program(props)
-    template += "\n\n" + select_program + "\n\n" + "#show select/2."
+    template += "\n\n" + select_program
     utils.write_file(tmpfile, template)
     if out is not None:
         out.write(template)
@@ -50,7 +50,8 @@ def generate_instance_select_program(props):
     # First we parse the range rules - need a most / least / in range
     template = generate_instance_range_rules(props)
 
-    rule = "select(Cloud, Instance)."
+    # Just show all instances if no selection
+    rule = "#show instance/2."
     if props:
         rule = "select(Cloud, Instance) :-"
         for i, key in enumerate(props):
@@ -68,6 +69,8 @@ def generate_instance_select_program(props):
             else:
                 rule += ","
 
+        # We have a select rule to show results for
+        rule += "\n\n" + "#show select/2."
     template = template + "\n\n" + rule
     return template
 

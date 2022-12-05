@@ -62,40 +62,50 @@ class Client:
         """
         # Return cached set, unless forced
         if self._clouds and not force:
-            return self._clouds
+            return self._clouds if lookup else list(self._clouds.values())
 
         # We should always be able to get cloud classes, even without auth
         # The class knows how to parse the data types into a standard space
         for cloud_name, CloudClass in self._cloudclass.items():
             self._clouds[cloud_name] = CloudClass()
-        if lookup:
-            return self._clouds
-        return list(self._clouds.values())
+        return self._clouds if lookup else list(self._clouds.values())
 
     def instances(self):
         """
         Return instances for clouds we have cached data for.
+        """
+        return self.load_cache("instances")
+
+    def prices(self):
+        """
+        Return instance pricing for clouds we have cached data for.
+        """
+        return self.load_cache("prices")
+
+    def load_cache(self, key):
+        """
+        Load a named entry from the cache known to the cloud provider.
 
         This function does not check cache expiration, but just
         returns data we have available.
         """
-        instances = {}
+        items = {}
         for cloud in self.get_clouds():
-            if self.cache.exists(cloud.name, "instances"):
-                # Load instance data into the cloud
-                data = self.cache.get(cloud.name, "instances")
-                instances[cloud.name] = cloud.load_instances(data)
-        return instances
+            if self.cache.exists(cloud.name, key):
+                # Load data via the cloud provider
+                data = self.cache.get(cloud.name, key)
+                items[cloud.name] = getattr(cloud, f"load_{key}")(data)
+        return items
 
     def update_from_cache(self, items, datatype):
         """
         Given a data type, update from the cache.
         """
         # For every cloud class we have...
-        for cloud_name, cloud in self.get_clouds().items():
+        for cloud in self.get_clouds():
 
             # We have the data and it's expired OR we don't have it - update it
-            if cloud_name not in items or self.cache.is_expired(cloud_name, datatype):
+            if cloud.name not in items or self.cache.is_expired(cloud.name, datatype):
                 func = getattr(cloud, datatype, None)
 
                 # This should not happen, but let's be careful
@@ -109,8 +119,8 @@ class Client:
                 updated = func()
                 if not updated:
                     continue
-                self.cache.set(cloud_name, updated, datatype, cls=updated.Encoder)
-                items[cloud_name] = updated
+                self.cache.set(cloud.name, updated, datatype, cls=updated.Encoder)
+                items[cloud.name] = updated
         return items
 
     def instance_select(self, max_results=20, out=None, **kwargs):
@@ -125,6 +135,11 @@ class Client:
             logger.exit(
                 "You don't have any clouds to search instances or cached data. Set credentials or get an offline cache."
             )
+        # Only makes sense to get prices if we have instances!
+        # TODO check if we want prices, period
+        prices = self.update_from_cache(self.prices(), "prices")
+        assert prices
+        # TODO need to match prices to instances here, add to algorithm if wanted
 
         # By here we have a lookup *by cloud) of instance groups
         # Filter down kwargs (properties) to those relevant to instances
@@ -139,7 +154,10 @@ class Client:
         solver.add_properties(properties.defined)
 
         # Run the solve!
-        selected = solver.solve().get("select")
+        result = solver.solve()
+
+        # "select" will be defined given user selection, otherwise all instances
+        selected = result.get("select") or result.get("instance") or []
 
         # Do we have a request for a pattern to include or exclude?
         if selected:
@@ -153,6 +171,4 @@ class Client:
 
         # TODO Honor max result request? Ignore for now.
         max_results = max_results or self.settings.max_results or 20
-
-        # TODO add costs here
         return rows

@@ -188,7 +188,7 @@ cloud-select -c rm:registry:/tmp/registry""",
     )
 
     instance.add_argument(
-        "--outfile-asp",
+        "--out-asp",
         dest="asp_out",
         help="Write ASP atoms to output file.",
     )

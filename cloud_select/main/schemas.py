@@ -160,6 +160,11 @@ instance_properties = {
 settingsProperties = {
     "cache_dir": {"type": "string"},
     "config_editor": {"type": "string"},
+    "disable_prices": {
+        "type": "boolean",
+        "description": "Do not add prices as variable.",
+        "default": False,
+    },
     "max-results": {
         "type": "number",
         "description": "Maximum results to return per cloud provider.",
