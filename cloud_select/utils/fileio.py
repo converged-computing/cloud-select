@@ -91,7 +91,7 @@ def remove_to_base(path, base_path):
         path = os.path.dirname(path)
 
 
-def get_tmpfile(tmpdir=None, prefix=""):
+def get_tmpfile(tmpdir=None, prefix="cloud-select-"):
     """
     Get a temporary file with an optional prefix.
     """

@@ -117,11 +117,10 @@ class SolverSetup:
         self.logic_programs.append(tmpfile)
         self.cleanup_files.append(tmpfile)
 
-    def __exit__(self):
+    def cleanup(self):
         """
         Cleanup any temporary files
         """
-        print("CLEANING UP")
         for filename in self.cleanup_files:
             if os.path.exists(filename):
                 os.remove(filename)

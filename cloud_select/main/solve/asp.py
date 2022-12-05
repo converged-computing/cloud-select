@@ -221,7 +221,7 @@ class PyclingoDriver:
                 return x.string or str(x)
 
         if result.satisfiable:
-            min_cost, best_model = min(models)
+            _, best_model = min(models)
             result.answers = {}
             for sym in best_model:
                 if sym.name not in result.answers:
@@ -240,4 +240,7 @@ class PyclingoDriver:
         if stats:
             print("Statistics:")
             logger.info(self.control.statistics)
+
+        # Cleanup temporary files
+        setup.cleanup()
         return result
