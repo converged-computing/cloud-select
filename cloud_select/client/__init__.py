@@ -181,9 +181,22 @@ cloud-select -c rm:registry:/tmp/registry""",
     )
 
     instance.add_argument(
+        "--json",
+        help="dump output as json to terminal",
+        default=False,
+        action="store_true",
+    )
+
+    instance.add_argument(
         "--outfile-asp",
-        dest="out",
+        dest="asp_out",
         help="Write ASP atoms to output file.",
+    )
+
+    instance.add_argument(
+        "--out",
+        dest="out",
+        help="Write instances as json to output file.",
     )
     # Add attributes from spec
     add_instance_arguments(instance)

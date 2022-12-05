@@ -4,6 +4,8 @@
 # SPDX-License-Identifier: (MIT)
 
 
+import re
+
 import cloud_select.defaults as defaults
 import cloud_select.main.cache as cache
 import cloud_select.main.cloud as clouds
@@ -125,10 +127,9 @@ class Client:
             )
 
         # By here we have a lookup *by cloud) of instance groups
-        # Filter down kwargs to those relevant to instances
+        # Filter down kwargs (properties) to those relevant to instances
         properties = solve.Properties(schemas.instance_properties, **kwargs)
         solver = solve.Solver(out=out)
-        max_results = max_results or self.settings.max_results or 20
 
         # 1. write mapping of common features into functions
         # 2. filter down to desired set based on these common functions
@@ -137,6 +138,21 @@ class Client:
             solver.add_instances(cloud_name, instance_group)
         solver.add_properties(properties.defined)
 
-        # TODO filter down if properties include_list / exclude_list patterns defined
-        # use lookup to return to user, likely add costs
-        return solver.solve()
+        # Run the solve!
+        selected = solver.solve().get("select")
+
+        # Do we have a request for a pattern to include or exclude?
+        if selected:
+            for pattern in properties.include_list or []:
+                selected = [x for x in selected if re.search(pattern, x)]
+            for pattern in properties.exclude_list or []:
+                selected = [x for x in selected if not re.search(pattern, x)]
+
+        # Assemble back into complete data based on instance name
+        rows = [instances[x[0]].generate_row(x[1]) for x in selected]
+
+        # TODO Honor max result request? Ignore for now.
+        max_results = max_results or self.settings.max_results or 20
+
+        # TODO add costs here
+        return rows

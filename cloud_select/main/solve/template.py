@@ -69,7 +69,6 @@ def generate_instance_select_program(props):
                 rule += ","
 
     template = template + "\n\n" + rule
-    print(template)
     return template
 
 

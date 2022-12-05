@@ -1,5 +1,9 @@
 # Cloud Select
 
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+
 <a target="_blank" rel="noopener noreferrer" href="https://github.com/converged-computing/cloud-select/blob/main/docs/assets/img/logo-transparent.png">
     <img style="width: 250px; float: right; padding-left: 20px;" src="https://github.com/converged-computing/cloud-select/raw/main/docs/assets/img/logo-transparent.png" alt="Cloud Select Logo">
 </a>
@@ -146,31 +150,15 @@ I think I'm still going to use Python for faster prototyping.
 
 - Are we allowed to provide a cache of instance types (e.g., automated update in GitHub?)
 - should be able to set custom instances per cloud - either directly for a cloud, or generic string to match (e.g., "east")
-- add contributor graphic / workflow
-- add tests and testing workflow (and linting)
+- some logic to standardize regions (e.g., "east")
+- add tests and testing workflow
 - Add Docker build / automated builds
-- finish algorithm - should first filter based on common standard, then use clingo solver
 - ensure that required set of attributes for each instance are returned (e.g., name, cpu, memory)
-- properties testing for min/max logic
-- the template generated should be easy to write to the output file too.
 - how to handle instances that don't have an attribute of interest? Should we unselect them?
+- pretty branded documentation
+- selection should have sorting ability
 
-Planning for min/max stuff
-
-```lp
-need_at_least("cpus", 8).
-
-#constant max_cpus = 128.
-
-​select(Cloud, Instance) :-
-  need_at_least(Name, N),
-  has_attr(Cloud, Instance, Name, M),
-  M >= N,
-  M <= max_cpus, M >= 0,
-  N <= max_cpus, N >= 0.
-```
-
-And for minimizing cost:
+Planning for minimizing cost:
 
 ```lp
 % generate a bunch of candidate_instance() predicates for each instance type that matches the user request
@@ -189,6 +177,27 @@ selected_instance_cost(Cloud, Instance, Cost) :-
 % tell clingo to find the solution (the one select() it got to choose with minimal cost
 #minimize { Cost,Cloud,Instance : selected_instance_cost(Cloud, Instance, Cost) }.cv
 ```
+
+## 😁️ Contributors 😁️
+
+We use the [all-contributors](https://github.com/all-contributors/all-contributors)
+tool to generate a contributors graphic below.
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://vsoch.github.io"><img src="https://avatars.githubusercontent.com/u/814322?v=4?s=100" width="100px;" alt="Vanessasaurus"/><br /><sub><b>Vanessasaurus</b></sub></a><br /><a href="https://github.com/converged-computing/cloud-select/commits?author=vsoch" title="Code">💻</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ## License
 

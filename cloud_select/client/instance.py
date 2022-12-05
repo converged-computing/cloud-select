@@ -7,13 +7,14 @@ import json
 import os
 import sys
 
-import cloud_select.utils
+import cloud_select.main.table as table
+import cloud_select.utils as utils
 from cloud_select.main import Client
 
 
 def main(args, parser, extra, subparser):
 
-    cloud_select.utils.ensure_no_extra(extra)
+    utils.ensure_no_extra(extra)
 
     cli = Client(
         quiet=args.quiet,
@@ -25,20 +26,32 @@ def main(args, parser, extra, subparser):
     # Update config settings on the fly
     cli.settings.update_params(args.config_params)
 
-    # Are we writing to an output file?
-    out = None
-    if args.out is not None:
-        out = open(args.out, "w")
+    # Are we writing ASP to an output file?
+    asp_out = None
+    out = args.out
+    if args.asp_out is not None:
+        asp_out = open(args.asp_out, "w")
 
     # Or default to being more quiet
     elif not args.verbose:
-        out = open(os.devnull, "w")
+        asp_out = open(os.devnull, "w")
     elif args.verbose:
-        out = sys.stdout
-    delattr(args, "out")
+        asp_out = sys.stdout
 
-    # And select the instance
-    instances = cli.instance_select(**args.__dict__, out=out)
-    print(json.dumps(instances, indent=4))
-    if out is not None:
-        out.close()
+    # Clean up extra attributes
+    for attr in "asp_out", "out":
+        delattr(args, attr)
+
+    # And select the instance (this output is for the ASP)
+    instances = cli.instance_select(**args.__dict__, out=asp_out)
+    if asp_out is not None:
+        asp_out.close()
+
+    # Print instances to a table
+    if args.json:
+        print(json.dumps(instances, indent=4))
+    elif out:
+        utils.write_json(out, instances)
+    else:
+        t = table.Table(instances)
+        t.table(title="Cloud Instances Selected")

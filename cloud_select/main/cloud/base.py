@@ -61,6 +61,20 @@ class CloudData:
 
     def __init__(self, items):
         self.data = items
+        self.lookup = {}
+        self.create_lookup()
+
+    def create_lookup(self):
+        """
+        If we have a name attribute and a list of data, cache a lookup for later
+        """
+        if not (hasattr(self, "name_attribute") and isinstance(self.data, list)):
+            return
+        key = self.name_attribute
+        for item in self.data:
+            if key not in item:
+                continue
+            self.lookup[item[key]] = item
 
 
 class Instance(CloudData):
@@ -94,6 +108,13 @@ class Instance(CloudData):
     def name(self):
         return self.data.get("name")
 
+    def generate_row(self, name):
+        """
+        Given an instance name, return a row with the cloud
+        name and other attributes.
+        """
+        raise NotImplementedError
+
 
 class InstanceGroup(CloudData):
     """
@@ -106,14 +127,15 @@ class InstanceGroup(CloudData):
     # If we don't have an instance class, return as dict
     Instance = dict
 
-    def select(self, **kwargs):
+    def generate_row(self, name):
         """
-        Filter down instance group based on selection.
-
-        TODO should this remove from the group or return
-        a new filtered set?
+        Given an instance name, return a row with the cloud
+        name and other attributes.
         """
-        pass
+        # We assume that we have the item in the lookup
+        if name not in self.lookup:
+            raise ValueError(f"{name} is not known to {self}")
+        return self.Instance(self.lookup[name]).generate_row()
 
     def iter_instances(self):
         """
