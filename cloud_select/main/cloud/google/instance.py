@@ -7,7 +7,24 @@ from ..base import Instance, InstanceGroup
 
 
 class GoogleCloudInstance(Instance):
+    def generate_row(self):
+        """
+        Given an instance name, return a row with the cloud
+        name and other attributes.
+        """
+        return {
+            "cloud": "google",
+            "name": self.name,
+            "memory": self.attr_memory(),
+            "cpus": self.attr_cpus(),
+            "gpus": self.attr_gpus() or 0,
+            "description": self.attr_description(),
+        }
+
     def attr_cpus(self):
+        """
+        Number of cpus the instance has.
+        """
         return self.data.get("guestCpus")
 
     def attr_memory(self):
@@ -76,4 +93,5 @@ class GoogleCloudInstanceGroup(InstanceGroup):
     other interaction over instances.
     """
 
+    name_attribute = "name"
     Instance = GoogleCloudInstance

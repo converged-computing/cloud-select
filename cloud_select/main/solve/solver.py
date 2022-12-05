@@ -43,14 +43,11 @@ class Solver:
             for entry in data:
                 print(" " + " ".join(entry))
 
-    def solve(self, detail=True, logic_programs=None):
+    def solve(self, logic_programs=None):
         """
         Run the solve
         """
-        result = self.driver.solve(self.setup, logic_programs=logic_programs)
-        print("result!")
-        # TODO parse result here to filter down strings, etc.
-        return result.answers
+        return self.driver.solve(self.setup, logic_programs=logic_programs).answers
 
 
 class SolverSetup:

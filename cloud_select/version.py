@@ -21,6 +21,7 @@ INSTALL_REQUIRES = (
     ("clingo", {"min_version": None}),
     ("ruamel.yaml", {"min_version": None}),
     ("jsonschema", {"min_version": None}),
+    ("rich", {"min_version": None}),
     ("requests", {"min_version": None}),
 )
 
