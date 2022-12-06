@@ -106,6 +106,11 @@ Or write the atoms to file:
 $ cloud-select instance --memory 4 --out atoms.lp
 ```
 
+Ask for a specific cloud on the command line (note you can also ask via your settings.yml configuration file for a more permanent default):
+
+```bash
+$ cloud-select --cloud google instance --cpus-min 200 --cpus-max 400
+```
 
 ## Design
 
@@ -158,6 +163,11 @@ I think I'm still going to use Python for faster prototyping.
 - how to handle instances that don't have an attribute of interest? Should we unselect them?
 - pretty branded documentation
 - selection should have sorting ability
+- should we allow currency outside USD? Probably not for now.
+- aws instance listing (based on regions) should validate regions - an invalid regions simply returns no results
+- could eventually support different resource types (beyond compute or types of prices, e.g., pre-emptible vs. on demand)
+- add GPU memory - available in AWS not sure gcp
+- add AWS description from metadata (similar to GCP)
 
 Planning for minimizing cost:
 

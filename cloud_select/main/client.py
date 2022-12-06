@@ -45,11 +45,15 @@ class Client:
         """
         Set client cloud classes that will be attempted.
         """
+        # The user can specify clouds on the command line or settings
+        # command line takes preference!
+        selection = list(set(self.settings.clouds if not listing else listing))
+
         # Reset previously init-d clouds
         self._clouds = {}
         self._cloudclass = {}
-        if listing:
-            for item in listing:
+        if selection:
+            for item in selection:
                 item = item.lower()
                 if item in clouds.cloud_names:
                     self._cloudclass[item] = clouds.clouds[item]
@@ -135,11 +139,11 @@ class Client:
             logger.exit(
                 "You don't have any clouds to search instances or cached data. Set credentials or get an offline cache."
             )
+
         # Only makes sense to get prices if we have instances!
-        # TODO check if we want prices, period
-        prices = self.update_from_cache(self.prices(), "prices")
-        assert prices
-        # TODO need to match prices to instances here, add to algorithm if wanted
+        prices = {}
+        if self.settings.disable_prices is not True:
+            prices = self.update_from_cache(self.prices(), "prices")
 
         # By here we have a lookup *by cloud) of instance groups
         # Filter down kwargs (properties) to those relevant to instances
@@ -149,8 +153,14 @@ class Client:
         # 1. write mapping of common features into functions
         # 2. filter down to desired set based on these common functions
         for cloud_name, instance_group in instances.items():
+
+            # Do we have prices for the cloud?
+            if cloud_name in prices:
+                instance_group.add_instance_prices(prices[cloud_name])
+
             # Generate facts for instances
             solver.add_instances(cloud_name, instance_group)
+
         solver.add_properties(properties.defined)
 
         # Run the solve!

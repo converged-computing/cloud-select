@@ -21,6 +21,7 @@ def main(args, parser, extra, subparser):
         settings_file=args.settings_file,
         cache_dir=args.cache_dir,
         cache_expire=args.cache_expire,
+        clouds=args.clouds,
     )
 
     # Update config settings on the fly
