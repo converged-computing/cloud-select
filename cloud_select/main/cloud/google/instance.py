@@ -42,8 +42,7 @@ class GoogleCloudInstance(Instance):
         saying it _could_ be free tier but isn't necessarily if you've used
         your monthly allowance. We will want to add that preamble somewhere.
         """
-        # We treat booleans as lowercase strings
-        return str("micro" in self.name).lower()
+        return "micro" in self.name
 
     def attr_ipv6(self):
         """
@@ -95,3 +94,25 @@ class GoogleCloudInstanceGroup(InstanceGroup):
 
     name_attribute = "name"
     Instance = GoogleCloudInstance
+
+    def add_instance_prices(self, prices):
+        """
+        Add pricing information to instances
+
+        Prices have these categories:
+          - {'Compute', 'License', 'Network', 'Storage'}
+        And these usage types:
+          - {'Commit1Mo', 'Commit1Yr', 'Commit3Yr', 'OnDemand', 'Preemptible'}
+
+        For now we will filter to "Compute" and "OnDemand" but these could be changed.
+        """
+        # Filter down to compute
+        data = [
+            x
+            for x in prices.data
+            if x["category"]["resourceFamily"] == "Compute"
+            and x["category"]["usageType"] == "OnDemand"
+        ]
+        assert data
+        # TODO - here we have a lsiting with snapshot, CPU, RAM, and I suspect we will need to combine attributes to get costs
+        # for instances. This is a TODO I want help with. For now, we do nothing

@@ -47,7 +47,9 @@ class GoogleCloud(CloudProvider):
             return self.no_auth_message("prices, authentication not set.")
 
         # Get services first - there are almost 2k! Look for compute engine
-        logger.info(f"Retrieving prices for {self.name}")
+        logger.info(
+            f"Retrieving prices for {self.name} - this might take a few minutes."
+        )
         services = self._retry_request(self.billing_cli.services().list())
         services = [
             x for x in services["services"] if x["displayName"] == "Compute Engine"
@@ -57,10 +59,36 @@ class GoogleCloud(CloudProvider):
         if len(services) != 1:
             return self.no_auth_message("prices, cannot find Compute Engine service.")
 
-        # Get metadata about compute (ALL prices here)
-        prices = self._retry_request(
-            self.billing_cli.services().skus().list(parent=services[0]["name"])
-        )
+        # We want to add "global" to our regions to search
+        regions = self.regions + ["global"]
+
+        # Get metadata about compute (ALL prices here) and handle nextPage tokens
+        # https://cloud.google.com/billing/docs/reference/rest/v1/services.skus/list
+        # There are millions of prices - we will filter down to compute engine
+        # instances, but this first call still takes a long time. I think this
+        # could be hugely helped if we are able to provide a cache of filtered prices.
+        # The default currency returned is dollars (USD).
+        prices = []
+        page_token = None
+        while True:
+            items = self._retry_request(
+                self.billing_cli.services()
+                .skus()
+                .list(parent=services[0]["name"], pageToken=page_token)
+            )
+
+            # We can only reasonably save entries from our service regions of interest
+            prices += [
+                sku
+                for sku in items.get("skus", [])
+                if any(x in sku["serviceRegions"] for x in regions)
+            ]
+            print(f"{len(prices)} total results...", end="\r")
+            if not items.get("nextPageToken"):
+                break
+            page_token = items["nextPageToken"]
+
+        # Handle pagination
         return self.load_prices(prices)
 
     def instances(self):
@@ -102,13 +130,6 @@ class GoogleCloud(CloudProvider):
         Load instance data from json.
         """
         return GoogleCloudInstanceGroup(data)
-
-    def fail_message(self, message):
-        """
-        Shared message and empty return if auth not set
-        """
-        logger.info(f"{self.name}: cannot retrieve {message}.")
-        return []
 
     def _set_services(self):
         """

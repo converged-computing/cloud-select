@@ -6,6 +6,8 @@
 
 import json
 
+from cloud_select.logger import logger
+
 
 class CloudProvider:
     """
@@ -36,6 +38,13 @@ class CloudProvider:
         Retrieve all instances for a cloud.
         """
         raise NotImplementedError
+
+    def fail_message(self, message):
+        """
+        Shared message and empty return if auth not set
+        """
+        logger.info(f"{self.name}: cannot retrieve {message}.")
+        return []
 
 
 class CloudDataEncoder(json.JSONEncoder):
@@ -105,15 +114,31 @@ class Instance(CloudData):
         return self.data.get("zone")
 
     @property
-    def name(self):
-        return self.data.get("name")
+    def cloud(self):
+        """
+        Return the name of the cloud (module) derived from path.
+        """
+        # We can get the cloud name here
+        module = self.__class__.__module__
+        return module.replace("cloud_select.main.cloud.", "").split(".")[0]
 
-    def generate_row(self, name):
+    def generate_row(self):
         """
         Given an instance name, return a row with the cloud
         name and other attributes.
         """
-        raise NotImplementedError
+        return {
+            "cloud": self.cloud,
+            "name": self.name,
+            "memory": self.attr_memory(),
+            "cpus": self.attr_cpus(),
+            "gpus": self.attr_gpus(),
+            "description": self.attr_description(),
+        }
+
+    @property
+    def name(self):
+        return self.data.get("name")
 
 
 class InstanceGroup(CloudData):
@@ -136,6 +161,12 @@ class InstanceGroup(CloudData):
         if name not in self.lookup:
             raise ValueError(f"{name} is not known to {self}")
         return self.Instance(self.lookup[name]).generate_row()
+
+    def add_instance_prices(self, prices):
+        """
+        Add pricing information to instances
+        """
+        raise NotImplementedError
 
     def iter_instances(self):
         """

@@ -119,7 +119,6 @@ def get_parser():
         help="one or more clouds to include (if not provided, all are attempted).",
         choices=cloud.cloud_names,
         action="append",
-        default=cloud.cloud_names,
     )
 
     parser.add_argument(
@@ -188,7 +187,7 @@ cloud-select -c rm:registry:/tmp/registry""",
     )
 
     instance.add_argument(
-        "--out-asp",
+        "--asp",
         dest="asp_out",
         help="Write ASP atoms to output file.",
     )

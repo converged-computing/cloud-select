@@ -1,6 +1,5 @@
+from .aws import AmazonCloud
 from .google import GoogleCloud
 
-# from .aws import AmazonCloud
-
-clouds = {"google": GoogleCloud}
+clouds = {"google": GoogleCloud, "aws": AmazonCloud}
 cloud_names = list(clouds)
