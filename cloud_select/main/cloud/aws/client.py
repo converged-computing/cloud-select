@@ -114,13 +114,6 @@ class AmazonCloud(CloudProvider):
         """
         return AmazonInstanceGroup(data)
 
-    def fail_message(self, message):
-        """
-        Shared message and empty return if auth not set
-        """
-        logger.info(f"{self.name}: cannot retrieve {message}.")
-        return []
-
     def _set_services(self):
         """
         Connect to needed amazon clients.

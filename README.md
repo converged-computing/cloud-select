@@ -167,6 +167,7 @@ I think I'm still going to use Python for faster prototyping.
 - aws instance listing (based on regions) should validate regions - an invalid regions simply returns no results
 - could eventually support different resource types (beyond compute or types of prices, e.g., pre-emptible vs. on demand)
 - add GPU memory - available in AWS not sure gcp
+- add AWS description from metadata (similar to GCP)
 
 Planning for minimizing cost:
 
