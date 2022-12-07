@@ -189,6 +189,7 @@ you cat set `cache_only` in your settings.yml to true:
 ```yaml
 cache_only: true
 ```
+
 This will be the default when we are able to provide a remote cache,
 as then you won't be required to have your own credential to use the
 tool out of the box!
@@ -202,9 +203,8 @@ See our current [design document](docs/design.md) for background about design.
 - [ ]add tests and testing workflow
   - [ ]properties testing for handling min/max/numbers
   - [ ] ensure that required set of attributes for each instance are returned (e.g., name, cpu, memory)
-- [ ] Add Docker build / automated builds
 - [ ] how to handle instances that don't have an attribute of interest? Should we unselect them?
-- [ ] pretty branded documentation
+- [ ] pretty branded documentation and spell checking
 - [ ] add GPU memory - available in AWS and I cannot find for GCP
 - [ ] should cache be organized by region to allow easier filter (data for AWS doesn't have that attribute)
 - [ ] need to do something with costs
