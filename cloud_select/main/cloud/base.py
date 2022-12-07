@@ -133,6 +133,7 @@ class Instance(CloudData):
             "memory": self.attr_memory(),
             "cpus": self.attr_cpus(),
             "gpus": self.attr_gpus(),
+            "region(s)": self.attr_region(),
             "description": self.attr_description(),
         }
 
@@ -151,6 +152,12 @@ class InstanceGroup(CloudData):
 
     # If we don't have an instance class, return as dict
     Instance = dict
+
+    def filter_region(self, region):
+        """
+        Filter by a region (not required)
+        """
+        pass
 
     def generate_row(self, name):
         """

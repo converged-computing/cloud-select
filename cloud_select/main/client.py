@@ -71,7 +71,13 @@ class Client:
         # We should always be able to get cloud classes, even without auth
         # The class knows how to parse the data types into a standard space
         for cloud_name, CloudClass in self._cloudclass.items():
-            self._clouds[cloud_name] = CloudClass()
+
+            # Regions default to settings then defaults
+            cloud_settings = getattr(self.settings, cloud_name)
+            self._clouds[cloud_name] = CloudClass(
+                regions=cloud_settings.get("regions"),
+                cache_only=self.settings.cache_only,
+            )
         return self._clouds if lookup else list(self._clouds.values())
 
     def instances(self):
@@ -130,8 +136,6 @@ class Client:
     def instance_select(self, max_results=20, out=None, **kwargs):
         """
         Select an instance.
-
-        We don't currently do anything with kwargs (but will eventually to filter)
         """
         # Start with already cached data
         instances = self.update_from_cache(self.instances(), "instances")
@@ -145,6 +149,11 @@ class Client:
         if self.settings.disable_prices is not True:
             prices = self.update_from_cache(self.prices(), "prices")
 
+        # Attributes that can't go into the solver
+        region = kwargs.get("region")
+        if "region" in kwargs:
+            del kwargs["region"]
+
         # By here we have a lookup *by cloud) of instance groups
         # Filter down kwargs (properties) to those relevant to instances
         properties = solve.Properties(schemas.instance_properties, **kwargs)
@@ -153,6 +162,10 @@ class Client:
         # 1. write mapping of common features into functions
         # 2. filter down to desired set based on these common functions
         for cloud_name, instance_group in instances.items():
+
+            # Do we have a request to filter by region?
+            if region is not None:
+                instance_group.filter_region(region)
 
             # Do we have prices for the cloud?
             if cloud_name in prices:

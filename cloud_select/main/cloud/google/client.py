@@ -25,15 +25,12 @@ class GoogleCloud(CloudProvider):
     name = "google"
 
     def __init__(self, **kwargs):
-
-        # TODO allow setting of regions from settings or client
-        self.regions = ["us-east1", "us-west1", "us-central1"]
+        self.regions = kwargs.get("regions") or ["us-east1", "us-west1", "us-central1"]
         self.project = None
         self.compute_cli = None
         self.billing_cli = None
-
         try:
-            self._set_services()
+            self._set_services(kwargs.get("cache_only"))
         except Exception as e:
             logger.warning(f"Unable to authenticate to Google Cloud: {e}")
             self.has_auth = False
@@ -107,7 +104,7 @@ class GoogleCloud(CloudProvider):
         zones = self._retry_request(self.compute_cli.zones().list(project=self.project))
         zones = [z for z in zones["items"] if re.search(regexp, z["name"])]
 
-        # Retrieve machine types available across zones
+        # Retrieve machine types available in zones.
         # https://cloud.google.com/compute/docs/regions-zones/
         machine_types = []
         for zone in zones:
@@ -115,6 +112,11 @@ class GoogleCloud(CloudProvider):
                 project=self.project, zone=zone["name"]
             )
             machine_types += self._retry_request(request)["items"]
+
+        # Get accelerator types (for GPU) to add to them?
+        # TODO - I don't see where we can get memory for GPUs :(
+        # https://cloud.google.com/compute/docs/reference/rest/v1/acceleratorTypes
+        # accels = self._retry_request(self.compute_cli.acceleratorTypes().aggregatedList(project=self.project))
 
         # Return a wrapped set of instances
         return self.load_instances(machine_types)
@@ -131,10 +133,13 @@ class GoogleCloud(CloudProvider):
         """
         return GoogleCloudInstanceGroup(data)
 
-    def _set_services(self):
+    def _set_services(self, cache_only=False):
         """
         Use Google Discovery Build to generate an API client for compute and billing.
         """
+        if cache_only is True:
+            self.has_auth = False
+            return
         import google.auth
         import google_auth_httplib2
         import googleapiclient

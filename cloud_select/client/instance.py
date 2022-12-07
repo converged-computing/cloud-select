@@ -27,6 +27,10 @@ def main(args, parser, extra, subparser):
     # Update config settings on the fly
     cli.settings.update_params(args.config_params)
 
+    # If max results is 0, set to None (no limit)
+    if args.max_results == 0:
+        args.max_results = None
+
     # Are we writing ASP to an output file?
     asp_out = None
     out = args.out
@@ -55,4 +59,9 @@ def main(args, parser, extra, subparser):
         utils.write_json(out, instances)
     else:
         t = table.Table(instances)
-        t.table(title="Cloud Instances Selected")
+        t.table(
+            title="Cloud Instances Selected",
+            sort_by=args.sort_by,
+            limit=args.max_results,
+            ascending=args.ascending,
+        )

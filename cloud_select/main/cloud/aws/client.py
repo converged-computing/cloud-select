@@ -3,6 +3,9 @@
 #
 # SPDX-License-Identifier: (MIT)
 
+import json
+import re
+
 import cloud_select.utils as utils
 from cloud_select.logger import logger
 
@@ -19,76 +22,84 @@ class AmazonCloud(CloudProvider):
     name = "aws"
 
     def __init__(self, **kwargs):
-        self.regions = ["us-east-1"]
+        self.regions = kwargs.get("regions") or ["us-east-1"]
         self.project = None
         self.ec2_client = None
         self.pricing_cli = None
 
         # This currently has two pieces - billing and instances (different APIs)
-        self._set_services()
+        self._set_services(kwargs.get("cache_only", False))
         super(AmazonCloud, self).__init__()
 
     def prices(self):
         """
         Use the API to retrieve and return prices to cache.
         """
-        # TODO - this currently can't be finished because I don't have the right permissions.
         if not self.has_pricing_auth:
             return self.fail_message("prices, authentication not set.")
 
         # Get services first - there are almost 2k! Look for compute engine
         logger.info(f"Retrieving prices for {self.name}.")
 
-        # This is how we get the service types we can ask for
-        # response = self.pricing_cli.describe_services(ServiceCode="AmazonEC2")
-        # And next we get the list of instance types (on the order of 600)
+        # Keep a price that matches any region we care about
+        regex = "(%s)" % "|".join(self.regions)
+
         next_token = ""
-        instance_types = []
+        prices = []
         while True:
-            response = self.pricing_cli.get_attribute_values(
-                ServiceCode="AmazonEC2",
-                AttributeName="instanceType",
-                NextToken=next_token,
+            response = self.pricing_cli.get_products(
+                ServiceCode="AmazonEC2", NextToken=next_token
             )
             if not response.get("NextToken"):
                 break
             next_token = response.get("NextToken")
-            instance_types += [x["Value"] for x in response["AttributeValues"]]
-            print(f"{len(instance_types)} total instances...", end="\r")
+            # The prices are actually string - so let's search region of interest via regex
+            for pricestr in response["PriceList"]:
+                if not re.search(regex, pricestr):
+                    continue
+                prices.append(json.loads(pricestr))
+            print(f"{len(prices)} total aws prices matching {regex}...", end="\r")
+        print()
 
-        # Now we get prices for those
-        query = [
-            {"Type": "TERM_MATCH", "Field": "instanceType", "Value": x}
-            for x in instance_types
-        ]
-        response = self.pricing_cli.get_products(ServiceCode="AmazonEC2", Filters=query)
         return self.load_prices(response)
 
     def instances(self):
         """
         Use the API to retrieve (and return) instances within a set of regions.
+
+        We do a little extra work to add the region attribute to make it
+        accessible for filtering.
         """
         if not self.has_instance_auth:
             return self.fail_message("instances, authentication not set.")
 
         logger.info(f"Retrieving instances for {self.name}")
 
-        # Get instance types in the region - give a warning if no response.
-        response = self.ec2_client.describe_instance_type_offerings(
-            DryRun=False,
-            LocationType="region",
-            Filters=[{"Name": "location", "Values": self.regions}],
-        )
-        if not response["InstanceTypeOfferings"]:
-            logger.warning(
-                f"No instance types found for region selection {self.regions} - are you sure these are correct?"
-            )
-            return
+        # Start with a lookup so we can attach regions
+        machine_types = []
+        lookup = {}
 
-        # This list has (it appears unique) machine type, and location - we need to use the API to get details
-        machine_types = list(
-            set([x["InstanceType"] for x in response["InstanceTypeOfferings"]])
-        )
+        # Get instance types by region so we have stored in metadata
+        for region in self.regions:
+            response = self.ec2_client.describe_instance_type_offerings(
+                DryRun=False,
+                LocationType="region",
+                Filters=[{"Name": "location", "Values": self.regions}],
+            )
+            if not response["InstanceTypeOfferings"]:
+                logger.warning(
+                    f"No instance types found for region selection {region} - are you sure it is correct?"
+                )
+
+            # Organize by machine type for now
+            for x in response["InstanceTypeOfferings"]:
+                machine_types.append(x["InstanceType"])
+                if x["InstanceType"] not in lookup:
+                    lookup[x["InstanceType"]] = []
+                lookup[x["InstanceType"]].append(region)
+
+        # Make sure we have unique machine types
+        machine_types = list(set(machine_types))
 
         # From what I can tell, we don't have next pages for this smaller list.
         # We can only ask in increments of 100
@@ -97,7 +108,9 @@ class AmazonCloud(CloudProvider):
             response = self.ec2_client.describe_instance_types(
                 DryRun=False, InstanceTypes=chunk
             )
-            instances += response.get("InstanceTypes", [])
+            for new_instance in response.get("InstanceTypes", []):
+                new_instance["Regions"] = lookup.get(new_instance["InstanceType"])
+                instances.append(new_instance)
 
         # Return a wrapped set of instances
         return self.load_instances(instances)
@@ -114,12 +127,18 @@ class AmazonCloud(CloudProvider):
         """
         return AmazonInstanceGroup(data)
 
-    def _set_services(self):
+    def _set_services(self, cache_only=False):
         """
         Connect to needed amazon clients.
 
         https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ec2.html#EC2.Client.describe_instance_types
         """
+        # Cut out early if only cache is wanted.
+        if cache_only is True:
+            self.has_instance_auth = False
+            self.has_pricing_auth = False
+            return
+
         import boto3
 
         self.ec2_client = boto3.client("ec2")
@@ -135,7 +154,7 @@ class AmazonCloud(CloudProvider):
         # Note: purposefully set to false because we don't have an API token to test
         try:
             self.pricing_cli.describe_services(ServiceCode="AmazonEC2")
-            self.has_pricing_auth = False
+            self.has_pricing_auth = True
         except Exception as e:
             logger.warning(f"Unable to authenticate to Amazon Web Services EC2: {e}")
             self.has_pricing_auth = False

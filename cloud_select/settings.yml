@@ -7,5 +7,16 @@ clouds: [aws, google]
 # config editor
 config_editor: vim
 
+# Only use the cache
+cache_only: false
+
 # disable adding prices?
-disable_prices: false
+# disabled for now because is a bit lengthy
+disable_prices: true
+
+# cloud specific settings
+google:
+  regions: ["us-east1", "us-west1", "us-central1"]
+
+aws:
+  regions: ["us-east-1"]
