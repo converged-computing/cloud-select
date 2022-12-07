@@ -116,7 +116,7 @@ class Table:
                 parsed.append(content)
             yield parsed
 
-    def table(self, limit=25, title=None):
+    def table(self, limit=None, title=None, sort_by=None, ascending=False):
         """
         Pretty print a table of results.
         """
@@ -134,6 +134,12 @@ class Table:
         for i, column in enumerate(columns):
             title = " ".join([x.capitalize() for x in column.split("_")])
             table.add_column(title, style=column_colors[i])
+
+        # If we want sorting
+        if sort_by is not None and sort_by in self.data[0].keys():
+            self.data = sorted(
+                self.data, key=lambda x: x[sort_by], reverse=not ascending
+            )
 
         # Add rows
         for row in self.table_rows(columns, limit=limit):

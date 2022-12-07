@@ -3,6 +3,8 @@
 #
 # SPDX-License-Identifier: (MIT)
 
+import re
+
 from ..base import Instance, InstanceGroup
 
 
@@ -10,6 +12,22 @@ class AmazonInstance(Instance):
     @property
     def name(self):
         return self.data.get("InstanceType")
+
+    def attr_region(self):
+        """
+        Return the (| joined) listing of regions
+        """
+        return "|".join(self.data.get("Regions", []))
+
+    def attr_description(self):
+        """
+        Put together a description that looks like Google's
+
+        "208 vCPUs, 5.75 TB RAM"
+        """
+        # TODO - we probably went to convert GB into TB when necessary
+        # This is what Google does in the description
+        return f"{self.attr_cpus()} vCPUs, {self.attr_memory()} GB RAM"
 
     def attr_cpus(self):
         """
@@ -66,6 +84,14 @@ class AmazonInstanceGroup(InstanceGroup):
 
     name_attribute = "InstanceType"
     Instance = AmazonInstance
+
+    def filter_region(self, region):
+        """
+        A request to filter down to a specific region regular expression.
+
+        The solver cannot handle this.
+        """
+        self.data = [x for x in self.data if re.search(region, " ".join(x["Regions"]))]
 
     def add_instance_prices(self, prices):
         """

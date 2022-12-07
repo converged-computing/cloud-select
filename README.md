@@ -112,62 +112,112 @@ Ask for a specific cloud on the command line (note you can also ask via your set
 $ cloud-select --cloud google instance --cpus-min 200 --cpus-max 400
 ```
 
-## Design
+#### Sorting
 
-We can follow the design of the [aws selector tool](https://github.com/aws/amazon-ec2-instance-selector).
+By default we sort results based on the order the solver produces them.
+However, you can ask to sort your results by an attribute, e.g., here is memory:
 
-## Details
+```bash
+$ cloud-select --sort-by memory instance
+```
 
-It is non-trivial to find the correct instances, or more generally, do cost comparison across clouds. A tool that can intelligently map a resource request to a set of options, and then present the user with a set of options (or a tool) can alleviate this current challenge. Importantly, we don't want to provide one answer, as the tool needs to be agnostic and not suggest a specific cloud.
+By default, when sort is enabled on an attribute we do descending, so the largest values
+are at the top. You can ask to reverse that with `--asc` for ascending, meaning we sort
+from least to greatest:
 
-### Implementation Idea
+```bash
+$ cloud-select --asc --sort-by memory instance
+```
 
-The implementation needs three parts: 1. a database of contender machines that is automatically updated at some frequency, 2. a tool that can parse this database and select a subset based on a user criteria, and 3. a final mapping of each in that selection to a cost estimate (using live or active APIs).
+#### Max Results
 
-1. Start with APIs that can list instance types. We likely want to filter down into different groups.
-2. Think about how to do a mapping across clouds. Likely this means being able to generalize (e.g., describe based on memory, size, GPU or other features, etc)
-3. Save metadata about instances given the above attributes.
-4. Can we generate a solve to find an optimal instance?
+You can always change the max results (which defaults to 25):
 
-As an example use case, we could create a simple web app (and underlying user interface) that allows to define a jobspec
-Jobspec → filter to top options → price API.
+```bash
+$ cloud-select --max-results 100 instance
+```
 
-> Why Python?
+We currently sort from greatest to least. Set max results to 0 to set no limit.
 
-To start, I was thinking we should use Python APIs for quick prototyping
+```bash
+$ cloud-select --max-results 0 instance
+```
 
-> Why use ASP / clingo and do a solve?
+Note that this argument comes before the instance command.
 
-Given matching requests for amounts, this is probablhy overkill - we could have iterables over a range of options filter this very easily.
-The honest answer is that I thought it would be more fun to try using ASP. We can always
-remove it for a simpler solution, as it does go against my better jugment to add extra dependencies that aren't needed.
-That said, if the solve becomes more complex, it could be cool to have it.
+#### Regions
 
+For regions, note that you have a default set in your settings.yml. E.g.,:
 
-## Previous Art
+```yaml
+google:
+  regions: ["us-east1", "us-west1", "us-central1"]
 
-- AWS already has an instance selector in Go https://github.com/aws/amazon-ec2-instance-selector
-- GCP has one in perl https://github.com/Cyclenerd/google-cloud-compute-machine-types
+aws:
+  regions: ["us-east-1"]
+```
 
-I think I'm still going to use Python for faster prototyping.
+These are used for API calls to retrieve a filtered set, but not to filter that set.
+You should generally be more verbose in this set, as it will be the meta set we further
+filter. When appropriate, "global" is also added to find resources across regions. For
+a one-off region for a query:
+
+```bash
+$ cloud-select  instance  --region east
+```
+
+Since region names are non consistent across clouds, the above is just a regular expression.
+This means that to change region:
+
+- edit settings.yml to change the global set you use
+- add `--region` to a particular query to filter (within the set above).
+
+If you have a cache with older data (and different regions) you will want to clear it.
+If we eventually store the cache by region this might be easier to manage,
+however this isn't done yet to maintain simplicity of design.
+
+**Note** We use regions and zones a bit generously - on a high level a region encompasses
+many zones, and thus a specification of `regions` (as shown below) typically
+indicates regions, but under the hood we might be filtering the specific zones.
+A result might generally be labeled with "region" and include a zone name.
+
+#### Cache Only
+
+To set a global setting to only use the cache (and skip trying to authenticate)
+you cat set `cache_only` in your settings.yml to true:
+
+```yaml
+cache_only: true
+```
+
+This will be the default when we are able to provide a remote cache,
+as then you won't be required to have your own credential to use the
+tool out of the box!
+
 
 ## TODO and Questions
 
-- Are we allowed to provide a cache of instance types (e.g., automated update in GitHub?)
-- should be able to set custom instances per cloud - either directly for a cloud, or generic string to match (e.g., "east")
-- some logic to standardize regions (e.g., "east")
-- add tests and testing workflow
-  - properties testing for handling min/max/numbers
-- Add Docker build / automated builds
-- ensure that required set of attributes for each instance are returned (e.g., name, cpu, memory)
-- how to handle instances that don't have an attribute of interest? Should we unselect them?
-- pretty branded documentation
-- selection should have sorting ability
+See our current [design document](docs/design.md) for background about design.
+
+- [ ]create cache of instance types and maybe prices in GitHub (e.g., automated update)
+- [ ]add tests and testing workflow
+  - [ ]properties testing for handling min/max/numbers
+  - [ ] ensure that required set of attributes for each instance are returned (e.g., name, cpu, memory)
+- [ ] how to handle instances that don't have an attribute of interest? Should we unselect them?
+- [ ] pretty branded documentation and spell checking
+- [ ] add GPU memory - available in AWS and I cannot find for GCP
+- [ ] should cache be organized by region to allow easier filter (data for AWS doesn't have that attribute)
+- [ ] need to do something with costs
+- [ ] test performance of using solver vs. not
+
+### Future desires
+
+These are either "nice to have" or small details we can improve upon. Aka, not top priority.
+
 - should we allow currency outside USD? Probably not for now.
-- aws instance listing (based on regions) should validate regions - an invalid regions simply returns no results
 - could eventually support different resource types (beyond compute or types of prices, e.g., pre-emptible vs. on demand)
-- add GPU memory - available in AWS not sure gcp
-- add AWS description from metadata (similar to GCP)
+- aws instance listing (based on regions) should validate regions - an invalid regions simply returns no results
+- for AWS description, when appropriate convert to TB (like Google does)
 
 Planning for minimizing cost:
 

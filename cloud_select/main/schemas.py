@@ -54,6 +54,10 @@ instance_properties = {
         "description": "Max of total memory across GPUs in GiB (e.g., 4 GiB) if --gpu-memory-min not set, it is 0",
     },
     "gpu-model": {"type": "string", "description": "GPU model name."},
+    "region": {
+        "type": "string",
+        "description": "Regular expression or string to search for in region name.",
+    },
     "hypervisor": {
         "type": "string",
         "description": "Hypervisor.",
@@ -156,14 +160,29 @@ instance_properties = {
 
 ## Settings.yml (loads as json)
 
+cloud_properties = {"regions": {"type": "array", "items": {"type": "string"}}}
+
 # Currently all of these are required
-settingsProperties = {
+settings_properties = {
     "cache_dir": {"type": "string"},
     "config_editor": {"type": "string"},
+    "cache_only": {"type": "boolean"},
+    "aws": {
+        "type": "object",
+        "properties": cloud_properties,
+        "additionalProperties": False,
+        "required": ["regions"],
+    },
+    "google": {"type": "object", "properties": cloud_properties},
     "disable_prices": {
         "type": "boolean",
         "description": "Do not add prices as variable.",
         "default": False,
+    },
+    "sort-by": {
+        "type": "string",
+        "description": "Sort by an attribute of interest.",
+        "enum": ["name", "memory", "cpus", "gpus"],
     },
     "max-results": {
         "type": "number",
@@ -184,7 +203,9 @@ settings = {
     "type": "object",
     "required": [
         "clouds",
+        "google",
+        "aws",
     ],
-    "properties": settingsProperties,
+    "properties": settings_properties,
     "additionalProperties": False,
 }

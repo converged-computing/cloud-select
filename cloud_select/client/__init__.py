@@ -112,6 +112,7 @@ def get_parser():
         dest="max_results",
         help="Maximum results to return per cloud provider.",
         type=int,
+        default=25,
     )
     parser.add_argument(
         "--cloud",
@@ -121,6 +122,19 @@ def get_parser():
         action="append",
     )
 
+    parser.add_argument(
+        "--sort-by",
+        dest="sort_by",
+        help="Sort by a result attribute.",
+        choices=["name", "cpus", "gpus", "memory"],
+    )
+    parser.add_argument(
+        "--asc",
+        dest="ascending",
+        help="Sort results ascending instead of descending (default)",
+        action="store_true",
+        default=False,
+    )
     parser.add_argument(
         "--cache-expire",
         dest="cache_expire",

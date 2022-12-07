@@ -3,24 +3,12 @@
 #
 # SPDX-License-Identifier: (MIT)
 
+import re
+
 from ..base import Instance, InstanceGroup
 
 
 class GoogleCloudInstance(Instance):
-    def generate_row(self):
-        """
-        Given an instance name, return a row with the cloud
-        name and other attributes.
-        """
-        return {
-            "cloud": "google",
-            "name": self.name,
-            "memory": self.attr_memory(),
-            "cpus": self.attr_cpus(),
-            "gpus": self.attr_gpus(),
-            "description": self.attr_description(),
-        }
-
     def attr_cpus(self):
         """
         Number of cpus the instance has.
@@ -32,6 +20,12 @@ class GoogleCloudInstance(Instance):
         Memory is in GB
         """
         return int(self.data["memoryMb"] / 1024)
+
+    def attr_region(self):
+        """
+        Return the (| joined) listing of regions
+        """
+        return self.data.get("zone")
 
     def attr_free_tier(self):
         """
@@ -94,6 +88,14 @@ class GoogleCloudInstanceGroup(InstanceGroup):
 
     name_attribute = "name"
     Instance = GoogleCloudInstance
+
+    def filter_region(self, region):
+        """
+        A request to filter down to a specific region regular expression.
+
+        The solver cannot handle this.
+        """
+        self.data = [x for x in self.data if re.search(region, x["zone"])]
 
     def add_instance_prices(self, prices):
         """
