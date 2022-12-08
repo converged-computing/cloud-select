@@ -12,7 +12,7 @@ cache_only: false
 
 # disable adding prices?
 # disabled for now because is a bit lengthy
-disable_prices: true
+disable_prices: false
 
 # cloud specific settings
 google:

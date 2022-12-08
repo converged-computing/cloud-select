@@ -8,6 +8,7 @@ import os
 from rich.console import Console
 from rich.table import Table as RichTable
 
+import cloud_select.defaults as defaults
 import cloud_select.main.colors as colors
 from cloud_select.logger import logger
 
@@ -135,11 +136,15 @@ class Table:
             title = " ".join([x.capitalize() for x in column.split("_")])
             table.add_column(title, style=column_colors[i])
 
-        # If we want sorting
+        # If we want sorting, filter down to those that have it
         if sort_by is not None and sort_by in self.data[0].keys():
-            self.data = sorted(
-                self.data, key=lambda x: x[sort_by], reverse=not ascending
-            )
+            subset = [x for x in self.data if x.get(sort_by) not in [None, ""]]
+            if not subset:
+                logger.warning(f"Using filter {sort_by} to sort removes all results.")
+                return
+
+            # Break into two groups - first those that have the value, then we will add the rest
+            self.data = sorted(subset, key=lambda x: x[sort_by], reverse=not ascending)
 
         # Add rows
         for row in self.table_rows(columns, limit=limit):
@@ -148,3 +153,8 @@ class Table:
         # And print!
         console = Console()
         console.print(table, justify="left")
+
+        # Get the color of the price column to add description
+        for descriptor, text in defaults.table_descriptors.items():
+            if descriptor in columns:
+                console.print(f"{text}", style=column_colors[columns.index(descriptor)])
