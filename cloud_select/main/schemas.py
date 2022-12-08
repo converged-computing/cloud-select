@@ -5,6 +5,8 @@
 
 ## ContainerConfig Schema
 
+import cloud_select.defaults as defaults
+
 schema_url = "http://json-schema.org/draft-07/schema"
 
 # This is also for latest, and a list of tags
@@ -182,7 +184,7 @@ settings_properties = {
     "sort-by": {
         "type": "string",
         "description": "Sort by an attribute of interest.",
-        "enum": ["name", "memory", "cpus", "gpus"],
+        "enum": defaults.sort_by_fields,
     },
     "max-results": {
         "type": "number",

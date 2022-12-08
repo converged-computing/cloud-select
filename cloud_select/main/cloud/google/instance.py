@@ -47,6 +47,14 @@ class GoogleCloudInstance(Instance):
         """
         return True
 
+    def attr_price(self):
+        """
+        Price of an instance, USD per hour.
+
+        This is not added for Google yet
+        """
+        return self.data.get("price")
+
     def attr_gpu(self):
         """
         Determine if an instance can support gpu

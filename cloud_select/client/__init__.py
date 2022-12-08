@@ -10,6 +10,7 @@ import os
 import sys
 
 import cloud_select
+import cloud_select.defaults as defaults
 import cloud_select.main.cloud as cloud
 import cloud_select.main.schemas as schemas
 from cloud_select.logger import setup_logger
@@ -126,7 +127,7 @@ def get_parser():
         "--sort-by",
         dest="sort_by",
         help="Sort by a result attribute.",
-        choices=["name", "cpus", "gpus", "memory"],
+        choices=defaults.sort_by_fields,
     )
     parser.add_argument(
         "--asc",
