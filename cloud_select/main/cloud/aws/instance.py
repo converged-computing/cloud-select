@@ -169,8 +169,9 @@ class AmazonInstanceGroup(InstanceGroup):
                         lookup[instance_type] = {}
                     if location in lookup[instance_type]:
                         logger.warning(
-                            "Found two rates for {instance_type} in {location} - we will choose one but this likely should not happen."
+                            f"Found two rates for {instance_type} in {location} - we will choose one but this likely should not happen."
                         )
+                    # These are provided as strings, since the original data is completely string
                     lookup[instance_type][location] = float(rate["pricePerUnit"]["USD"])
 
         # Add prices to instances we have prices for
@@ -179,16 +180,9 @@ class AmazonInstanceGroup(InstanceGroup):
             # Set to unreasonably high so it's not a choice
             if instance["InstanceType"] in lookup:
 
-                # Tell the group that we should add prices
-                self.prices_found = True
-
                 # Make a list of prices that matches regions
                 region_prices = {}
                 for region in instance["Regions"]:
                     if region in lookup[instance["InstanceType"]]:
                         region_prices[region] = lookup[instance["InstanceType"]][region]
-
-                    # Set to unreasonably high since we don't know
-                    else:
-                        region_prices.append(999999999999)
                     instance["Prices"] = region_prices
