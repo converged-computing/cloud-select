@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cloud_select.main.client &mdash; Cloud Select 1 documentation</title><link rel="stylesheet" href="../../../assets/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../assets/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../assets/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../" src="../../../assets/documentation_options.js"></script>
+        <script src="../../../assets/jquery.js"></script>
+        <script src="../../../assets/underscore.js"></script>
+        <script src="../../../assets/doctools.js"></script>
+    <script src="../../../assets/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+</head>
+
+<body class="wy-body-for-nav">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Cloud Select
+          </a>
+              <div class="version">
+                0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/cloud_select.html">cloud_select package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Cloud Select</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cloud_select.main.client</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+
+  <h1>Source code for cloud_select.main.client</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2022 Lawrence Livermore National Security, LLC and other</span>
+<span class="c1"># HPCIC DevTools Developers. See the top-level COPYRIGHT file for details.</span>
+<span class="c1">#</span>
+<span class="c1"># SPDX-License-Identifier: (MIT)</span>
+
+
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">import</span> <span class="nn">cloud_select.defaults</span> <span class="k">as</span> <span class="nn">defaults</span>
+<span class="kn">import</span> <span class="nn">cloud_select.main.cache</span> <span class="k">as</span> <span class="nn">cache</span>
+<span class="kn">import</span> <span class="nn">cloud_select.main.cloud</span> <span class="k">as</span> <span class="nn">clouds</span>
+<span class="kn">import</span> <span class="nn">cloud_select.main.schemas</span> <span class="k">as</span> <span class="nn">schemas</span>
+<span class="kn">import</span> <span class="nn">cloud_select.main.solve</span> <span class="k">as</span> <span class="nn">solve</span>
+<span class="kn">from</span> <span class="nn">cloud_select.logger</span> <span class="kn">import</span> <span class="n">logger</span>
+
+<span class="kn">from</span> <span class="nn">.settings</span> <span class="kn">import</span> <span class="n">Settings</span>
+
+
+<div class="viewcode-block" id="Client"><a class="viewcode-back" href="../../../source/cloud_select.main.html#cloud_select.main.client.Client">[docs]</a><span class="k">class</span> <span class="nc">Client</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Cloud select client.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">validate</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;validate&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quiet</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;quiet&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settings</span> <span class="o">=</span> <span class="n">Settings</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;settings_file&quot;</span><span class="p">),</span> <span class="n">validate</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_clouds</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;clouds&quot;</span><span class="p">))</span>
+
+        <span class="c1"># Set the cache and expiration</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.</span><span class="n">Cache</span><span class="p">(</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cache_dir&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">cache_dir</span> <span class="ow">or</span> <span class="n">defaults</span><span class="o">.</span><span class="n">cache_dir</span><span class="p">,</span>
+            <span class="n">cache_expire</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cache_expire&quot;</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">cache_expire</span>
+            <span class="ow">or</span> <span class="n">defaults</span><span class="o">.</span><span class="n">cache_expire</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;[cloud-select-client]&quot;</span>
+
+<div class="viewcode-block" id="Client.set_clouds"><a class="viewcode-back" href="../../../source/cloud_select.main.html#cloud_select.main.client.Client.set_clouds">[docs]</a>    <span class="k">def</span> <span class="nf">set_clouds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listing</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set client cloud classes that will be attempted.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># The user can specify clouds on the command line or settings</span>
+        <span class="c1"># command line takes preference!</span>
+        <span class="n">selection</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">clouds</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">listing</span> <span class="k">else</span> <span class="n">listing</span><span class="p">))</span>
+
+        <span class="c1"># Reset previously init-d clouds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_clouds</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cloudclass</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">selection</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">selection</span><span class="p">:</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">clouds</span><span class="o">.</span><span class="n">cloud_names</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_cloudclass</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="o">=</span> <span class="n">clouds</span><span class="o">.</span><span class="n">clouds</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cloudclass</span> <span class="o">=</span> <span class="n">clouds</span><span class="o">.</span><span class="n">clouds</span></div>
+
+<div class="viewcode-block" id="Client.get_clouds"><a class="viewcode-back" href="../../../source/cloud_select.main.html#cloud_select.main.client.Client.get_clouds">[docs]</a>    <span class="k">def</span> <span class="nf">get_clouds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lookup</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return listing of clouds we can authenticate to, or we have data for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Return cached set, unless forced</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clouds</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">force</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clouds</span> <span class="k">if</span> <span class="n">lookup</span> <span class="k">else</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_clouds</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+        <span class="c1"># We should always be able to get cloud classes, even without auth</span>
+        <span class="c1"># The class knows how to parse the data types into a standard space</span>
+        <span class="k">for</span> <span class="n">cloud_name</span><span class="p">,</span> <span class="n">CloudClass</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cloudclass</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+            <span class="c1"># Regions default to settings then defaults</span>
+            <span class="n">cloud_settings</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">,</span> <span class="n">cloud_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_clouds</span><span class="p">[</span><span class="n">cloud_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">CloudClass</span><span class="p">(</span>
+                <span class="n">regions</span><span class="o">=</span><span class="n">cloud_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;regions&quot;</span><span class="p">),</span>
+                <span class="n">cache_only</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">cache_only</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clouds</span> <span class="k">if</span> <span class="n">lookup</span> <span class="k">else</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_clouds</span><span class="o">.</span><span class="n">values</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="Client.instances"><a class="viewcode-back" href="../../../source/cloud_select.main.html#cloud_select.main.client.Client.instances">[docs]</a>    <span class="k">def</span> <span class="nf">instances</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return instances for clouds we have cached data for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_cache</span><span class="p">(</span><span class="s2">&quot;instances&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Client.prices"><a class="viewcode-back" href="../../../source/cloud_select.main.html#cloud_select.main.client.Client.prices">[docs]</a>    <span class="k">def</span> <span class="nf">prices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return instance pricing for clouds we have cached data for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_cache</span><span class="p">(</span><span class="s2">&quot;prices&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Client.load_cache"><a class="viewcode-back" href="../../../source/cloud_select.main.html#cloud_select.main.client.Client.load_cache">[docs]</a>    <span class="k">def</span> <span class="nf">load_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load a named entry from the cache known to the cloud provider.</span>
+
+<span class="sd">        This function does not check cache expiration, but just</span>
+<span class="sd">        returns data we have available.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">cloud</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_clouds</span><span class="p">():</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">cloud</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+                <span class="c1"># Load data via the cloud provider</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cloud</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+                <span class="n">items</span><span class="p">[</span><span class="n">cloud</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">cloud</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;load_</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">items</span></div>
+
+<div class="viewcode-block" id="Client.update_from_cache"><a class="viewcode-back" href="../../../source/cloud_select.main.html#cloud_select.main.client.Client.update_from_cache">[docs]</a>    <span class="k">def</span> <span class="nf">update_from_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">,</span> <span class="n">datatype</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given a data type, update from the cache.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># For every cloud class we have...</span>
+        <span class="k">for</span> <span class="n">cloud</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_clouds</span><span class="p">():</span>
+
+            <span class="c1"># We have the data and it&#39;s expired OR we don&#39;t have it - update it</span>
+            <span class="k">if</span> <span class="n">cloud</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">items</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">is_expired</span><span class="p">(</span><span class="n">cloud</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">datatype</span><span class="p">):</span>
+                <span class="n">func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">cloud</span><span class="p">,</span> <span class="n">datatype</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+                <span class="c1"># This should not happen, but let&#39;s be careful</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">func</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                        <span class="s2">&quot;Cannot call </span><span class="si">{datatype}</span><span class="s2"> function for cloud </span><span class="si">{cloud_name}</span><span class="s2">, function is missing.&quot;</span>
+                    <span class="p">)</span>
+                    <span class="k">continue</span>
+
+                <span class="c1"># Get updated items, but don&#39;t update data if we cannot (usually not authenticated)</span>
+                <span class="n">updated</span> <span class="o">=</span> <span class="n">func</span><span class="p">()</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">updated</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">cloud</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">updated</span><span class="p">,</span> <span class="n">datatype</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">updated</span><span class="o">.</span><span class="n">Encoder</span><span class="p">)</span>
+                <span class="n">items</span><span class="p">[</span><span class="n">cloud</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">updated</span>
+        <span class="k">return</span> <span class="n">items</span></div>
+
+<div class="viewcode-block" id="Client.instance_select"><a class="viewcode-back" href="../../../source/cloud_select.main.html#cloud_select.main.client.Client.instance_select">[docs]</a>    <span class="k">def</span> <span class="nf">instance_select</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Select an instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Start with already cached data</span>
+        <span class="n">instances</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_from_cache</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instances</span><span class="p">(),</span> <span class="s2">&quot;instances&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">instances</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
+                <span class="s2">&quot;You don&#39;t have any clouds to search instances or cached data. Set credentials or get an offline cache.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Only makes sense to get prices if we have instances!</span>
+        <span class="n">prices</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">disable_prices</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">prices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_from_cache</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prices</span><span class="p">(),</span> <span class="s2">&quot;prices&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Attributes that can&#39;t go into the solver</span>
+        <span class="n">region</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;region&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;region&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;region&quot;</span><span class="p">]</span>
+
+        <span class="c1"># By here we have a lookup *by cloud) of instance groups</span>
+        <span class="c1"># Filter down kwargs (properties) to those relevant to instances</span>
+        <span class="c1"># This is not actually a solve, but it used to be and we kept the name</span>
+        <span class="n">properties</span> <span class="o">=</span> <span class="n">solve</span><span class="o">.</span><span class="n">Properties</span><span class="p">(</span><span class="n">schemas</span><span class="o">.</span><span class="n">instance_properties</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">solver</span> <span class="o">=</span> <span class="n">solve</span><span class="o">.</span><span class="n">Solver</span><span class="p">()</span>
+
+        <span class="c1"># 1. write mapping of common features into functions</span>
+        <span class="c1"># 2. filter down to desired set based on these common functions</span>
+        <span class="k">for</span> <span class="n">cloud_name</span><span class="p">,</span> <span class="n">instance_group</span> <span class="ow">in</span> <span class="n">instances</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+            <span class="c1"># Do we have a request to filter by region?</span>
+            <span class="k">if</span> <span class="n">region</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">instance_group</span><span class="o">.</span><span class="n">filter_region</span><span class="p">(</span><span class="n">region</span><span class="p">)</span>
+
+            <span class="c1"># Do we have prices for the cloud?</span>
+            <span class="k">if</span> <span class="n">cloud_name</span> <span class="ow">in</span> <span class="n">prices</span><span class="p">:</span>
+                <span class="n">instance_group</span><span class="o">.</span><span class="n">add_instance_prices</span><span class="p">(</span><span class="n">prices</span><span class="p">[</span><span class="n">cloud_name</span><span class="p">])</span>
+
+            <span class="c1"># Generate facts for instances</span>
+            <span class="n">solver</span><span class="o">.</span><span class="n">add_instances</span><span class="p">(</span><span class="n">cloud_name</span><span class="p">,</span> <span class="n">instance_group</span><span class="p">)</span>
+
+        <span class="n">solver</span><span class="o">.</span><span class="n">add_properties</span><span class="p">(</span><span class="n">properties</span><span class="o">.</span><span class="n">defined</span><span class="p">)</span>
+
+        <span class="c1"># Select the instances!</span>
+        <span class="n">selected</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;instance&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+
+        <span class="c1"># Do we have a request for a pattern to include or exclude?</span>
+        <span class="k">if</span> <span class="n">selected</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">properties</span><span class="o">.</span><span class="n">include_list</span> <span class="ow">or</span> <span class="p">[]:</span>
+                <span class="n">selected</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">selected</span> <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">x</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">properties</span><span class="o">.</span><span class="n">exclude_list</span> <span class="ow">or</span> <span class="p">[]:</span>
+                <span class="n">selected</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">selected</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">x</span><span class="p">)]</span>
+
+        <span class="c1"># Assemble back into complete data based on instance name</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">instances</span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">generate_row</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">selected</span><span class="p">]</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LLNL LLC Converged Computing Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+</body>
+</html>

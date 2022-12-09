@@ -124,10 +124,7 @@ class AmazonInstanceGroup(InstanceGroup):
         """
         Add pricing information to instances
 
-        We currently are filtering to:
-         - Linux
-         - OnDemand
-         - USD per hour
+        We currently are filtering to Linux, OnDemand, and USD per hour.
         https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/pricing.html
         """
         lookup = {}

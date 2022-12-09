@@ -6,7 +6,7 @@
 __version__ = "0.0.0"
 AUTHOR = "Vanessa Sochat"
 EMAIL = "vsoch@users.noreply.github.com"
-NAME = "cloud-select"
+NAME = "cloud-select-tool"
 PACKAGE_URL = "https://github.com/converged-computing/cloud-select"
 KEYWORDS = "cloud, cost, hpc"
 DESCRIPTION = "Tool for calculating costs and needs between cloud and HPC."

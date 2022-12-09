@@ -47,3 +47,5 @@ if you are interested. It's since been gutted out.
 - GCP has one in perl https://github.com/Cyclenerd/google-cloud-compute-machine-types
 
 I think I'm still going to use Python for faster prototyping.
+
+[home](/README.md#cloud-select)

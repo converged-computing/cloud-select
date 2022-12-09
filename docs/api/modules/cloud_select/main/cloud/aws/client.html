@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cloud_select.main.cloud.aws.client &mdash; Cloud Select 1 documentation</title><link rel="stylesheet" href="../../../../../assets/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../assets/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../assets/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../" src="../../../../../assets/documentation_options.js"></script>
+        <script src="../../../../../assets/jquery.js"></script>
+        <script src="../../../../../assets/underscore.js"></script>
+        <script src="../../../../../assets/doctools.js"></script>
+    <script src="../../../../../assets/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+</head>
+
+<body class="wy-body-for-nav">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../index.html" class="icon icon-home"> Cloud Select
+          </a>
+              <div class="version">
+                0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../source/cloud_select.html">cloud_select package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Cloud Select</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cloud_select.main.cloud.aws.client</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+
+  <h1>Source code for cloud_select.main.cloud.aws.client</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2022 Lawrence Livermore National Security, LLC and other</span>
+<span class="c1"># HPCIC DevTools Developers. See the top-level COPYRIGHT file for details.</span>
+<span class="c1">#</span>
+<span class="c1"># SPDX-License-Identifier: (MIT)</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">import</span> <span class="nn">cloud_select.utils</span> <span class="k">as</span> <span class="nn">utils</span>
+<span class="kn">from</span> <span class="nn">cloud_select.logger</span> <span class="kn">import</span> <span class="n">logger</span>
+
+<span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">CloudProvider</span>
+<span class="kn">from</span> <span class="nn">.instance</span> <span class="kn">import</span> <span class="n">AmazonInstanceGroup</span>
+<span class="kn">from</span> <span class="nn">.prices</span> <span class="kn">import</span> <span class="n">AmazonPrices</span>
+
+
+<div class="viewcode-block" id="AmazonCloud"><a class="viewcode-back" href="../../../../../source/cloud_select.main.cloud.aws.html#cloud_select.main.cloud.aws.client.AmazonCloud">[docs]</a><span class="k">class</span> <span class="nc">AmazonCloud</span><span class="p">(</span><span class="n">CloudProvider</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An Amazon cloud provider wrapper</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;aws&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regions</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;regions&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[</span><span class="s2">&quot;us-east-1&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">project</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ec2_client</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pricing_cli</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># This currently has two pieces - billing and instances (different APIs)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_services</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cache_only&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AmazonCloud</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="AmazonCloud.prices"><a class="viewcode-back" href="../../../../../source/cloud_select.main.cloud.aws.html#cloud_select.main.cloud.aws.client.AmazonCloud.prices">[docs]</a>    <span class="k">def</span> <span class="nf">prices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use the API to retrieve and return prices to cache.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_pricing_auth</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fail_message</span><span class="p">(</span><span class="s2">&quot;prices, authentication not set.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Get services first - there are almost 2k! Look for compute engine</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieving prices for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Keep a price that matches any region we care about</span>
+        <span class="n">regex</span> <span class="o">=</span> <span class="s2">&quot;(</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">)</span>
+
+        <span class="n">next_token</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">prices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pricing_cli</span><span class="o">.</span><span class="n">get_products</span><span class="p">(</span>
+                <span class="n">ServiceCode</span><span class="o">=</span><span class="s2">&quot;AmazonEC2&quot;</span><span class="p">,</span> <span class="n">NextToken</span><span class="o">=</span><span class="n">next_token</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;NextToken&quot;</span><span class="p">):</span>
+                <span class="k">break</span>
+            <span class="n">next_token</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;NextToken&quot;</span><span class="p">)</span>
+            <span class="c1"># The prices are actually string - so let&#39;s search region of interest via regex</span>
+            <span class="k">for</span> <span class="n">pricestr</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;PriceList&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">pricestr</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="n">prices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">pricestr</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">prices</span><span class="p">)</span><span class="si">}</span><span class="s2"> total aws prices matching </span><span class="si">{</span><span class="n">regex</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_prices</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AmazonCloud.instances"><a class="viewcode-back" href="../../../../../source/cloud_select.main.cloud.aws.html#cloud_select.main.cloud.aws.client.AmazonCloud.instances">[docs]</a>    <span class="k">def</span> <span class="nf">instances</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use the API to retrieve (and return) instances within a set of regions.</span>
+
+<span class="sd">        We do a little extra work to add the region attribute to make it</span>
+<span class="sd">        accessible for filtering.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_instance_auth</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fail_message</span><span class="p">(</span><span class="s2">&quot;instances, authentication not set.&quot;</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieving instances for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Start with a lookup so we can attach regions</span>
+        <span class="n">machine_types</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">lookup</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Get instance types by region so we have stored in metadata</span>
+        <span class="k">for</span> <span class="n">region</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ec2_client</span><span class="o">.</span><span class="n">describe_instance_type_offerings</span><span class="p">(</span>
+                <span class="n">DryRun</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">LocationType</span><span class="o">=</span><span class="s2">&quot;region&quot;</span><span class="p">,</span>
+                <span class="n">Filters</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;Name&quot;</span><span class="p">:</span> <span class="s2">&quot;location&quot;</span><span class="p">,</span> <span class="s2">&quot;Values&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">}],</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;InstanceTypeOfferings&quot;</span><span class="p">]:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;No instance types found for region selection </span><span class="si">{</span><span class="n">region</span><span class="si">}</span><span class="s2"> - are you sure it is correct?&quot;</span>
+                <span class="p">)</span>
+
+            <span class="c1"># Organize by machine type for now</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;InstanceTypeOfferings&quot;</span><span class="p">]:</span>
+                <span class="n">machine_types</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;InstanceType&quot;</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;InstanceType&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">lookup</span><span class="p">:</span>
+                    <span class="n">lookup</span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;InstanceType&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">lookup</span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;InstanceType&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">region</span><span class="p">)</span>
+
+        <span class="c1"># Make sure we have unique machine types</span>
+        <span class="n">machine_types</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">machine_types</span><span class="p">))</span>
+
+        <span class="c1"># From what I can tell, we don&#39;t have next pages for this smaller list.</span>
+        <span class="c1"># We can only ask in increments of 100</span>
+        <span class="n">instances</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">utils</span><span class="o">.</span><span class="n">chunks</span><span class="p">(</span><span class="n">machine_types</span><span class="p">,</span> <span class="mi">100</span><span class="p">):</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ec2_client</span><span class="o">.</span><span class="n">describe_instance_types</span><span class="p">(</span>
+                <span class="n">DryRun</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">InstanceTypes</span><span class="o">=</span><span class="n">chunk</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">new_instance</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;InstanceTypes&quot;</span><span class="p">,</span> <span class="p">[]):</span>
+                <span class="n">new_instance</span><span class="p">[</span><span class="s2">&quot;Regions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">new_instance</span><span class="p">[</span><span class="s2">&quot;InstanceType&quot;</span><span class="p">])</span>
+                <span class="n">instances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_instance</span><span class="p">)</span>
+
+        <span class="c1"># Return a wrapped set of instances</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_instances</span><span class="p">(</span><span class="n">instances</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AmazonCloud.load_prices"><a class="viewcode-back" href="../../../../../source/cloud_select.main.cloud.aws.html#cloud_select.main.cloud.aws.client.AmazonCloud.load_prices">[docs]</a>    <span class="k">def</span> <span class="nf">load_prices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load prices data from json instal class</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">AmazonPrices</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AmazonCloud.load_instances"><a class="viewcode-back" href="../../../../../source/cloud_select.main.cloud.aws.html#cloud_select.main.cloud.aws.client.AmazonCloud.load_instances">[docs]</a>    <span class="k">def</span> <span class="nf">load_instances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load instance data from json.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">AmazonInstanceGroup</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_set_services</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache_only</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Connect to needed amazon clients.</span>
+
+<span class="sd">        https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ec2.html#EC2.Client.describe_instance_types</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Cut out early if only cache is wanted.</span>
+        <span class="k">if</span> <span class="n">cache_only</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">has_instance_auth</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">has_pricing_auth</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">return</span>
+
+        <span class="kn">import</span> <span class="nn">boto3</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ec2_client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s2">&quot;ec2&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pricing_cli</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s2">&quot;pricing&quot;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ec2_client</span><span class="o">.</span><span class="n">describe_instances</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">has_instance_auth</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unable to authenticate to Amazon Web Services EC2: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">has_instance_auth</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Note: purposefully set to false because we don&#39;t have an API token to test</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pricing_cli</span><span class="o">.</span><span class="n">describe_services</span><span class="p">(</span><span class="n">ServiceCode</span><span class="o">=</span><span class="s2">&quot;AmazonEC2&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">has_pricing_auth</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unable to authenticate to Amazon Web Services EC2: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">has_pricing_auth</span> <span class="o">=</span> <span class="kc">False</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LLNL LLC Converged Computing Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+</body>
+</html>

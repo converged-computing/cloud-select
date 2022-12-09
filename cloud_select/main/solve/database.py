@@ -87,7 +87,7 @@ class Database:
         basequery = "SELECT DISTINCT cloud, instance FROM instances"
         # No properties,
         if not props:
-            return self.conn.execute(f"{basequery};").fetchall()
+            return {"instance": self.execute(f"{basequery};", fetchall=True)}
 
         query = ""
 

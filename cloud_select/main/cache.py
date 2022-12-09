@@ -59,7 +59,7 @@ class Cache:
         # Don't write empty data
         if not items:
             logger.warning(
-                "No data found for {cloud_name} {datatype}, not writing {cache_file}."
+                f"No data found for {cloud_name} {datatype}, not writing {cache_file}."
             )
             return
 
@@ -68,7 +68,7 @@ class Cache:
             self._cache[cloud_name] = {}
         self._cache[cloud_name][datatype] = items
         utils.write_json(items, cache_file, cls=cls)
-        logger.debug("{cloud_name} {datatype} written to {cache_file}.")
+        logger.debug(f"{cloud_name} {datatype} written to {cache_file}.")
 
     def get_cache_name(self, cloud_name, name):
         """

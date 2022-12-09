@@ -187,6 +187,34 @@ cloud-select -c rm:registry:/tmp/registry""",
         default="ipython",
     )
 
+    config = subparsers.add_parser(
+        "config",
+        description="update configuration settings. Use set or get to see or set information.",
+        formatter_class=argparse.RawTextHelpFormatter,
+    )
+
+    config.add_argument(
+        "--central",
+        dest="central",
+        help="make edits to the central config file.",
+        default=False,
+        action="store_true",
+    )
+
+    config.add_argument(
+        "params",
+        nargs="*",
+        help="""Set or get a config value, edit the config, add or remove a list variable, or create a user-specific config.
+cloud-select config set key value
+cloud-select config set key:subkey value
+cloud-select config get key
+cloud-select edit
+cloud-select config inituser
+cloud-select config remove cloud aws
+cloud-select config add cloud aws""",
+        type=str,
+    )
+
     # Install a known recipe from the registry
     instance = subparsers.add_parser(
         "instance",
@@ -212,20 +240,12 @@ cloud-select -c rm:registry:/tmp/registry""",
 
 
 def run():
-    """
-    run_cloud_select is the entrypoint to the singularity-hpc client.
-    """
-
     parser = get_parser()
 
     def help(return_code=0):
-        """print help, including the software version and active client
-        and exit with return code.
-        """
-
         version = cloud_select.__version__
 
-        print("\nSingularity Registry (HPC) Client v%s" % version)
+        print("\nCloud Select Client v%s" % version)
         parser.print_help()
         sys.exit(return_code)
 
