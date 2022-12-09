@@ -3,6 +3,7 @@
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
+[![PyPI](https://img.shields.io/pypi/v/cloud-select-tool)](https://pypi.org/project/cloud-select-tool/)
 
 <a target="_blank" rel="noopener noreferrer" href="https://github.com/converged-computing/cloud-select/blob/main/docs/assets/img/logo-transparent.png">
     <img align="right" style="width: 250px; float: right; padding-left: 20px;" src="https://github.com/converged-computing/cloud-select/raw/main/docs/assets/img/logo-transparent.png" alt="Cloud Select Logo">
@@ -18,14 +19,12 @@ start there.
 
 🚧️ **under developemnt** 🚧️
 
-This tool is under development and is not ready for production use.
+This tool is under development and is not ready for production use. See our
 
-
-
+ - ⭐️ [Documentation](https://converged-computing.github.io/cloud-select/) ⭐️
+ - 📦️ [Pypi Package](https://pypi.org/project/cloud-select-tool/) 📦️
 
 ## TODO and Questions
-
-See our current [design document](https://github.com/converged-computing/cloud-select/blob/main/docs/design.md) for background about design.
 
 - [ ]create cache of instance types and maybe prices in GitHub (e.g., automated update)
 - [ ] add tests and testing workflow
@@ -47,26 +46,6 @@ These are either "nice to have" or small details we can improve upon. Aka, not t
 - could eventually support different resource types (beyond compute or types of prices, e.g., pre-emptible vs. on demand)
 - aws instance listing (based on regions) should validate regions - an invalid regions simply returns no results
 - for AWS description, when appropriate convert to TB (like Google does)
-
-Planning for minimizing cost:
-
-```lp
-% generate a bunch of candidate_instance() predicates for each instance type that matches the user request
-candidate_instance(Cloud, Instance) :-
-  cloud_instance_type(Cloud, Instance),
-  instance_attr(Cloud, Instance, Name, Value) : requested_attr(Name, Value).
-
-% Tell clingo to select exactly one (at least one and at most one) of them
-1 { select(Cloud, Instance) : candidate_instance(Cloud, Instance) } 1.
-
-% associate the cost from your input facts with every candidate instance
-selected_instance_cost(Cloud, Instance, Cost) :-
-  select(Cloud, Instance),
-  instance_cost(Cloud, Instance, Cost).
-
-% tell clingo to find the solution (the one select() it got to choose with minimal cost
-#minimize { Cost,Cloud,Instance : selected_instance_cost(Cloud, Instance, Cost) }.cv
-```
 
 ## 😁️ Contributors 😁️
 
