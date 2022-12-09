@@ -133,7 +133,7 @@ class Client:
                 items[cloud.name] = updated
         return items
 
-    def instance_select(self, max_results=20, out=None, **kwargs):
+    def instance_select(self, max_results=20, **kwargs):
         """
         Select an instance.
         """
@@ -156,8 +156,9 @@ class Client:
 
         # By here we have a lookup *by cloud) of instance groups
         # Filter down kwargs (properties) to those relevant to instances
+        # This is not actually a solve, but it used to be and we kept the name
         properties = solve.Properties(schemas.instance_properties, **kwargs)
-        solver = solve.Solver(out=out)
+        solver = solve.Solver()
 
         # 1. write mapping of common features into functions
         # 2. filter down to desired set based on these common functions
@@ -176,11 +177,8 @@ class Client:
 
         solver.add_properties(properties.defined)
 
-        # Run the solve!
-        result = solver.solve()
-
-        # "select" will be defined given user selection, otherwise all instances
-        selected = result.get("select") or result.get("instance") or []
+        # Select the instances!
+        selected = solver.solve().get("instance") or []
 
         # Do we have a request for a pattern to include or exclude?
         if selected:
@@ -190,8 +188,4 @@ class Client:
                 selected = [x for x in selected if not re.search(pattern, x)]
 
         # Assemble back into complete data based on instance name
-        rows = [instances[x[0]].generate_row(x[1]) for x in selected]
-
-        # TODO Honor max result request? Ignore for now.
-        max_results = max_results or self.settings.max_results or 20
-        return rows
+        return [instances[x[0]].generate_row(x[1]) for x in selected]

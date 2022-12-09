@@ -70,7 +70,7 @@ class AmazonInstance(Instance):
         """
         Determine if an instance can support gpu
         """
-        return "GpuInfo" in self.data and self.data["GpuInfo"]
+        return self.data.get("GpuInfo") and len(self.data["GpuInfo"].get("Gpus")) > 0
 
     def attr_gpus(self):
         """
