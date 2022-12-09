@@ -157,9 +157,8 @@ class Logger:
             self.handler(msg)
 
     def text_handler(self, msg):
-        """The default log handler prints the output to the console.
-        Args:
-            msg (dict):     the log message dictionary
+        """
+        The default log handler prints the output to the console.
         """
         level = msg["level"]
         if level == "info" and not self.quiet:

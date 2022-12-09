@@ -1,9 +1,10 @@
 bin/
 lib/
 *.db
-cloud_select.egg-info/
+cloud_select_tool.egg-info/
 env
 .env
+apigen/_build
 build
 docs/_build
 release

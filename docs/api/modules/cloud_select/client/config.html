@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cloud_select.client.config &mdash; Cloud Select 1 documentation</title><link rel="stylesheet" href="../../../assets/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../assets/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../assets/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../" src="../../../assets/documentation_options.js"></script>
+        <script src="../../../assets/jquery.js"></script>
+        <script src="../../../assets/underscore.js"></script>
+        <script src="../../../assets/doctools.js"></script>
+    <script src="../../../assets/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+</head>
+
+<body class="wy-body-for-nav">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Cloud Select
+          </a>
+              <div class="version">
+                0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/cloud_select.html">cloud_select package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Cloud Select</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../client.html">cloud_select.client</a></li>
+      <li class="breadcrumb-item active">cloud_select.client.config</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+
+  <h1>Source code for cloud_select.client.config</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2022 Lawrence Livermore National Security, LLC and other</span>
+<span class="c1"># HPCIC DevTools Developers. See the top-level COPYRIGHT file for details.</span>
+<span class="c1">#</span>
+<span class="c1"># SPDX-License-Identifier: (MIT)</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">import</span> <span class="nn">cloud_select.defaults</span> <span class="k">as</span> <span class="nn">defaults</span>
+<span class="kn">import</span> <span class="nn">cloud_select.utils</span>
+<span class="kn">from</span> <span class="nn">cloud_select.logger</span> <span class="kn">import</span> <span class="n">logger</span>
+
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../source/cloud_select.client.html#cloud_select.client.config.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">parser</span><span class="p">,</span> <span class="n">extra</span><span class="p">,</span> <span class="n">subparser</span><span class="p">):</span>
+
+    <span class="kn">from</span> <span class="nn">cloud_select.main</span> <span class="kn">import</span> <span class="n">get_client</span>
+
+    <span class="n">cloud_select</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">ensure_no_extra</span><span class="p">(</span><span class="n">extra</span><span class="p">)</span>
+
+    <span class="c1"># If nothing provided, show help</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">params</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">subparser</span><span class="o">.</span><span class="n">format_help</span><span class="p">())</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># The first &quot;param&quot; is either set of get</span>
+    <span class="n">command</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># If the user wants the central config file</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">central</span><span class="p">:</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">settings_file</span> <span class="o">=</span> <span class="n">defaults</span><span class="o">.</span><span class="n">default_settings_file</span>
+
+    <span class="n">validate</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;edit&quot;</span> <span class="k">else</span> <span class="kc">False</span>
+    <span class="n">cli</span> <span class="o">=</span> <span class="n">get_client</span><span class="p">(</span>
+        <span class="n">quiet</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">quiet</span><span class="p">,</span> <span class="n">settings_file</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">settings_file</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="n">validate</span>
+    <span class="p">)</span>
+
+    <span class="c1"># For each new setting, update and save!</span>
+    <span class="k">if</span> <span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;inituser&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">cli</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">inituser</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;edit&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">cli</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">edit</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">command</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;set&quot;</span><span class="p">,</span> <span class="s2">&quot;add&quot;</span><span class="p">,</span> <span class="s2">&quot;remove&quot;</span><span class="p">]:</span>
+        <span class="n">cli</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">update_param</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+
+        <span class="c1"># Save settings</span>
+        <span class="n">cli</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="c1"># For each get request, print the param pair</span>
+    <span class="k">elif</span> <span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;get&quot;</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">params</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">cli</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;is unset&quot;</span> <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">value</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">30</span><span class="p">),</span> <span class="n">value</span><span class="p">))</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> is not a recognized command.&quot;</span> <span class="o">%</span> <span class="n">command</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LLNL LLC Converged Computing Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+</body>
+</html>

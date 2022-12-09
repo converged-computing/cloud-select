@@ -127,9 +127,9 @@ instance_properties = {
     },
     "gpu-vendor": {"type": "string", "enum": ["nvidia"]},
     "disk-type": {
-        "type": "array",
+        "type": "string",
         "description": "type of disk, hard disk or solid state",
-        "items": {"type": "string", "enum": ["hdd", "ssd"]},
+        "enum": ["hdd", "ssd"],
     },
     "exclude-list": {
         "type": "array",

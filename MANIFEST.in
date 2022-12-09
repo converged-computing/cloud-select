@@ -10,3 +10,5 @@ global-exclude *.py[co]
 recursive-exclude .git *
 global-exclude __pycache__
 prune docs*
+prune cloud_select/tests
+prune _docs*

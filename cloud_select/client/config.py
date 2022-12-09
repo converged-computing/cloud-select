@@ -8,11 +8,10 @@ import sys
 import cloud_select.defaults as defaults
 import cloud_select.utils
 from cloud_select.logger import logger
+from cloud_select.main import Client
 
 
 def main(args, parser, extra, subparser):
-
-    from cloud_select.main import get_client
 
     cloud_select.utils.ensure_no_extra(extra)
 
@@ -28,9 +27,12 @@ def main(args, parser, extra, subparser):
     if args.central:
         args.settings_file = defaults.default_settings_file
 
-    validate = True if not command == "edit" else False
-    cli = get_client(
-        quiet=args.quiet, settings_file=args.settings_file, validate=validate
+    cli = Client(
+        quiet=args.quiet,
+        settings_file=args.settings_file,
+        cache_dir=args.cache_dir,
+        cache_expire=args.cache_expire,
+        clouds=args.clouds,
     )
 
     # For each new setting, update and save!

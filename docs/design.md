@@ -39,7 +39,26 @@ Manual time: 0.001077890396118164 seconds
 ```
 
 The last version of the repo with the solver is [this commit](https://github.com/converged-computing/cloud-select/tree/67ecac0846f2e9a262305ef2f15134c1b423ab91)
-if you are interested. It's since been gutted out.
+if you are interested. It's since been gutted out. If we go back to needing to try to minimize cost with clingo, this comes from the
+amazing [@tgamblin](https://github.com/tgamblin)!
+
+```asp
+% generate a bunch of candidate_instance() predicates for each instance type that matches the user request
+candidate_instance(Cloud, Instance) :-
+  cloud_instance_type(Cloud, Instance),
+  instance_attr(Cloud, Instance, Name, Value) : requested_attr(Name, Value).
+
+% Tell clingo to select exactly one (at least one and at most one) of them
+1 { select(Cloud, Instance) : candidate_instance(Cloud, Instance) } 1.
+
+% associate the cost from your input facts with every candidate instance
+selected_instance_cost(Cloud, Instance, Cost) :-
+  select(Cloud, Instance),
+  instance_cost(Cloud, Instance, Cost).
+
+% tell clingo to find the solution (the one select() it got to choose with minimal cost
+#minimize { Cost,Cloud,Instance : selected_instance_cost(Cloud, Instance, Cost) }.cv
+```
 
 ## Previous Art
 
@@ -47,3 +66,5 @@ if you are interested. It's since been gutted out.
 - GCP has one in perl https://github.com/Cyclenerd/google-cloud-compute-machine-types
 
 I think I'm still going to use Python for faster prototyping.
+
+[home](/README.md#cloud-select)
