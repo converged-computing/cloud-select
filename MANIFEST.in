@@ -12,3 +12,4 @@ global-exclude __pycache__
 prune docs*
 prune cloud_select/tests
 prune _docs*
+prune apigen
