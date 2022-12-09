@@ -4,8 +4,6 @@
 # SPDX-License-Identifier: (MIT)
 
 import json
-import os
-import sys
 
 import cloud_select.main.table as table
 import cloud_select.utils as utils
@@ -32,25 +30,11 @@ def main(args, parser, extra, subparser):
         args.max_results = None
 
     # Are we writing ASP to an output file?
-    asp_out = None
     out = args.out
-    if args.asp_out is not None:
-        asp_out = open(args.asp_out, "w")
-
-    # Or default to being more quiet
-    elif not args.verbose:
-        asp_out = open(os.devnull, "w")
-    elif args.verbose:
-        asp_out = sys.stdout
-
-    # Clean up extra attributes
-    for attr in "asp_out", "out":
-        delattr(args, attr)
+    delattr(args, "out")
 
     # And select the instance (this output is for the ASP)
-    instances = cli.instance_select(**args.__dict__, out=asp_out)
-    if asp_out is not None:
-        asp_out.close()
+    instances = cli.instance_select(**args.__dict__)
 
     # Print instances to a table
     if args.json:

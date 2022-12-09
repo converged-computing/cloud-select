@@ -208,8 +208,8 @@ See our current [design document](docs/design.md) for background about design.
 - [ ] add GPU memory - available in AWS and I cannot find for GCP
 - [ ] should cache be organized by region to allow easier filter (data for AWS doesn't have that attribute)
 - [ ] need to do something with costs
-- [ ] test performance of using solver vs. not
 - [ ] can we just scrape prices from? https://cloud.google.com/compute/all-pricing
+- [ ] TODO: we don't currently account for region as unique property in results (and need to)
 
 ### Future desires
 

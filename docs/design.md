@@ -27,6 +27,20 @@ The honest answer is that I thought it would be more fun to try using ASP. We ca
 remove it for a simpler solution, as it does go against my better jugment to add extra dependencies that aren't needed.
 That said, if the solve becomes more complex, it could be cool to have it.
 
+## Solver?
+
+We started using clingo with ASP (answer set programming) and @vsoch compared queries between the two.
+The database always won by a LOT. Here is an example
+
+```console
+SELECT DISTINCT cloud, instance FROM instances WHERE value_number IS NOT NULL AND attribute='gpus' and value_number >= 4;
+Clingo time: 0.5402274131774902 seconds
+Manual time: 0.001077890396118164 seconds
+```
+
+The last version of the repo with the solver is [this commit](https://github.com/converged-computing/cloud-select/tree/67ecac0846f2e9a262305ef2f15134c1b423ab91)
+if you are interested. It's since been gutted out.
+
 ## Previous Art
 
 - AWS already has an instance selector in Go https://github.com/aws/amazon-ec2-instance-selector
