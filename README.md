@@ -17,7 +17,7 @@ And then be given a set of options and prices for different clouds to choose fro
 There are some supporting packages that exist already (in Go for AWS) so we will
 start there.
 
-🚧️ **under developemnt** 🚧️
+🚧️ **under development** 🚧️
 
 This tool is under development and is not ready for production use. See our
 

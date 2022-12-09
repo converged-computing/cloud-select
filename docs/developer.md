@@ -7,7 +7,7 @@ on automation for testing, etc.
 
 The main documentation for the repository is in the [docs](https://github.com/converged-computing/cloud-select/tree/main/docs) directory,
 and the interface itself is static and generated from the markdown with
-javascript. The only programatically generated docs are in the [docs/api](https://github.com/converged-computing/cloud-select/tree/main/docs/api)
+javascript. The only programmatically generated docs are in the [docs/api](https://github.com/converged-computing/cloud-select/tree/main/docs/api)
 folder, which are currently done manually (and could be automated if desired). To update the api docs:
 
 ```bash
