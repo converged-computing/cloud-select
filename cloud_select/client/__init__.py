@@ -107,40 +107,12 @@ def get_parser():
         dest="cache_dir",
         help="directory for data cache (defaults to ~/.cloud-select/cache).",
     )
-
-    parser.add_argument(
-        "--max-results",
-        dest="max_results",
-        help="Maximum results to return per cloud provider.",
-        type=int,
-        default=25,
-    )
     parser.add_argument(
         "--cloud",
         dest="clouds",
         help="one or more clouds to include (if not provided, all are attempted).",
         choices=cloud.cloud_names,
         action="append",
-    )
-
-    parser.add_argument(
-        "--sort-by",
-        dest="sort_by",
-        help="Sort by a result attribute.",
-        choices=defaults.sort_by_fields,
-    )
-    parser.add_argument(
-        "--asc",
-        dest="ascending",
-        help="Sort results ascending instead of descending (default)",
-        action="store_true",
-        default=False,
-    )
-    parser.add_argument(
-        "--cache-expire",
-        dest="cache_expire",
-        help="Expire the cache (and recreate) after this many hours (defaults to 168, one week). Set to 0 to not store a cache.",
-        default=128,
     )
 
     # On the fly updates to config params
@@ -215,13 +187,38 @@ cloud-select config add cloud aws""",
         type=str,
     )
 
-    # Install a known recipe from the registry
+    cache = subparsers.add_parser(
+        "cache",
+        description="interact with the data cache",
+        formatter_class=argparse.RawTextHelpFormatter,
+    )
+    cache.add_argument(
+        "--push",
+        help="push cache data to GitHub packages URI (use with update to update)",
+    )
+    cache.add_argument(
+        "--update",
+        help="force an update of cache data",
+        default=False,
+        action="store_true",
+    )
+    cache.add_argument(
+        "--clear",
+        help="dump output as json to terminal",
+        default=False,
+        action="store_true",
+    )
+    cache.add_argument(
+        "--force",
+        help="force clear of the cache (with no prompt)",
+        default=False,
+        action="store_true",
+    )
     instance = subparsers.add_parser(
         "instance",
         description="select an instance.",
         formatter_class=argparse.RawTextHelpFormatter,
     )
-
     instance.add_argument(
         "--json",
         help="dump output as json to terminal",
@@ -234,6 +231,35 @@ cloud-select config add cloud aws""",
         dest="out",
         help="Write instances as json to output file.",
     )
+
+    parser.add_argument(
+        "--max-results",
+        dest="max_results",
+        help="Maximum results to return per cloud provider.",
+        type=int,
+        default=25,
+    )
+
+    instance.add_argument(
+        "--sort-by",
+        dest="sort_by",
+        help="Sort by a result attribute.",
+        choices=defaults.sort_by_fields,
+    )
+    instance.add_argument(
+        "--asc",
+        dest="ascending",
+        help="Sort results ascending instead of descending (default)",
+        action="store_true",
+        default=False,
+    )
+    instance.add_argument(
+        "--cache-expire",
+        dest="cache_expire",
+        help="Expire the cache (and recreate) after this many hours (defaults to 168, one week). Set to 0 to not store a cache.",
+        default=128,
+    )
+
     # Add attributes from spec
     add_instance_arguments(instance)
     return parser
@@ -285,6 +311,8 @@ def run():
     # Does the user want a shell?
     if args.command == "instance":
         from .instance import main
+    elif args.command == "cache":
+        from .cache import main
     elif args.command == "config":
         from .config import main
     elif args.command == "shell":

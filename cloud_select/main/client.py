@@ -107,6 +107,15 @@ class Client:
                 items[cloud.name] = getattr(cloud, f"load_{key}")(data)
         return items
 
+    def update_all(self):
+        """
+        Update both instances and prices for all clouds defined.
+
+        This assumes requesting a new entry the cache (items empty)
+        """
+        self.update_from_cache({}, "instances")
+        self.update_from_cache({}, "prices")
+
     def update_from_cache(self, items, datatype):
         """
         Given a data type, update from the cache.
@@ -121,7 +130,7 @@ class Client:
                 # This should not happen, but let's be careful
                 if not func:
                     logger.warning(
-                        "Cannot call {datatype} function for cloud {cloud_name}, function is missing."
+                        f"Cannot call {datatype} function for cloud {cloud.name}, function is missing."
                     )
                     continue
 

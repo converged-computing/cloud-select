@@ -11,6 +11,7 @@ import re
 import shutil
 import stat
 import tempfile
+from contextlib import contextmanager
 
 from cloud_select.logger import logger
 
@@ -18,6 +19,22 @@ try:
     from ruamel_yaml import YAML
 except ImportError:
     from ruamel.yaml import YAML
+
+
+@contextmanager
+def workdir(dirname):
+    """
+    Provide context for a working directory, e.g.,
+
+    with workdir(name):
+       # do stuff
+    """
+    here = os.getcwd()
+    os.chdir(dirname)
+    try:
+        yield
+    finally:
+        os.chdir(here)
 
 
 def can_be_deleted(path, ignore_files=None):

@@ -32,7 +32,7 @@ By default we sort results based on the order the solver produces them.
 However, you can ask to sort your results by an attribute, e.g., here is memory:
 
 ```bash
-$ cloud-select --sort-by memory instance
+$ cloud-select instance --sort-by memory
 ```
 
 By default, when sort is enabled on an attribute we do descending, so the largest values
@@ -40,7 +40,7 @@ are at the top. You can ask to reverse that with `--asc` for ascending, meaning 
 from least to greatest:
 
 ```bash
-$ cloud-select --asc --sort-by memory instance
+$ cloud-select instance --asc --sort-by memory
 ```
 
 ### Max Results
@@ -48,13 +48,13 @@ $ cloud-select --asc --sort-by memory instance
 You can always change the max results (which defaults to 25):
 
 ```bash
-$ cloud-select --max-results 100 instance
+$ cloud-select instance --max-results 100
 ```
 
 We currently sort from greatest to least. Set max results to 0 to set no limit.
 
 ```bash
-$ cloud-select --max-results 0 instance
+$ cloud-select instance --max-results 0
 ```
 
 Note that this argument comes before the instance command.
@@ -77,7 +77,7 @@ filter. When appropriate, "global" is also added to find resources across region
 a one-off region for a query:
 
 ```bash
-$ cloud-select  instance  --region east
+$ cloud-select instance --region east
 ```
 
 Since region names are non consistent across clouds, the above is just a regular expression.
@@ -160,5 +160,75 @@ $ cloud-select config edit
 
 which will first look at the environment variables `$EDITOR` and `$VISUAL` and will
 fall back to the `config_editor` in your user settings (vim by default).
+
+## cache
+
+Since API calls are expensive (and often take a long time) we try to cache
+as much data as possible to be retrieved without needing to use a credential
+or wait for the request. Toward this aim, we have the `cache` command group
+to interact with your local cache.
+
+### clear
+First, to manually clear the cache, deleting the entire cache directory:
+
+```bash
+$ cloud-select cache --clear
+```
+
+Don't ask for a prompt!
+
+```bash
+$ cloud-select cache --clear --force
+```
+
+### update
+
+If you want to force an update:
+
+```bash
+$ cloud-select cache --update
+```
+
+### push
+
+Or push to an OCI registry with [oras](https://oras.land) (this means a .tar.gz artifact and manifest with content types).
+This command requires you to export a registry username and token password for basic authentication:
+
+```bash
+export ORAS_USER=mygithub
+export ORAS_PASS=myGitHubToken
+```
+
+And then just push! The default will push what you currently have available in the cache.
+
+```bash
+$ cloud-select cache --push ghcr.io/converged-computing/cloud-select-cache:latest
+```
+
+For media type, we use the suggested format of reverse organization name, then our own
+namespace of identifiers for the tool. E.g.,:
+
+- 'org.llnl.gov.cloud-select.google.prices' Google cache data for prices
+- 'org.llnl.gov.cloud-select.google.instances' Google cache data for instance
+- 'org.llnl.gov.cloud-select.aws.prices' AWS cache data for prices
+- 'org.llnl.gov.cloud-select.aws.instances' AWS cache data for instance
+
+These will correspond to the media types for the layers. For example:
+
+```python
+{'aws/instances.json': 'org.llnl.gov.cloud-select.aws.instances',
+ 'aws/prices.json': 'org.llnl.gov.cloud-select.aws.prices',
+ 'google/instances.json': 'org.llnl.gov.cloud-select.google.instances',
+ 'google/prices.json': 'org.llnl.gov.cloud-select.google.prices'}
+```
+
+Note that (as you can see above) these flags can be used together. The order of operations is as follows:
+
+- clear
+- update
+- push
+
+It wouldn't make sense to clear and push without an update, so use your noggin when specifying what
+you want to do.
 
 [home](/README.md#cloud-select)
