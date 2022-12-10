@@ -6,7 +6,9 @@
 import os
 import shutil
 import time
+from datetime import datetime
 
+import cloud_select.main.oras as oras
 import cloud_select.utils as utils
 from cloud_select.logger import logger
 
@@ -75,6 +77,46 @@ class Cache:
         Return a json cache entry for a given cloud provider and data type
         """
         return os.path.join(self.cache_dir, cloud_name, f"{name}.json")
+
+    def push(self, uri, outfile=None):
+        """
+        Given an ORAS identifier, save cache to it.
+        """
+        oras_cli = oras.get_oras_client(require_auth=True)
+
+        # Create lookup of archives - relative path and mediatype
+        archives = []
+        now = datetime.now()
+        for filename in self.iter_cache(relative=True):
+            cloud = os.path.basename(os.path.dirname(filename))
+            datatype = os.path.basename(filename).split(".")[0]
+            media_type = f"org.llnl.gov.cloud-select.{cloud}.{datatype}"
+            size = os.path.getsize(os.path.join(self.cache_dir, filename))  # bytes
+            annotations = {"creationTime": str(now), "size": str(size)}
+            archives.append(
+                {
+                    "path": filename,
+                    "title": filename,
+                    "media_type": media_type,
+                    "annotations": annotations,
+                }
+            )
+
+        # Push should be relative to cache context
+        with utils.workdir(self.cache_dir):
+            oras_cli.push(uri, archives)
+
+    def iter_cache(self, relative=False):
+        """
+        Yield json paths in the cache, either absolte or relative paths.
+        """
+        for filename in utils.recursive_find(self.cache_dir):
+            if not filename.endswith("json"):
+                continue
+            if relative:
+                yield filename.replace(self.cache_dir, "").strip(os.sep)
+            else:
+                yield filename
 
     def is_expired(self, cloud_name, datatype):
         """

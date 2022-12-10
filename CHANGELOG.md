@@ -14,5 +14,6 @@ and **Merged pull requests**. Critical items to know are:
 The versions coincide with releases on pip. Only major versions will be released as tags on Github.
 
 ## [0.0.x](https://github.com/converged-computing/cloud-select/tree/main) (0.0.x)
- - Addition of docs and bug fixes for instance select (0.0.1)
- - Initial skeleton release of project (0.0.0)
+ - support for cache clear, update, and push commands (0.0.11)
+ - addition of docs and bug fixes for instance select (0.0.1)
+ - initial skeleton release of project (0.0.0)

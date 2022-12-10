@@ -29,5 +29,9 @@ table_descriptors = {"price": "*Price in USD/hour"}
 # variables in settings that allow environment variable expansion
 allowed_envars = ["HOME"]
 
+# ORAS annotations (we could do better here)
+default_manifest_annotations = {"tool": "cloud-select"}
+default_config_annotations = {"tool": "cloud-select"}
+
 # The default GitHub registry with recipes (for docgen)
 github_url = "https://github.com/converged-computing/cloud-select"
