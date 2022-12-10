@@ -41,7 +41,7 @@ class GoogleCloud(CloudProvider):
         Use the API to retrieve and return prices to cache.
         """
         if not self.has_auth:
-            return self.no_auth_message("prices, authentication not set.")
+            return self.fail_message("prices, authentication not set.")
 
         # Get services first - there are almost 2k! Look for compute engine
         logger.info(
@@ -54,7 +54,7 @@ class GoogleCloud(CloudProvider):
 
         # Bail out if we don't have one service
         if len(services) != 1:
-            return self.no_auth_message("prices, cannot find Compute Engine service.")
+            return self.fail_message("prices, cannot find Compute Engine service.")
 
         # We want to add "global" to our regions to search
         regions = self.regions + ["global"]
@@ -93,7 +93,7 @@ class GoogleCloud(CloudProvider):
         Use the API to retrieve (and return) instances within a set of regions.
         """
         if not self.has_auth:
-            return self.no_auth_message("instances, authentication not set.")
+            return self.fail_message("instances, authentication not set.")
 
         logger.info(f"Retrieving instances for {self.name}")
 
