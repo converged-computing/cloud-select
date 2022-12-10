@@ -78,7 +78,7 @@ class Cache:
         """
         return os.path.join(self.cache_dir, cloud_name, f"{name}.json")
 
-    def push(self, uri, outfile=None):
+    def push(self, uri):
         """
         Given an ORAS identifier, save cache to it.
         """
