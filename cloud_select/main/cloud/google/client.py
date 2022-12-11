@@ -32,7 +32,7 @@ class GoogleCloud(CloudProvider):
         try:
             self._set_services(kwargs.get("cache_only"))
         except Exception as e:
-            logger.warning(f"Unable to authenticate to Google Cloud: {e}")
+            logger.debug(f"Cannot create Google Cloud clients {e}")
             self.has_auth = False
         super(GoogleCloud, self).__init__()
 

@@ -101,10 +101,25 @@ class Client:
         """
         items = {}
         for cloud in self.get_clouds():
+
+            # Assume we don't find data
+            data = None
+
+            # Load data via the cloud provider
             if self.cache.exists(cloud.name, key):
-                # Load data via the cloud provider
                 data = self.cache.get(cloud.name, key)
+
+            # First try - if no cache entry exists and we have ORAS support
+            elif (
+                not self.cache.exists(cloud.name, key)
+                and self.settings.cache_oras is not None
+            ):
+                data = self.cache.oras_get(cloud.name, key, self.settings.cache_oras)
+
+            # If we have data from somewhere, update our items
+            if data is not None:
                 items[cloud.name] = getattr(cloud, f"load_{key}")(data)
+
         return items
 
     def update_all(self):
@@ -142,7 +157,7 @@ class Client:
                 items[cloud.name] = updated
         return items
 
-    def instance_select(self, max_results=20, **kwargs):
+    def instance_select(self, **kwargs):
         """
         Select an instance.
         """

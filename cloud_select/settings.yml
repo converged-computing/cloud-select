@@ -10,6 +10,10 @@ config_editor: vim
 # Only use the cache
 cache_only: false
 
+# oras package that can provide offline cache
+# Note this includes only a select number of regions
+cache_oras: ghcr.io/converged-computing/cloud-select-cache:latest
+
 # disable adding prices?
 # disabled for now because is a bit lengthy
 disable_prices: false

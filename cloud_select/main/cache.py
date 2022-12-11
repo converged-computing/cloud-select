@@ -25,6 +25,7 @@ class Cache:
         self.cache_dir = cache_dir
         self._cache = {}
         self._cache_expire_hours = cache_expire
+        self._oras_manifest = None
 
     def __repr__(self):
         return str(self)
@@ -125,6 +126,10 @@ class Cache:
         if self.disable_cache:
             return False
         cache_file = self.get_cache_name(cloud_name, datatype)
+
+        # One off tweak to use Google Cloud web prices temporarily
+        if not os.path.exists(cache_file) and "prices" in cache_file:
+            cache_file = cache_file.replace("prices.json", "prices-web.json")
         stats = os.stat(cache_file)
 
         # Convert cache_expire hours to seconds
@@ -140,6 +145,38 @@ class Cache:
         if self.disable_cache:
             return False
         return os.path.exists(self.get_cache_name(cloud_name, datatype))
+
+    def oras_get(self, cloud_name, datatype, package):
+        """
+        Update the cache from an ORAS package.
+
+        Given a known ORAS (OCI Registry as Storage) package, get an entry
+        from it. We retrieve the manifest and cache it for later use, and only
+        download if the data file is needed (more efficient).
+        """
+        oras_cli = oras.get_oras_client(require_auth=True)
+        # Update our manifest if we don't have one yet
+        if not self._oras_manifest:
+            try:
+                self._oras_manifest = oras_cli.get_manifest(package)
+            except Exception:
+                logger.warning(
+                    f"Issue getting manifest for {package}, check the image and tag name. No cache update from ORAS"
+                )
+                return
+
+        # Download the layer to the cache directory and return the filename
+        # The oras package paths are relative to a root, so we use the cache root
+        datafile = oras_cli.download_layer(
+            cloud_name,
+            datatype,
+            manifest=self._oras_manifest,
+            root=self.cache_dir,
+            package=package,
+        )
+        logger.debug(f"Found oras package data file {datafile}")
+        if datafile:
+            return utils.read_json(datafile)
 
     def get(self, cloud_name, datatype):
         """

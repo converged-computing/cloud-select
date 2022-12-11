@@ -37,11 +37,11 @@ are described following it.
 | clouds | a list of cloud identifiers | true | `[aws, google]` |
 | config_editor | the editor to use with `cloud-select config edit` | true | vim |
 | cache_only | only retrieve data via cache and don't attempt to refresh it | true | false |
+| cache_oras | When you don't have credentials for one or more providers, use this ORAS package to get data | false | ghcr.io/converged-computing/cloud-select-cache:test |
 | disable_prices | disable adding prices | true | false |
 | google | group of settings specific to google cloud | true | see below  |
 | aws | group of settings specific to aws | true | see below  |
 | instances | default filter settings for the instance command | false | see below  |
-
 
 Note that the library is early in development and the settings and defaults
 are subject (and likely) to change!

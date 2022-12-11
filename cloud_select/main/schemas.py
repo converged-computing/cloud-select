@@ -169,6 +169,7 @@ settings_properties = {
     "cache_dir": {"type": "string"},
     "config_editor": {"type": "string"},
     "cache_only": {"type": "boolean"},
+    "cache_oras": {"type": "string"},
     "aws": {
         "type": "object",
         "properties": cloud_properties,

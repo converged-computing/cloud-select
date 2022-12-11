@@ -10,3 +10,12 @@ def chunks(listing, chunk_size):
     """
     for i in range(0, len(listing), chunk_size):
         yield listing[i : i + chunk_size]
+
+
+def slugify(name):
+    """
+    Slugify a name, replacing spaces with - and lowercase.
+    """
+    for char in [" ", ":", "/", "\\"]:
+        name = name.replace(char, "-")
+    return name.lower()

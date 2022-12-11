@@ -43,6 +43,7 @@ class AmazonCloud(CloudProvider):
 
         # Keep a price that matches any region we care about
         regex = "(%s)" % "|".join(self.regions)
+        logger.debug(f"Searching for region regex {regex}")
 
         next_token = ""
         prices = []
@@ -61,7 +62,7 @@ class AmazonCloud(CloudProvider):
             print(f"{len(prices)} total aws prices matching {regex}...", end="\r")
         print()
 
-        return self.load_prices(response)
+        return self.load_prices(prices)
 
     def instances(self):
         """
@@ -148,7 +149,7 @@ class AmazonCloud(CloudProvider):
             self.ec2_client.describe_instances()
             self.has_instance_auth = True
         except Exception as e:
-            logger.warning(f"Unable to authenticate to Amazon Web Services EC2: {e}")
+            logger.debug(f"Unable to authenticate to Amazon Web Services EC2: {e}")
             self.has_instance_auth = False
 
         # Note: purposefully set to false because we don't have an API token to test
@@ -156,5 +157,5 @@ class AmazonCloud(CloudProvider):
             self.pricing_cli.describe_services(ServiceCode="AmazonEC2")
             self.has_pricing_auth = True
         except Exception as e:
-            logger.warning(f"Unable to authenticate to Amazon Web Services EC2: {e}")
+            logger.debug(f"Unable to authenticate to Amazon Web Services prices: {e}")
             self.has_pricing_auth = False
