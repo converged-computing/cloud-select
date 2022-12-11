@@ -102,7 +102,7 @@ class Registry(oras.provider.Registry):
 
             # Create a new layer from the blob
             layer = oras.oci.NewLayer(blob, media_type, is_dir=cleanup_blob)
-            logger.debug(f"Preparing layer {layer}")
+            logger.debug(f"Preparing layer {oras.utils.print_json(layer)}")
 
             # Update annotations with title we will need for extraction
             annots.update({oras.defaults.annotation_title: blob_name})
@@ -131,6 +131,6 @@ class Registry(oras.provider.Registry):
 
         # Final upload of the manifest
         manifest["config"] = conf
-        self._check_200_response(self._upload_manifest(manifest, container))
+        self._check_200_response(self.upload_manifest(manifest, container))
         print(f"Successfully pushed {container}")
         return response
