@@ -31,4 +31,5 @@ jobs:
       run: |
         export PATH="/usr/share/miniconda/bin:$PATH"
         source activate black
+        pip install -e .[all]
         pytest -xs cloud_select/tests/test*.py

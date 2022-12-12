@@ -33,8 +33,6 @@ GOOGLE_CLOUD_REQUIRES = (
     ("google-api-python-client", {"min_version": None}),
 )
 
-#            "oauth2client",
-
 TESTS_REQUIRES = (("pytest", {"min_version": "4.6.2"}),)
 
 ################################################################################
