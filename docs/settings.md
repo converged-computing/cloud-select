@@ -34,6 +34,7 @@ are described following it.
 
 | Name | Description | Required | Default |
 |------|-------------|----------|---------|
+| allow_missing_attributes | allow querying with an attribute not implemented yet | true | false |
 | clouds | a list of cloud identifiers | true | `[aws, google]` |
 | config_editor | the editor to use with `cloud-select config edit` | true | vim |
 | cache_only | only retrieve data via cache and don't attempt to refresh it | true | false |

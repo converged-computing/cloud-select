@@ -20,9 +20,15 @@ class GoogleCloudInstance(Instance):
 
     def attr_memory(self):
         """
-        Memory is in GB
+        Memory is in MB
         """
-        return int(self.data["memoryMb"] / 1024)
+        return self.data.get("memoryMb")
+
+    def attr_price_per_hour(self):
+        """
+        Price in USD per hour.
+        """
+        return self.data.get("price")
 
     def attr_region(self):
         """

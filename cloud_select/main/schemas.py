@@ -31,28 +31,28 @@ keyvals = {
 
 instance_properties = {
     "gpus": {
-        "type": "number",
+        "type": "integer",
         "description": "Number of gpus needed (assumes gpu-enabled wanted) and sets gpu min and max to the same value.",
     },
     "gpus-min": {
-        "type": "number",
+        "type": "integer",
         "description": "Min of total number of GPUs (e.g., 4) if --gpus-max not set, is infinity",
     },
     "gpus-max": {
-        "type": "number",
+        "type": "integer",
         "description": "Max of total number of GPUs (e.g., 4) if --gpus-min not set, it is 0",
     },
     "gpu": {"type": "boolean", "description": "GPU-enabled instance type."},
     "gpu-memory": {
-        "type": "number",
+        "type": "integer",
         "description": "Total memory across GPUs in GiB (e.g., 4) sets --gpu-memory-min and --gpu-memory-max to the same value",
     },
     "gpu-memory-min": {
-        "type": "number",
+        "type": "integer",
         "description": "Min of total memory across GPUs in GiB (e.g., 4 GiB) if --gpu-memory-max not set, is infinity",
     },
     "gpu-memory-max": {
-        "type": "number",
+        "type": "integer",
         "description": "Max of total memory across GPUs in GiB (e.g., 4 GiB) if --gpu-memory-min not set, it is 0",
     },
     "gpu-model": {"type": "string", "description": "GPU model name."},
@@ -66,41 +66,42 @@ instance_properties = {
         "enum": ["xen", "nitro"],
     },
     "memory": {
-        "type": "number",
+        "type": "integer",
         "description": "Total memory needed and sets memory min and max to the same value.",
     },
     "memory-min": {
-        "type": "number",
+        "type": "integer",
         "description": "Min memory needed in GiB. if max not set, is infinity",
     },
     "memory-max": {
-        "type": "number",
+        "type": "integer",
         "description": "Max memory needed in GiB if min not set, it is 0",
     },
     "instance-storage": {
-        "type": "number",
+        "type": "integer",
         "description": "Amount of local instance storage in GiB. Sets --instance-storage-min and -max to the same value.",
     },
     "instance-storage-min": {
-        "type": "number",
+        "type": "integer",
         "description": "Minimum amount of local instance storage in GiB. If --instance-storage-max not set, is infinity.",
     },
     "instance-storage-max": {
-        "type": "number",
+        "type": "integer",
         "description": "Maximum amount of local instance storage in GiB. If --instance-storage-min not set, is 0.",
     },
     "cpus": {
-        "type": "number",
+        "type": "integer",
         "description": "Number of vcpus available to the instance type. Sets min and -max to the same value.",
     },
     "cpus-min": {
-        "type": "number",
+        "type": "integer",
         "description": "Minimum number of vcpus available to the instance type. If max not set, is infinity.",
     },
     "cpus-max": {
-        "type": "number",
+        "type": "integer",
         "description": "Maximum number of vcpus available to the instance type. If min not set, is 0.",
     },
+    # It seems unlikely to find an exact price, but might as well be consistent!
     "price-per-hour": {
         "type": "number",
         "description": "Price/hour in dollars (e.g., 0.09) (sets min and max to the same value)",
@@ -143,6 +144,7 @@ instance_properties = {
     },
 }
 
+# These are not added yet (and available for AWS) if we want to add them
 #      --network-encryption                             Instance Types that support automatic network encryption in-transit
 #      --network-interfaces int                         Number of network interfaces (ENIs) that can be attached to the instance (sets --network-interfaces-min and -max to the same value)
 #      --network-interfaces-max int                     Maximum Number of network interfaces (ENIs) that can be attached to the instance If --network-interfaces-min is not specified, the lower bound will be 0
@@ -170,6 +172,7 @@ settings_properties = {
     "config_editor": {"type": "string"},
     "cache_only": {"type": "boolean"},
     "cache_oras": {"type": "string"},
+    "allow_missing_attributes": {"type": "boolean"},
     "aws": {
         "type": "object",
         "properties": cloud_properties,
@@ -205,6 +208,7 @@ settings = {
     "title": "Settings Schema",
     "type": "object",
     "required": [
+        "allow_missing_attributes",
         "clouds",
         "google",
         "aws",

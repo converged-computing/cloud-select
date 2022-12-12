@@ -1,0 +1,2133 @@
+{
+    "E2 machine types": {
+        "table": [
+            [
+                "Item",
+                "On-demand price",
+                "Spot price*",
+                "1-year resource-based commitment price (USD)",
+                "3-year resource-based commitment price (USD)",
+                "1-year flexible CUD consumption rate (USD)",
+                "3-year flexible CUD consumption rate (USD)"
+            ],
+            [
+                "Predefined vCPUs",
+                "$0.021811 / vCPU hour",
+                "$0.006543 / vCPU hour",
+                "$0.013741 / vCPU hour",
+                "$0.009815 / vCPU hour",
+                "$0.0157043448 / vCPU hour",
+                "$0.0117782586 / vCPU hour"
+            ],
+            [
+                "Predefined Memory",
+                "$0.002923 / GB hour",
+                "$0.000877 / GB hour",
+                "$0.001842 / GB hour",
+                "$0.001316 / GB hour",
+                "$0.0021049416 / GB hour",
+                "$0.0015787062 / GB hour"
+            ]
+        ],
+        "description": " Item On-demand price Spot price* 1-year resource-based commitment price (USD) 3-year resource-based commitment price (USD) 1-year flexible CUD consumption rate (USD) 3-year flexible CUD consumption rate (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "E2 standard machine types": {
+        "table": [
+            [
+                "Machine type",
+                "Virtual CPUs",
+                "Memory",
+                "Price (USD)",
+                "Spot price*(USD)"
+            ],
+            [
+                "e2-standard-2",
+                "2",
+                "8GB",
+                "$0.067006",
+                "$0.020102"
+            ],
+            [
+                "e2-standard-4",
+                "4",
+                "16GB",
+                "$0.134012",
+                "$0.040204"
+            ],
+            [
+                "e2-standard-8",
+                "8",
+                "32GB",
+                "$0.268024",
+                "$0.080408"
+            ],
+            [
+                "e2-standard-16",
+                "16",
+                "64GB",
+                "$0.536048",
+                "$0.160816"
+            ],
+            [
+                "e2-standard-32",
+                "32",
+                "128GB",
+                "$1.072096",
+                "$0.321632"
+            ],
+            [
+                "Custom machine type",
+                "If your ideal machine shape is in between two predefined types, using a custom E2 machine type could save you as much as 40%. For more information, see E2 custom vCPUs and memory."
+            ]
+        ],
+        "description": " Machine type Virtual CPUs Memory Price (USD) Spot price*(USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "E2 high-memory machine types": {
+        "table": [
+            [
+                "Machine type",
+                "Virtual CPUs",
+                "Memory",
+                "Price (USD)",
+                "Spot price* (USD)"
+            ],
+            [
+                "e2-highmem-2",
+                "2",
+                "16GB",
+                "$0.09039",
+                "$0.027118"
+            ],
+            [
+                "e2-highmem-4",
+                "4",
+                "32GB",
+                "$0.18078",
+                "$0.054236"
+            ],
+            [
+                "e2-highmem-8",
+                "8",
+                "64GB",
+                "$0.36156",
+                "$0.108472"
+            ],
+            [
+                "e2-highmem-16",
+                "16",
+                "128GB",
+                "$0.72312",
+                "$0.216944"
+            ],
+            [
+                "Custom machine type",
+                "If your ideal machine shape is in between two predefined types, using a custom E2 machine type could save you as much as 40%. For more information, see E2 custom vCPUs and memory."
+            ]
+        ],
+        "description": " Machine type Virtual CPUs Memory Price (USD) Spot price* (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "E2 high-CPU machine types": {
+        "table": [
+            [
+                "Machine type",
+                "Virtual CPUs",
+                "Memory",
+                "Price (USD)",
+                "Spot price* (USD)"
+            ],
+            [],
+            [
+                "e2-highcpu-2",
+                "2",
+                "2GB",
+                "$0.049468",
+                "$0.01484"
+            ],
+            [
+                "e2-highcpu-4",
+                "4",
+                "4GB",
+                "$0.098936",
+                "$0.02968"
+            ],
+            [
+                "e2-highcpu-8",
+                "8",
+                "8GB",
+                "$0.197872",
+                "$0.05936"
+            ],
+            [
+                "e2-highcpu-16",
+                "16",
+                "16GB",
+                "$0.395744",
+                "$0.11872"
+            ],
+            [
+                "e2-highcpu-32",
+                "32",
+                "32GB",
+                "$0.791488",
+                "$0.23744"
+            ],
+            [
+                "Custom machine type",
+                "If your ideal machine shape is in between two predefined types, using a custom E2 machine type could save you as much as 40%. For more information, see E2 custom vCPUs and memory."
+            ]
+        ],
+        "description": " Machine type Virtual CPUs Memory Price (USD) Spot price* (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "E2 custom vCPUs and memory": {
+        "table": [
+            [
+                "Item",
+                "On-demand price",
+                "Spot price*",
+                "1-year resource-based commitment price (USD)",
+                "3-year resource-based commitment price (USD)",
+                "1-year flexible CUD consumption rate (USD)",
+                "3-year flexible CUD consumption rate (USD)"
+            ],
+            [
+                "Custom vCPUs",
+                "$0.022890 / vCPU hour",
+                "$0.006867 / vCPU hour",
+                "$0.013741 / vCPU hour",
+                "$0.009815 / vCPU hour",
+                "$0.0164808432 / vCPU hour",
+                "$0.0123606324 / vCPU hour"
+            ],
+            [
+                "Custom Memory",
+                "$0.003067 / GB hour",
+                "$0.000920 / GB hour",
+                "$0.001842 / GB hour",
+                "$0.001316 / GB hour",
+                "$0.0022087728 / GB hour",
+                "$0.0016565796 / GB hour"
+            ]
+        ],
+        "description": " Item On-demand price Spot price* 1-year resource-based commitment price (USD) 3-year resource-based commitment price (USD) 1-year flexible CUD consumption rate (USD) 3-year flexible CUD consumption rate (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "N2 machine types": {
+        "table": [
+            [
+                "Item",
+                "On-demand price (USD)",
+                "Spot price*(USD)",
+                "1-year resource-based commitment price (USD)",
+                "3-year resource-based commitment price (USD)",
+                "1-year flexible CUD consumption rate (USD)",
+                "3-year flexible CUD consumption rate (USD)"
+            ],
+            [
+                "Predefined vCPUs",
+                "$0.031611 / vCPU hour",
+                "$0.00765 / vCPU hour",
+                "$0.019915 / vCPU hour",
+                "$0.014225 / vCPU hour",
+                "$0.02275992 / vCPU hour",
+                "$0.01706994 / vCPU hour"
+            ],
+            [
+                "Predefined Memory",
+                "$0.004237 / GB hour",
+                "$0.00103 / GB hour",
+                "$0.002669 / GB hour",
+                "$0.001907 / GB hour",
+                "$0.00305064 / GB hour",
+                "$0.00228798 / GB hour"
+            ]
+        ],
+        "description": " Item On-demand price (USD) Spot price*(USD) 1-year resource-based commitment price (USD) 3-year resource-based commitment price (USD) 1-year flexible CUD consumption rate (USD) 3-year flexible CUD consumption rate (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "N2 standard machine types": {
+        "table": [
+            [
+                "Machine type",
+                "Virtual CPUs",
+                "Memory",
+                "Price (USD)",
+                "Spot price* (USD)"
+            ],
+            [
+                "n2-standard-2",
+                "2",
+                "8GB",
+                "$0.097118",
+                "$0.02354"
+            ],
+            [
+                "n2-standard-4",
+                "4",
+                "16GB",
+                "$0.194236",
+                "$0.04708"
+            ],
+            [
+                "n2-standard-8",
+                "8",
+                "32GB",
+                "$0.388472",
+                "$0.09416"
+            ],
+            [
+                "n2-standard-16",
+                "16",
+                "64GB",
+                "$0.776944",
+                "$0.18832"
+            ],
+            [
+                "n2-standard-32",
+                "32",
+                "128GB",
+                "$1.553888",
+                "$0.37664"
+            ],
+            [
+                "n2-standard-48",
+                "48",
+                "192GB",
+                "$2.330832",
+                "$0.56496"
+            ],
+            [
+                "n2-standard-64",
+                "64",
+                "256GB",
+                "$3.107776",
+                "$0.75328"
+            ],
+            [
+                "n2-standard-80",
+                "80",
+                "320GB",
+                "$3.88472",
+                "$0.9416"
+            ],
+            [
+                "n2-standard-96",
+                "96",
+                "384GB",
+                "$4.661664",
+                "$1.12992"
+            ],
+            [
+                "n2-standard-128",
+                "128",
+                "512GB",
+                "$6.215552",
+                "$1.50656"
+            ],
+            [
+                "Custom machine type",
+                "If your ideal machine shape is in between two predefined types, using a custom machine type could save you as much as 40%. For more information, see Custom vCPU and memory."
+            ]
+        ],
+        "description": " Machine type Virtual CPUs Memory Price (USD) Spot price* (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "N2 high-memory machine types": {
+        "table": [
+            [
+                "Machine type",
+                "Virtual CPUs",
+                "Memory",
+                "Price (USD)",
+                "Spot price* (USD)"
+            ],
+            [
+                "n2-highmem-2",
+                "2",
+                "16GB",
+                "$0.131014",
+                "$0.03178"
+            ],
+            [
+                "n2-highmem-4",
+                "4",
+                "32GB",
+                "$0.262028",
+                "$0.06356"
+            ],
+            [
+                "n2-highmem-8",
+                "8",
+                "64GB",
+                "$0.524056",
+                "$0.12712"
+            ],
+            [
+                "n2-highmem-16",
+                "16",
+                "128GB",
+                "$1.048112",
+                "$0.25424"
+            ],
+            [
+                "n2-highmem-32",
+                "32",
+                "256GB",
+                "$2.096224",
+                "$0.50848"
+            ],
+            [
+                "n2-highmem-48",
+                "48",
+                "384GB",
+                "$3.144336",
+                "$0.76272"
+            ],
+            [
+                "n2-highmem-64",
+                "64",
+                "512GB",
+                "$4.192448",
+                "$1.01696"
+            ],
+            [
+                "n2-highmem-80",
+                "80",
+                "640GB",
+                "$5.24056",
+                "$1.2712"
+            ],
+            [
+                "n2-highmem-96",
+                "96",
+                "768GB",
+                "$6.288672",
+                "$1.52544"
+            ],
+            [
+                "n2-highmem-128",
+                "128",
+                "864GB",
+                "$7.706976",
+                "$1.86912"
+            ],
+            [
+                "Custom machine type",
+                "If your ideal machine shape is in between two predefined types, using a custom machine type could save you as much as 40%. For more information, see Custom vCPU and memory."
+            ]
+        ],
+        "description": " Machine type Virtual CPUs Memory Price (USD) Spot price* (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "N2 high-CPU machine types": {
+        "table": [
+            [
+                "Machine type",
+                "Virtual CPUs",
+                "Memory",
+                "Price (USD)",
+                "Spot price* (USD)"
+            ],
+            [],
+            [
+                "n2-highcpu-2",
+                "2",
+                "2GB",
+                "$0.071696",
+                "$0.01736"
+            ],
+            [
+                "n2-highcpu-4",
+                "4",
+                "4GB",
+                "$0.143392",
+                "$0.03472"
+            ],
+            [
+                "n2-highcpu-8",
+                "8",
+                "8GB",
+                "$0.286784",
+                "$0.06944"
+            ],
+            [
+                "n2-highcpu-16",
+                "16",
+                "16GB",
+                "$0.573568",
+                "$0.13888"
+            ],
+            [
+                "n2-highcpu-32",
+                "32",
+                "32GB",
+                "$1.147136",
+                "$0.27776"
+            ],
+            [
+                "n2-highcpu-48",
+                "48",
+                "48GB",
+                "$1.720704",
+                "$0.41664"
+            ],
+            [
+                "n2-highcpu-64",
+                "64",
+                "64GB",
+                "$2.294272",
+                "$0.55552"
+            ],
+            [
+                "n2-highcpu-80",
+                "80",
+                "80GB",
+                "$2.86784",
+                "$0.6944"
+            ],
+            [
+                "n2-highcpu-96",
+                "96",
+                "96GB",
+                "$3.441408",
+                "$0.83328"
+            ],
+            [
+                "Custom machine type",
+                "If your ideal machine shape is in between two predefined types, using a custom machine type could save you as much as 40%. For more information, see Custom vCPUs and memory."
+            ]
+        ],
+        "description": " Machine type Virtual CPUs Memory Price (USD) Spot price* (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "N2 custom vCPUs and memory": {
+        "table": [
+            [
+                "Item",
+                "On-demand price (USD)",
+                "Spot price* (USD)",
+                "1-year resource-based commitment price (USD)",
+                "3-year resource-based commitment price (USD)",
+                "1-year flexible CUD consumption rate (USD)",
+                "3-year flexible CUD consumption rate (USD)"
+            ],
+            [
+                "Custom vCPUs",
+                "$0.033174 / vCPU hour",
+                "$0.00802 / vCPU hour",
+                "$0.019915 / vCPU hour",
+                "$0.014225 / vCPU hour",
+                "$0.02388528 / vCPU hour",
+                "$0.01791396 / vCPU hour"
+            ],
+            [
+                "Custom Memory",
+                "$0.004446 / GB hour",
+                "$0.00108 / GB hour",
+                "$0.002669 / GB hour",
+                "$0.001907 / GB hour",
+                "$0.00320112 / GB hour",
+                "$0.00240084 / GB hour"
+            ]
+        ],
+        "description": " Item On-demand price (USD) Spot price* (USD) 1-year resource-based commitment price (USD) 3-year resource-based commitment price (USD) 1-year flexible CUD consumption rate (USD) 3-year flexible CUD consumption rate (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "N2 extended custom memory": {
+        "table": [
+            [
+                "Item",
+                "Price (USD)",
+                "Spot price* (USD)",
+                "1-year resource-based commitment price (USD)",
+                "3-year resource-based commitment price (USD)",
+                "1-year flexible CUD consumption rate (USD)",
+                "3-year flexible CUD consumption rate (USD)"
+            ],
+            [
+                "Extended custom memory",
+                "$0.009550 / GB hour",
+                "$0.002310 / GB hour",
+                "Not available in this region",
+                "Not available in this region",
+                "$0.006876/ GB hour",
+                "$0.005157/ GB hour"
+            ]
+        ],
+        "description": " Item Price (USD) Spot price* (USD) 1-year resource-based commitment price (USD) 3-year resource-based commitment price (USD) 1-year flexible CUD consumption rate (USD) 3-year flexible CUD consumption rate (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "N2D machine types": {
+        "table": [
+            [
+                "Item",
+                "On-demand price",
+                "Spot price*",
+                "1-year resource-based commitment price (USD)",
+                "3-year resource-based commitment price (USD)",
+                "1-year flexible CUD consumption rate (USD)",
+                "3-year flexible CUD consumption rate (USD)"
+            ],
+            [
+                "Predefined vCPUs",
+                "$0.027502 / vCPU hour",
+                "$0.004148 / vCPU hour",
+                "$0.017326 / vCPU hour",
+                "$0.012376 / vCPU hour",
+                "0.01980144 / vCPU hour",
+                "$0.01485108 / vCPU hour"
+            ],
+            [
+                "Predefined Memory",
+                "$0.003686 / GB hour",
+                "$0.000556 / GB hour",
+                "$0.002322 / GB hour",
+                "$0.001659 / GB hour",
+                "$0.00265392 / GB hour",
+                "$0.00199044 / GB hour"
+            ]
+        ],
+        "description": " Item On-demand price Spot price* 1-year resource-based commitment price (USD) 3-year resource-based commitment price (USD) 1-year flexible CUD consumption rate (USD) 3-year flexible CUD consumption rate (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "N2D standard machine types": {
+        "table": [
+            [
+                "Machine type",
+                "Virtual CPUs",
+                "Memory",
+                "Price (USD)",
+                "Spot price* (USD)"
+            ],
+            [
+                "n2d-standard-2",
+                "2",
+                "8GB",
+                "$0.084492",
+                "$0.012744"
+            ],
+            [
+                "n2d-standard-4",
+                "4",
+                "16GB",
+                "$0.168984",
+                "$0.025488"
+            ],
+            [
+                "n2d-standard-8",
+                "8",
+                "32GB",
+                "$0.337968",
+                "$0.050976"
+            ],
+            [
+                "n2d-standard-16",
+                "16",
+                "64GB",
+                "$0.675936",
+                "$0.101952"
+            ],
+            [
+                "n2d-standard-32",
+                "32",
+                "128GB",
+                "$1.351872",
+                "$0.203904"
+            ],
+            [
+                "n2d-standard-48",
+                "48",
+                "192GB",
+                "$2.027808",
+                "$0.305856"
+            ],
+            [
+                "n2d-standard-64",
+                "64",
+                "256GB",
+                "$2.703744",
+                "$0.407808"
+            ],
+            [
+                "n2d-standard-80",
+                "80",
+                "320GB",
+                "$3.37968",
+                "$0.50976"
+            ],
+            [
+                "n2d-standard-96",
+                "96",
+                "384GB",
+                "$4.055616",
+                "$0.611712"
+            ],
+            [
+                "n2d-standard-128",
+                "128",
+                "512GB",
+                "$5.407488",
+                "$0.815616"
+            ],
+            [
+                "n2d-standard-224",
+                "224",
+                "896GB",
+                "$9.463104",
+                "$1.427328"
+            ],
+            [
+                "Custom machine type",
+                "If your ideal machine shape is in between two predefined types, using a custom machine type could save you as much as 40%. For more information, see Custom vCPU and memory."
+            ]
+        ],
+        "description": " Machine type Virtual CPUs Memory Price (USD) Spot price* (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "N2D high-memory machine types": {
+        "table": [
+            [
+                "Machine type",
+                "Virtual CPUs",
+                "Memory",
+                "Price (USD)",
+                "Spot price* (USD)"
+            ],
+            [
+                "n2d-highmem-2",
+                "2",
+                "16 GB",
+                "$0.11398",
+                "$0.017192"
+            ],
+            [
+                "n2d-highmem-4",
+                "4",
+                "32 GB",
+                "$0.22796",
+                "$0.034384"
+            ],
+            [
+                "n2d-highmem-8",
+                "8",
+                "64 GB",
+                "$0.45592",
+                "$0.068768"
+            ],
+            [
+                "n2d-highmem-16",
+                "16",
+                "128 GB",
+                "$0.91184",
+                "$0.137536"
+            ],
+            [
+                "n2d-highmem-32",
+                "32",
+                "256 GB",
+                "$1.82368",
+                "$0.275072"
+            ],
+            [
+                "n2d-highmem-48",
+                "48",
+                "384 GB",
+                "$2.73552",
+                "$0.412608"
+            ],
+            [
+                "n2d-highmem-64",
+                "64",
+                "512 GB",
+                "$3.64736",
+                "$0.550144"
+            ],
+            [
+                "n2d-highmem-80",
+                "80",
+                "640 GB",
+                "$4.5592",
+                "$0.68768"
+            ],
+            [
+                "n2d-highmem-96",
+                "96",
+                "768 GB",
+                "$5.47104",
+                "$0.825216"
+            ],
+            [
+                "Custom machine type",
+                "If your ideal machine shape is in between two predefined types, using a custom machine type could save you as much as 40%. For more information, see Custom vCPU and memory."
+            ]
+        ],
+        "description": " Machine type Virtual CPUs Memory Price (USD) Spot price* (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "N2D high-CPU machine types": {
+        "table": [
+            [
+                "Machine type",
+                "Virtual CPUs",
+                "Memory",
+                "Price (USD)",
+                "Spot price (USD)"
+            ],
+            [],
+            [
+                "n2d-highcpu-2",
+                "2",
+                "2 GB",
+                "$0.062376",
+                "$0.009408"
+            ],
+            [
+                "n2d-highcpu-4",
+                "4",
+                "4 GB",
+                "$0.124752",
+                "$0.018816"
+            ],
+            [
+                "n2d-highcpu-8",
+                "8",
+                "8 GB",
+                "$0.249504",
+                "$0.037632"
+            ],
+            [
+                "n2d-highcpu-16",
+                "16",
+                "16 GB",
+                "$0.499008",
+                "$0.075264"
+            ],
+            [
+                "n2d-highcpu-32",
+                "32",
+                "32 GB",
+                "$0.998016",
+                "$0.150528"
+            ],
+            [
+                "n2d-highcpu-48",
+                "48",
+                "48 GB",
+                "$1.497024",
+                "$0.225792"
+            ],
+            [
+                "n2d-highcpu-64",
+                "64",
+                "64 GB",
+                "$1.996032",
+                "$0.301056"
+            ],
+            [
+                "n2d-highcpu-80",
+                "80",
+                "80 GB",
+                "$2.49504",
+                "$0.37632"
+            ],
+            [
+                "n2d-highcpu-96",
+                "96",
+                "96 GB",
+                "$2.994048",
+                "$0.451584"
+            ],
+            [
+                "n2d-highcpu-128",
+                "128",
+                "128 GB",
+                "$3.992064",
+                "$0.602112"
+            ],
+            [
+                "n2d-highcpu-224",
+                "224",
+                "224 GB",
+                "$6.986112",
+                "$1.053696"
+            ],
+            [
+                "Custom machine type",
+                "If your ideal machine shape is in between two predefined types, using a custom machine type could save you as much as 40%. For more information, see Custom vCPUs and memory."
+            ]
+        ],
+        "description": " Machine type Virtual CPUs Memory Price (USD) Spot price (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "N2D custom vCPUs and memory": {
+        "table": [
+            [
+                "Item",
+                "On-demand price (USD)",
+                "Spot price* (USD)",
+                "1-year resource-based commitment price (USD)",
+                "3-year resource-based commitment price (USD)",
+                "1-year flexible CUD consumption rate (USD)",
+                "3-year flexible CUD consumption rate (USD)"
+            ],
+            [
+                "Custom vCPUs",
+                "$0.028877 / vCPU hour",
+                "$0.004352 / vCPU hour",
+                "$0.017326 / vCPU hour",
+                "$0.012376 / vCPU hour",
+                "$0.02079144 / vCPU hour",
+                "$0.01559358 / vCPU hour"
+            ],
+            [
+                "Custom Memory",
+                "$0.003870 / GB hour",
+                "$0.000586 / GB hour",
+                "$0.002322 / GB hour",
+                "$0.001659 / GB hour",
+                "$0.0027864 / GB hour",
+                "$0.0020898 / GB hour"
+            ]
+        ],
+        "description": " Item On-demand price (USD) Spot price* (USD) 1-year resource-based commitment price (USD) 3-year resource-based commitment price (USD) 1-year flexible CUD consumption rate (USD) 3-year flexible CUD consumption rate (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "N2D extended custom memory": {
+        "table": [
+            [
+                "Item",
+                "Price (USD)",
+                "Spot price* (USD)",
+                "1-year resource-based commitment price (USD)",
+                "3-year resource-based commitment price (USD)",
+                "1-year flexible CUD consumption rate (USD)",
+                "3-year flexible CUD consumption rate (USD)"
+            ],
+            [
+                "Extended custom memory",
+                "$0.008309 / GB hour",
+                "$0.001255 / GB hour",
+                "Not available in this region",
+                "Not available in this region",
+                "$0.00598248/ GB hour",
+                "$0.00448686/ GB hour"
+            ]
+        ],
+        "description": " Item Price (USD) Spot price* (USD) 1-year resource-based commitment price (USD) 3-year resource-based commitment price (USD) 1-year flexible CUD consumption rate (USD) 3-year flexible CUD consumption rate (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "Tau T2D machine types": {
+        "table": [
+            [
+                "Item",
+                "On-demand price",
+                "Spot price*",
+                "1 year commitment price",
+                "3 year commitment price"
+            ],
+            [
+                "Predefined vCPUs",
+                "$0.027502 / vCPU hour",
+                "$0.004148 / vCPU hour",
+                "$0.017326 / vCPU hour",
+                "$0.012376 / vCPU hour"
+            ],
+            [
+                "Predefined Memory",
+                "$0.003686 / GB hour",
+                "$0.000556 / GB hour",
+                "$0.002322 / GB hour",
+                "$0.001659 / GB hour"
+            ]
+        ],
+        "description": " Item On-demand price Spot price* 1 year commitment price 3 year commitment price",
+        "region": "Iowa (us-central1)"
+    },
+    "Tau T2D standard machine types": {
+        "table": [
+            [
+                "Machine type",
+                "Virtual CPUs",
+                "Memory",
+                "Price (USD)",
+                "Spot price* (USD)"
+            ],
+            [
+                "t2d-standard-1",
+                "1",
+                "4GB",
+                "$0.042246",
+                "$0.006372"
+            ],
+            [
+                "t2d-standard-2",
+                "2",
+                "8GB",
+                "$0.084492",
+                "$0.012744"
+            ],
+            [
+                "t2d-standard-4",
+                "4",
+                "16GB",
+                "$0.168984",
+                "$0.025488"
+            ],
+            [
+                "t2d-standard-8",
+                "8",
+                "32GB",
+                "$0.337968",
+                "$0.050976"
+            ],
+            [
+                "t2d-standard-16",
+                "16",
+                "64GB",
+                "$0.675936",
+                "$0.101952"
+            ],
+            [
+                "t2d-standard-32",
+                "32",
+                "128GB",
+                "$1.351872",
+                "$0.203904"
+            ],
+            [
+                "t2d-standard-48",
+                "48",
+                "192GB",
+                "$2.027808",
+                "$0.305856"
+            ],
+            [
+                "t2d-standard-60",
+                "60",
+                "240GB",
+                "$2.53476",
+                "$0.38232"
+            ]
+        ],
+        "description": " Machine type Virtual CPUs Memory Price (USD) Spot price* (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "Tau T2A machine types": {
+        "table": [
+            [
+                "Item",
+                "On-demand price",
+                "Spot price*"
+            ],
+            [
+                "Predefined vCPUs",
+                "$0.02490 / vCPU hour",
+                "$0.00747 / vCPU hour"
+            ],
+            [
+                "Predefined Memory",
+                "$0.00340 / GB hour",
+                "$0.00102 / GB hour"
+            ]
+        ],
+        "description": " Item On-demand price Spot price*",
+        "region": "Iowa (us-central1)"
+    },
+    "Tau T2A standard machine types": {
+        "table": [
+            [
+                "Machine type",
+                "Virtual CPUs",
+                "Memory",
+                "Price (USD)",
+                "Spot price* (USD)"
+            ],
+            [
+                "t2a-standard-1",
+                "1",
+                "4GB",
+                "$0.0385",
+                "$0.01155"
+            ],
+            [
+                "t2a-standard-2",
+                "2",
+                "8GB",
+                "$0.077",
+                "$0.0231"
+            ],
+            [
+                "t2a-standard-4",
+                "4",
+                "16GB",
+                "$0.154",
+                "$0.0462"
+            ],
+            [
+                "t2a-standard-8",
+                "8",
+                "32GB",
+                "$0.308",
+                "$0.0924"
+            ],
+            [
+                "t2a-standard-16",
+                "16",
+                "64GB",
+                "$0.616",
+                "$0.1848"
+            ],
+            [
+                "t2a-standard-32",
+                "32",
+                "128GB",
+                "$1.232",
+                "$0.3696"
+            ],
+            [
+                "t2a-standard-48",
+                "48",
+                "192GB",
+                "$1.848",
+                "$0.5544"
+            ]
+        ],
+        "description": " Machine type Virtual CPUs Memory Price (USD) Spot price* (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "N1 machine types": {
+        "table": [
+            [
+                "Item",
+                "On-demand price (USD)",
+                "Spot price* (USD)",
+                "1-year resource-based commitment price (USD)",
+                "3-year resource-based commitment price (USD)",
+                "1-year flexible CUD consumption rate (USD)",
+                "3-year flexible CUD consumption rate (USD)"
+            ],
+            [
+                "Predefined vCPUs",
+                "$0.031611 / vCPU hour",
+                "$0.006655 / vCPU hour",
+                "$0.019915 / vCPU hour",
+                "$0.014225 / vCPU hour",
+                "$0.02275992 / vCPU hour",
+                "$0.01706994 / vCPU hour"
+            ],
+            [
+                "Predefined Memory",
+                "$0.004237 / GB hour",
+                "$0.000892 / GB hour",
+                "$0.002669 / GB hour",
+                "$0.001907 / GB hour",
+                "$0.00305064 / GB hour",
+                "$0.00228798 / GB hour"
+            ]
+        ],
+        "description": " Item On-demand price (USD) Spot price* (USD) 1-year resource-based commitment price (USD) 3-year resource-based commitment price (USD) 1-year flexible CUD consumption rate (USD) 3-year flexible CUD consumption rate (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "N1 standard machine types": {
+        "table": [
+            [
+                "Machine type",
+                "Virtual CPUs",
+                "Memory",
+                "Price (USD)",
+                "Spot price* (USD)"
+            ],
+            [
+                "n1-standard-1",
+                "1",
+                "3.75GB",
+                "$0.04749975",
+                "$0.01"
+            ],
+            [
+                "n1-standard-2",
+                "2",
+                "7.5GB",
+                "$0.0949995",
+                "$0.02"
+            ],
+            [
+                "n1-standard-4",
+                "4",
+                "15GB",
+                "$0.189999",
+                "$0.04"
+            ],
+            [
+                "n1-standard-8",
+                "8",
+                "30GB",
+                "$0.379998",
+                "$0.08"
+            ],
+            [
+                "n1-standard-16",
+                "16",
+                "60GB",
+                "$0.759996",
+                "$0.16"
+            ],
+            [
+                "n1-standard-32",
+                "32",
+                "120GB",
+                "$1.519992",
+                "$0.32"
+            ],
+            [
+                "n1-standard-64",
+                "64",
+                "240GB",
+                "$3.039984",
+                "$0.64"
+            ],
+            [
+                "n1-standard-96\nSkylake Platform only",
+                "96",
+                "360GB",
+                "$4.559976",
+                "$0.96"
+            ],
+            [
+                "Custom machine type",
+                "If your ideal machine shape is in between two predefined types, using a custom machine type could save you as much as 40%. Read more about custom machine types."
+            ]
+        ],
+        "description": " Machine type Virtual CPUs Memory Price (USD) Spot price* (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "N1 high-memory machine types": {
+        "table": [
+            [
+                "Machine type",
+                "Virtual CPUs",
+                "Memory",
+                "Price (USD)",
+                "Spot price* (USD)"
+            ],
+            [
+                "n1-highmem-2",
+                "2",
+                "13GB",
+                "$0.118303",
+                "$0.024906"
+            ],
+            [
+                "n1-highmem-4",
+                "4",
+                "26GB",
+                "$0.236606",
+                "$0.049812"
+            ],
+            [
+                "n1-highmem-8",
+                "8",
+                "52GB",
+                "$0.473212",
+                "$0.099624"
+            ],
+            [
+                "n1-highmem-16",
+                "16",
+                "104GB",
+                "$0.946424",
+                "$0.199248"
+            ],
+            [
+                "n1-highmem-32",
+                "32",
+                "208GB",
+                "$1.892848",
+                "$0.398496"
+            ],
+            [
+                "n1-highmem-64",
+                "64",
+                "416GB",
+                "$3.785696",
+                "$0.796992"
+            ],
+            [
+                "n1-highmem-96\nSkylake Platform only",
+                "96",
+                "624GB",
+                "$5.678544",
+                "$1.195488"
+            ],
+            [
+                "Custom machine type",
+                "If your ideal machine shape is in between two predefined types, using a custom machine type could save you as much as 40%. Read more about Custom Machine Types."
+            ]
+        ],
+        "description": " Machine type Virtual CPUs Memory Price (USD) Spot price* (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "N1 high-CPU machine types": {
+        "table": [
+            [
+                "Machine type",
+                "Virtual CPUs",
+                "Memory",
+                "Price (USD)",
+                "Spot price* (USD)"
+            ],
+            [],
+            [
+                "n1-highcpu-2",
+                "2",
+                "1.80GB",
+                "$0.0708486",
+                "$0.0149156"
+            ],
+            [
+                "n1-highcpu-4",
+                "4",
+                "3.60GB",
+                "$0.1416972",
+                "$0.0298312"
+            ],
+            [
+                "n1-highcpu-8",
+                "8",
+                "7.20GB",
+                "$0.2833944",
+                "$0.0596624"
+            ],
+            [
+                "n1-highcpu-16",
+                "16",
+                "14.40GB",
+                "$0.5667888",
+                "$0.1193248"
+            ],
+            [
+                "n1-highcpu-32",
+                "32",
+                "28.80GB",
+                "$1.1335776",
+                "$0.2386496"
+            ],
+            [
+                "n1-highcpu-64",
+                "64",
+                "57.6GB",
+                "$2.2671552",
+                "$0.4772992"
+            ],
+            [
+                "n1-highcpu-96\nSkylake Platform only",
+                "96",
+                "86.4GB",
+                "$3.4007328",
+                "$0.7159488"
+            ],
+            [
+                "Custom machine type",
+                "If your ideal machine shape is in between two predefined types, using a custom machine type could save you as much as 40%. Read more about Custom Machine Types."
+            ]
+        ],
+        "description": " Machine type Virtual CPUs Memory Price (USD) Spot price* (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "N1 custom vCPUs and memory": {
+        "table": [
+            [
+                "Item",
+                "On-demand price (USD)",
+                "Spot price* (USD)",
+                "1-year resource-based commitment price (USD)",
+                "3-year resource-based commitment price (USD)",
+                "1-year flexible CUD consumption rate (USD)",
+                "3-year flexible CUD consumption rate (USD)"
+            ],
+            [
+                "Custom vCPUs",
+                "$0.033174 / vCPU hour",
+                "$0.00698 / vCPU hour",
+                "$0.019915 / vCPU hour",
+                "$0.014225 / vCPU hour",
+                "$0.02388528 / vCPU hour",
+                "$0.01791396 / vCPU hour"
+            ],
+            [
+                "Custom Memory",
+                "$0.004446 / GB hour",
+                "$0.00094 / GB hour",
+                "$0.002669 / GB hour",
+                "$0.001907 / GB hour",
+                "$0.00320112 / GB hour",
+                "$0.00240084 / GB hour"
+            ]
+        ],
+        "description": " Item On-demand price (USD) Spot price* (USD) 1-year resource-based commitment price (USD) 3-year resource-based commitment price (USD) 1-year flexible CUD consumption rate (USD) 3-year flexible CUD consumption rate (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "N1 extended custom memory": {
+        "table": [
+            [
+                "Item",
+                "Price (USD)",
+                "Spot price*(USD)",
+                "1-year resource-based commitment price (USD)",
+                "3-year resource-based commitment price (USD)",
+                "1-year flexible CUD consumption rate (USD)",
+                "3-year flexible CUD consumption rate (USD)"
+            ],
+            [
+                "Extended custom memory",
+                "$0.009550 / GB hour",
+                "$0.002014 / GB hour",
+                "Not available in this region",
+                "Not available in this region",
+                "$0.006876/ GB hour",
+                "$0.005157/ GB hour"
+            ]
+        ],
+        "description": " Item Price (USD) Spot price*(USD) 1-year resource-based commitment price (USD) 3-year resource-based commitment price (USD) 1-year flexible CUD consumption rate (USD) 3-year flexible CUD consumption rate (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "C2 vCPUs and memory": {
+        "table": [
+            [
+                "Item",
+                "On-demand price (USD)",
+                "Spot price* (USD)",
+                "1-year resource-based commitment price (USD)",
+                "3-year resource-based commitment price (USD)",
+                "1-year flexible CUD consumption rate (USD)",
+                "3-year flexible CUD consumption rate (USD)"
+            ],
+            [
+                "Predefined vCPUs",
+                "$0.03398 / vCPU hour",
+                "$0.003086 / vCPU hour",
+                "$0.02141 / vCPU hour",
+                "$0.01359 / vCPU hour",
+                "$0.02446704 / vCPU hour",
+                "$0.01835028 / vCPU hour"
+            ],
+            [
+                "Predefined Memory",
+                "$0.00455 / GB hour",
+                "$0.000413 / GB hour",
+                "$0.00287 / GB hour",
+                "$0.00182 / GB hour",
+                "$0.0032796 / GB hour",
+                "$0.0024597 / GB hour"
+            ]
+        ],
+        "description": " Item On-demand price (USD) Spot price* (USD) 1-year resource-based commitment price (USD) 3-year resource-based commitment price (USD) 1-year flexible CUD consumption rate (USD) 3-year flexible CUD consumption rate (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "C2 machine types": {
+        "table": [
+            [
+                "Machine type",
+                "Virtual CPUs",
+                "Memory",
+                "Price (USD)",
+                "Spot price* (USD)"
+            ],
+            [
+                "c2-standard-4",
+                "4",
+                "16",
+                "$0.2088",
+                "$0.018952"
+            ],
+            [
+                "c2-standard-8",
+                "8",
+                "32",
+                "$0.4176",
+                "$0.037904"
+            ],
+            [
+                "c2-standard-16",
+                "16",
+                "64",
+                "$0.8352",
+                "$0.075808"
+            ],
+            [
+                "c2-standard-30",
+                "30",
+                "120",
+                "$1.5660",
+                "$0.14214"
+            ],
+            [
+                "c2-standard-60",
+                "60",
+                "240",
+                "$3.1321",
+                "$0.28428"
+            ]
+        ],
+        "description": " Machine type Virtual CPUs Memory Price (USD) Spot price* (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "C2D vCPUs and memory": {
+        "table": [
+            [
+                "Item",
+                "On-demand price (USD)",
+                "Spot price* (USD)",
+                "1-year resource-based commitment price (USD)",
+                "3-year resource-based commitment price (USD)",
+                "1-year flexible CUD consumption rate (USD)",
+                "3-year flexible CUD consumption rate (USD)"
+            ],
+            [
+                "Predefined vCPUs",
+                "$0.029563 / vCPU hour",
+                "$0.006267 / vCPU hour",
+                "$0.018624 / vCPU hour",
+                "$0.013303 / vCPU hour",
+                "$0.02128536 / vCPU hour",
+                "$0.01596402 / vCPU hour"
+            ],
+            [
+                "Predefined Memory",
+                "$0.003959 / GB hour",
+                "$0.000839 / GB hour",
+                "$0.002494 / GB hour",
+                "$0.001781 / GB hour",
+                "$0.00285048 / GB hour",
+                "$0.00213786 / GB hour"
+            ]
+        ],
+        "description": " Item On-demand price (USD) Spot price* (USD) 1-year resource-based commitment price (USD) 3-year resource-based commitment price (USD) 1-year flexible CUD consumption rate (USD) 3-year flexible CUD consumption rate (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "C2D standard machine types": {
+        "table": [
+            [
+                "Machine type",
+                "vCPU",
+                "Memory(GB)",
+                "On Demand List Price",
+                "1yr CUD List Price",
+                "3yr CUD List Price",
+                "Spot price* (USD)"
+            ],
+            [
+                "c2d-standard-2",
+                "2",
+                "8",
+                "$0.0908",
+                "$0.0572",
+                "$0.0409",
+                "$0.019246"
+            ],
+            [
+                "c2d-standard-4",
+                "4",
+                "16",
+                "$0.1816",
+                "$0.1144",
+                "$0.0817",
+                "$0.038492"
+            ],
+            [
+                "c2d-standard-8",
+                "8",
+                "32",
+                "$0.3632",
+                "$0.2288",
+                "$0.1634",
+                "$0.076984"
+            ],
+            [
+                "c2d-standard-16",
+                "16",
+                "64",
+                "$0.7263",
+                "$0.4576",
+                "$0.3269",
+                "$0.153968"
+            ],
+            [
+                "c2d-standard-32",
+                "32",
+                "128",
+                "$1.4527",
+                "$0.9152",
+                "$0.6537",
+                "$0.307936"
+            ],
+            [
+                "c2d-standard-56",
+                "56",
+                "224",
+                "$2.5422",
+                "$1.6016",
+                "$1.1440",
+                "$0.538888"
+            ],
+            [
+                "c2d-standard-112",
+                "112",
+                "448",
+                "$5.0844",
+                "$3.2032",
+                "$2.2880",
+                "$1.077776"
+            ]
+        ],
+        "description": " Machine type vCPU Memory(GB) On Demand List Price 1yr CUD List Price 3yr CUD List Price Spot price* (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "C2D high-memory machine types": {
+        "table": [
+            [
+                "Machine type",
+                "vCPU",
+                "Memory(GB)",
+                "On Demand List Price",
+                "1yr CUD List Price",
+                "3yr CUD List Price",
+                "Spot price* (USD)"
+            ],
+            [
+                "c2d-highmem-2",
+                "2",
+                "16",
+                "$0.1225",
+                "$0.0772",
+                "$0.0551",
+                "$0.025958"
+            ],
+            [
+                "c2d-highmem-4",
+                "4",
+                "32",
+                "$0.2449",
+                "$0.1543",
+                "$0.1102",
+                "$0.051916"
+            ],
+            [
+                "c2d-highmem-8",
+                "8",
+                "64",
+                "$0.4898",
+                "$0.3086",
+                "$0.2204",
+                "$0.103832"
+            ],
+            [
+                "c2d-highmem-16",
+                "16",
+                "128",
+                "$0.9797",
+                "$0.6172",
+                "$0.4409",
+                "$0.207664"
+            ],
+            [
+                "c2d-highmem-32",
+                "32",
+                "256",
+                "$1.9594",
+                "$1.2344",
+                "$0.8817",
+                "$0.415328"
+            ],
+            [
+                "c2d-highmem-56",
+                "56",
+                "448",
+                "$3.4289",
+                "$2.1602",
+                "$1.5430",
+                "$0.726824"
+            ],
+            [
+                "c2d-highmem-112",
+                "112",
+                "896",
+                "$6.8578",
+                "$4.3204",
+                "$3.0860",
+                "$1.453648"
+            ]
+        ],
+        "description": " Machine type vCPU Memory(GB) On Demand List Price 1yr CUD List Price 3yr CUD List Price Spot price* (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "C2D high-CPU machine types": {
+        "table": [
+            [
+                "Machine type",
+                "vCPU",
+                "Memory(GB)",
+                "On Demand List Price",
+                "1yr CUD List Price",
+                "3yr CUD List Price",
+                "Spot price* (USD)"
+            ],
+            [
+                "c2d-highcpu-2",
+                "2",
+                "4",
+                "$0.0750",
+                "$0.0472",
+                "$0.0337",
+                "$0.01589"
+            ],
+            [
+                "c2d-highcpu-4",
+                "4",
+                "8",
+                "$0.1499",
+                "$0.0944",
+                "$0.0675",
+                "$0.03178"
+            ],
+            [
+                "c2d-highcpu-8",
+                "8",
+                "16",
+                "$0.2998",
+                "$0.1889",
+                "$0.1349",
+                "$0.06356"
+            ],
+            [
+                "c2d-highcpu-16",
+                "16",
+                "32",
+                "$0.5997",
+                "$0.3778",
+                "$0.2699",
+                "$0.12712"
+            ],
+            [
+                "c2d-highcpu-32",
+                "32",
+                "64",
+                "$1.1993",
+                "$0.7556",
+                "$0.5397",
+                "$0.25424"
+            ],
+            [
+                "c2d-highcpu-56",
+                "56",
+                "112",
+                "$2.0989",
+                "$1.3223",
+                "$0.9445",
+                "$0.44492"
+            ],
+            [
+                "c2d-highcpu-112",
+                "112",
+                "224",
+                "$4.1977",
+                "$2.6446",
+                "$1.8890",
+                "$1.88984"
+            ]
+        ],
+        "description": " Machine type vCPU Memory(GB) On Demand List Price 1yr CUD List Price 3yr CUD List Price Spot price* (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "vCPUs and memory": {
+        "table": [
+            [
+                "Item",
+                "On-demand price (USD)",
+                "Spot price* (USD)",
+                "1 year commitment price (USD)",
+                "3 year commitment price (USD)"
+            ],
+            [
+                "Predefined vCPUs",
+                "$0.0348 / vCPU hour",
+                "$0.00733 / vCPU hour",
+                "$0.02055 / vCPU hour",
+                "$0.01045 / vCPU hour"
+            ],
+            [
+                "Predefined Memory",
+                "$0.0051 / GB hour",
+                "$0.00108 / GB hour",
+                "$0.00302 / GB hour",
+                "$0.00153 / GB hour"
+            ]
+        ],
+        "description": " Item On-demand price (USD) Spot price* (USD) 1 year commitment price (USD) 3 year commitment price (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "M2 memory-optimized machine types": {
+        "table": [
+            [
+                "Machine type",
+                "Virtual CPUs",
+                "Memory",
+                "Evaluative price (USD)",
+                "Spot price* (USD)",
+                "1 year commitment price (USD)",
+                "3 year commitment price (USD)"
+            ],
+            [
+                "m2-ultramem-208",
+                "208",
+                "5888GB",
+                "$42.186",
+                "Not available in this region",
+                "$25.453",
+                "$14.579"
+            ],
+            [
+                "m2-ultramem-416",
+                "416",
+                "11776GB",
+                "$84.371",
+                "Not available in this region",
+                "$50.907",
+                "$29.159"
+            ],
+            [
+                "m2-megamem-416",
+                "416",
+                "5888GB",
+                "$50.372",
+                "Not available in this region",
+                "$30.387",
+                "$17.412"
+            ],
+            [
+                "m2-hypermem-416",
+                "416",
+                "8832GB",
+                "$67.258",
+                "Not available in this region",
+                "$40.638",
+                "$23.276"
+            ]
+        ],
+        "description": " Machine type Virtual CPUs Memory Evaluative price (USD) Spot price* (USD) 1 year commitment price (USD) 3 year commitment price (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "M1 memory-optimized machine types": {
+        "table": [
+            [
+                "Machine type",
+                "Virtual CPUs",
+                "Memory",
+                "Price (USD)",
+                "Spot price* (USD)",
+                "1 year commitment price (USD)",
+                "3 year commitment price (USD)",
+                "Machine type",
+                "Virtual CPUs",
+                "Memory",
+                "Price (USD)",
+                "Spot price* (USD)",
+                "1 year commitment price (USD)",
+                "3 year commitment price (USD)"
+            ],
+            [
+                "m1-ultramem-40",
+                "40",
+                "961GB",
+                "$6.293",
+                "$1.331",
+                "$3.724",
+                "$1.888"
+            ],
+            [
+                "m1-ultramem-80",
+                "80",
+                "1922GB",
+                "$12.586",
+                "$2.662",
+                "$7.448",
+                "$3.777"
+            ],
+            [
+                "m1-ultramem-160",
+                "160",
+                "3844GB",
+                "$25.172",
+                "$5.324",
+                "$14.897",
+                "$7.553"
+            ],
+            [
+                "m1-megamem-96",
+                "96",
+                "1433.6GB",
+                "$10.652",
+                "$2.252",
+                "$6.302",
+                "$3.197"
+            ]
+        ],
+        "description": " Machine type Virtual CPUs Memory Price (USD) Spot price* (USD) 1 year commitment price (USD) 3 year commitment price (USD) Machine type Virtual CPUs Memory Price (USD) Spot price* (USD) 1 year commitment price (USD) 3 year commitment price (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "A2 machine types": {
+        "table": [
+            [
+                "Machine type",
+                "vCPUs",
+                "Memory",
+                "On-demand price (USD)",
+                "Spot price* (USD)",
+                "1 year commitment price (USD)",
+                "3 year commitment price (USD)"
+            ],
+            [
+                "a2-highgpu-1g",
+                "12",
+                "85 GB",
+                "$3.673477",
+                "$1.101843",
+                "$2.313845",
+                "$1.285841"
+            ],
+            [
+                "a2-highgpu-2g",
+                "24",
+                "170 GB",
+                "$7.346954",
+                "$2.203686",
+                "$4.62769",
+                "$2.571681"
+            ],
+            [
+                "a2-highgpu-4g",
+                "48",
+                "340 GB",
+                "$14.693908",
+                "$4.407372",
+                "$9.25538",
+                "$5.143362"
+            ],
+            [
+                "a2-highgpu-8g",
+                "96",
+                "680 GB",
+                "$29.387816",
+                "$8.814745",
+                "$18.51076",
+                "$10.286724"
+            ],
+            [
+                "a2-megagpu-16g",
+                "96",
+                "1360 GB",
+                "$55.740976",
+                "$16.719093",
+                "$35.10968",
+                "$19.511316"
+            ]
+        ],
+        "description": " Machine type vCPUs Memory On-demand price (USD) Spot price* (USD) 1 year commitment price (USD) 3 year commitment price (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "E2 shared-core machine types": {
+        "table": [
+            [
+                "Machine type",
+                "vCPUs",
+                "Memory",
+                "Price (USD)",
+                "Spot price*(USD)",
+                "1 year commitment (USD)",
+                "3 year commitment (USD)"
+            ],
+            [
+                "e2-micro",
+                "2",
+                "1GB",
+                "$0.008376",
+                "$0.002513",
+                "$0.00528",
+                "$0.00377"
+            ],
+            [
+                "e2-small",
+                "2",
+                "2GB",
+                "$0.016751",
+                "$0.005025",
+                "$0.01055",
+                "$0.00754"
+            ],
+            [
+                "e2-medium",
+                "2",
+                "4GB",
+                "$0.033503",
+                "$0.010051",
+                "$0.02111",
+                "$0.01508"
+            ]
+        ],
+        "description": " Machine type vCPUs Memory Price (USD) Spot price*(USD) 1 year commitment (USD) 3 year commitment (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "N1 shared-core machine types": {
+        "table": [
+            [
+                "Machine type",
+                "Virtual CPUs",
+                "Memory",
+                "Price (USD)",
+                "Spot price* (USD)"
+            ],
+            [
+                "f1-micro",
+                "0.2",
+                "0.60GB",
+                "$0.0076",
+                "$0.0035"
+            ],
+            [
+                "g1-small",
+                "0.5",
+                "1.70GB",
+                "$0.0257",
+                "$0.007"
+            ]
+        ],
+        "description": " Machine type Virtual CPUs Memory Price (USD) Spot price* (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "N2, N2D, C2": {
+        "table": [
+            [
+                "Item",
+                "Price (USD)",
+                "Spot price* (USD)"
+            ],
+            [
+                "50 Gbps (N2, N2D, C2)",
+                "$0.4490 / hour",
+                "$0.1078 / hour"
+            ],
+            [
+                "75 Gbps (N2 only)",
+                "$0.6734 / hour",
+                "$0.1616 / hour"
+            ],
+            [
+                "100 Gbps (N2, N2D, C2)",
+                "$0.8979 / hour",
+                "$0.2155 / hour"
+            ]
+        ],
+        "description": " Item Price (USD) Spot price* (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "C2D": {
+        "table": [
+            [
+                "Item",
+                "Price (USD)",
+                "Spot price* (USD)"
+            ],
+            [
+                "50 Gbps (C2D)",
+                "$0.4490 / hour",
+                "$0.1078 / hour"
+            ],
+            [
+                "100 Gbps (C2D)",
+                "$0.8979 / hour",
+                "$0.2155 / hour"
+            ]
+        ],
+        "description": " Item Price (USD) Spot price* (USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "Persistent disk space pricing": {
+        "table": [
+            [
+                "Type",
+                "Price (monthly in USD)"
+            ],
+            [
+                "Standard provisioned space",
+                "$0.040 per GB"
+            ],
+            [
+                "SSD provisioned space",
+                "$0.170 per GB"
+            ],
+            [
+                "Balanced provisioned space",
+                "$0.100 per GB"
+            ],
+            [
+                "Extreme provisioned space",
+                "$0.125 per GB"
+            ],
+            [
+                "Extreme provisioned IOPS",
+                "$0.065 per IOPS provisioned"
+            ],
+            [
+                "Regional standard provisioned space",
+                "$0.080 per GB"
+            ],
+            [
+                "Regional SSD provisioned space",
+                "$0.340 per GB"
+            ],
+            [
+                "Regional balanced provisioned space",
+                "$0.200 per GB"
+            ]
+        ],
+        "description": " Type Price (monthly in USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "Local SSD pricing": {
+        "table": [
+            [
+                "Type",
+                "Price (per GB per month in USD)",
+                "Spot price* (per GB per month in USD)",
+                "1 year commitment price (per GB per month in USD)",
+                "3 year commitment price (per GB per month in USD)"
+            ],
+            [
+                "Local SSD provisioned space",
+                "$0.080",
+                "$0.048",
+                "$0.051 USD",
+                "$0.036 USD"
+            ]
+        ],
+        "description": " Type Price (per GB per month in USD) Spot price* (per GB per month in USD) 1 year commitment price (per GB per month in USD) 3 year commitment price (per GB per month in USD)",
+        "region": "Iowa (us-central1)"
+    },
+    "Custom image storage pricing": {
+        "table": [
+            [
+                "Type",
+                "Price (USD)"
+            ],
+            [
+                "Image storage (per GB / month)",
+                "$0.050"
+            ]
+        ],
+        "description": " Type Price (USD)",
+        "region": "Iowa (us-central1)"
+    }
+}

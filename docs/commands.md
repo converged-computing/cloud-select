@@ -26,6 +26,16 @@ Ask for a specific cloud on the command line (note you can also ask via your set
 $ cloud-select --cloud google instance --cpus-min 200 --cpus-max 400
 ```
 
+Note that we don't have support for all attributes defined yet! By default, you won't be allowed
+to filter for a property that we cannot derive:
+
+```bash
+$ cloud-select instance --disk-type ssd
+AmazonInstance does not support getting information about disk_type. Set allow_missing_attributes in your settings.yml to 'true' to continue anyway.
+```
+
+If you want to disable this and do the query anyway (and if another cloud supports it, you will get results) you can follow the instructions in the message above. We are doing our best to add support for the most attributes we can soon!
+
 ### Sorting
 
 By default we sort results based on the order the solver produces them.
@@ -98,15 +108,11 @@ A result might generally be labeled with "region" and include a zone name.
 ### Cache Only
 
 To set a global setting to only use the cache (and skip trying to authenticate)
-you cat set `cache_only` in your settings.yml to true:
+you cat set `cache_only` in your settings.yml to true (or false to disable it):
 
 ```yaml
 cache_only: true
 ```
-
-This will be the default when we are able to provide a remote cache,
-as then you won't be required to have your own credential to use the
-tool out of the box!
 
 ### Debugging
 
@@ -115,6 +121,30 @@ To debug, you can add `--debug` to see the database query that is done:
 ```bash
 $ cloud-select --debug instance
 ```
+
+### Frequently Asked Questions
+
+> What happens if I ask for a filter that isn't defined for a cloud?
+
+Let's say you want to ask for a property that is defined for AWS but not Google Cloud.
+If your `settings.yml` property "allow_missing_attributes" is false and you are trying
+to query both clouds, you'll get an error. At this point you have two choices - you
+can either set this to true (and the not supporting cloud likely won't match the query)
+or you can run a query specific to the cloud that has it (e.g., adding `--cloud`).
+
+> What if an instance has the function to get the attribute, but it returns nothing?
+
+We assume in these cases that the instance does not support or have information
+for what you are asking for, so we don't generate a fact for it. If you are explicitly
+asking for this feature in your query, you likely won't see the instance in the result.
+If you aren't interested in the attribute then you could still see it as a result.
+
+> Where do prices come from?
+
+For AWS, we use the API. For Google Cloud, we currently get a page from the web.
+Thus, Google Prices represent Iowa (us-central-1) and should be used as estimates only.
+We need a few things to be able to support using the Google API - namely the lab
+to support having an account we can authenticate from actions to support the cache.
 
 ## config
 

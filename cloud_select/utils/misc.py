@@ -19,3 +19,21 @@ def slugify(name):
     for char in [" ", ":", "/", "\\"]:
         name = name.replace(char, "-")
     return name.lower()
+
+
+def print_bytes(byt, suffix="B"):
+    """
+    Pretty format size in bytes
+    """
+    for unit in ["", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi"]:
+        if abs(byt) < 1024.0:
+            return f"{byt:3.1f} {unit}{suffix}"
+        byt /= 1024.0
+    return f"{byt:.1f} Yi{suffix}"
+
+
+def mb_to_bytes(mb):
+    """
+    Convert mb to bytes, usually so we can derive a better format.
+    """
+    return mb * (1048576)

@@ -26,16 +26,13 @@ This tool is under development and is not ready for production use. See our
 
 ## TODO and Questions
 
-- [ ]create cache of instance types and maybe prices in GitHub (e.g., automated update)
 - [ ] add tests and testing workflow
   - [ ] properties testing for handling min/max/numbers
   - [ ] ensure that required set of attributes for each instance are returned (e.g., name, cpu, memory)
-- [ ] how to handle instances that don't have an attribute of interest? Should we unselect them?
-- [ ] add GPU memory - available in AWS and I cannot find for GCP
 - [ ] should cache be organized by region to allow easier filter (data for AWS doesn't have that attribute)
-- [ ] need to do something with costs
-- [ ] can we just scrape prices from? https://cloud.google.com/compute/all-pricing
 - [ ] TODO: we don't currently account for region as unique property in results (and need to)
+  - e.g., in tests the sample has 100 unique, but there are only 69 names. The solver.solve()
+    needs to be able to return back enough metadata to determine uniqueness (not done yet)
 - [ ] go through list of instance features and implement remaining (if possible)
 
 ### Future desires
@@ -45,7 +42,6 @@ These are either "nice to have" or small details we can improve upon. Aka, not t
 - should we allow currency outside USD? Probably not for now.
 - could eventually support different resource types (beyond compute or types of prices, e.g., pre-emptible vs. on demand)
 - aws instance listing (based on regions) should validate regions - an invalid regions simply returns no results
-- for AWS description, when appropriate convert to TB (like Google does)
 
 ## 😁️ Contributors 😁️
 

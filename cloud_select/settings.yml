@@ -8,15 +8,17 @@ clouds: [aws, google]
 config_editor: vim
 
 # Only use the cache
-cache_only: false
+cache_only: true
 
 # oras package that can provide offline cache
 # Note this includes only a select number of regions
-cache_oras: ghcr.io/converged-computing/cloud-select-cache:latest
+cache_oras: ghcr.io/converged-computing/cloud-select-cache:nightly
 
-# disable adding prices?
-# disabled for now because is a bit lengthy
+# Disable adding prices?
 disable_prices: false
+
+# Allow asking for attributes that aren't implemented yet
+allow_missing_attributes: false
 
 # cloud specific settings
 google:

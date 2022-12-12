@@ -7,6 +7,7 @@ import json
 
 import cloud_select.main.table as table
 import cloud_select.utils as utils
+from cloud_select.logger import logger
 from cloud_select.main import Client
 
 
@@ -34,7 +35,10 @@ def main(args, parser, extra, subparser):
     delattr(args, "out")
 
     # And select the instance (this output is for the ASP)
-    instances = cli.instance_select(**args.__dict__)
+    try:
+        instances = cli.instance_select(**args.__dict__)
+    except Exception as e:
+        logger.exit(str(e))
 
     # Print instances to a table
     if args.json:

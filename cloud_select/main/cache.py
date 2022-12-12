@@ -66,17 +66,26 @@ class Cache:
             )
             return
 
+        self.memory_set(cloud_name, items, datatype)
+        utils.write_json(items, cache_file, cls=cls)
+        logger.debug(f"{cloud_name} {datatype} written to {cache_file}.")
+
+    def memory_set(self, cloud_name, items, datatype):
+        """
+        Set the cache only to the instance (e.g., in memory)
+        """
         # Save to "memory" and filesystem cache
         if cloud_name not in self._cache:
             self._cache[cloud_name] = {}
         self._cache[cloud_name][datatype] = items
-        utils.write_json(items, cache_file, cls=cls)
-        logger.debug(f"{cloud_name} {datatype} written to {cache_file}.")
 
     def get_cache_name(self, cloud_name, name):
         """
         Return a json cache entry for a given cloud provider and data type
         """
+        # Enforce using web prices for now.
+        if cloud_name == "google" and name == "prices":
+            name = "prices-web"
         return os.path.join(self.cache_dir, cloud_name, f"{name}.json")
 
     def push(self, uri):
@@ -123,13 +132,13 @@ class Cache:
         """
         Determine if cache data is expired.
         """
-        if self.disable_cache:
+        # If the cache is disabled or already using memory, exit early
+        if self.disable_cache or self.exists_in_memory(cloud_name, datatype):
             return False
+
         cache_file = self.get_cache_name(cloud_name, datatype)
 
         # One off tweak to use Google Cloud web prices temporarily
-        if not os.path.exists(cache_file) and "prices" in cache_file:
-            cache_file = cache_file.replace("prices.json", "prices-web.json")
         stats = os.stat(cache_file)
 
         # Convert cache_expire hours to seconds
@@ -145,6 +154,14 @@ class Cache:
         if self.disable_cache:
             return False
         return os.path.exists(self.get_cache_name(cloud_name, datatype))
+
+    def exists_in_memory(self, cloud_name, datatype):
+        """
+        Determine if we are using a memory cache and have it loaded
+        """
+        if cloud_name in self._cache and self._cache[cloud_name].get(datatype):
+            return True
+        return False
 
     def oras_get(self, cloud_name, datatype, package):
         """
@@ -189,6 +206,7 @@ class Cache:
             return self._cache[cloud_name][datatype]
 
         # Now look for filesystem
+        # This is a temporary hack to allow Google prices to be prices-web.json
         cache_file = self.get_cache_name(cloud_name, datatype)
         if not os.path.exists(cache_file):
             return
