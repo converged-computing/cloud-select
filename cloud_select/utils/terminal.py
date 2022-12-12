@@ -20,25 +20,9 @@ def ensure_no_extra(extra):
         )
 
 
-def which(software=None, strip_newline=True):
-    """get_install will return the path to where Singularity (or another
-    executable) is installed.
-    """
-    if software is None:
-        software = "singularity"
-    cmd = ["which", software]
-    try:
-        result = run_command(cmd)
-        if strip_newline is True:
-            result["message"] = result["message"].strip("\n")
-        return result
-
-    except FileNotFoundError:
-        return None
-
-
 def check_install(software, quiet=True, command="--version"):
-    """check_install will attempt to run the singularity command, and
+    """
+    check_install will attempt to run the singularity command, and
     return True if installed. The command line utils will not run
     without this check.
 
@@ -51,7 +35,7 @@ def check_install(software, quiet=True, command="--version"):
     cmd = [software, command]
     try:
         version = run_command(cmd, software)
-    except FileNotFoundError:
+    except Exception:
         return False
     if version:
         if not quiet and version["return_code"] == 0:

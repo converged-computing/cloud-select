@@ -26,5 +26,4 @@ from .terminal import (
     ensure_no_extra,
     get_installdir,
     run_command,
-    which,
 )

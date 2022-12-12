@@ -113,13 +113,13 @@ def test_get_tmpdir_tmpfile():
     print("Testing utils.get_tmpdir, get_tmpfile")
     tmpdir = utils.get_tmpdir()
     assert os.path.exists(tmpdir)
-    assert os.path.basename(tmpdir).startswith("cloud_select")
+    assert os.path.basename(tmpdir).startswith("cloud-select")
     shutil.rmtree(tmpdir)
     tmpdir = utils.get_tmpdir(prefix="name")
     assert os.path.basename(tmpdir).startswith("name")
     shutil.rmtree(tmpdir)
     tmpfile = utils.get_tmpfile()
-    assert "cloud_select" in tmpfile
+    assert "cloud-select" in tmpfile
     os.remove(tmpfile)
     tmpfile = utils.get_tmpfile(prefix="pancakes")
     assert "pancakes" in tmpfile
