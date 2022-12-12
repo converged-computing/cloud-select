@@ -1,8 +1,8 @@
-include README.md LICENSE
+include README.md
+include COPYRIGHT
 recursive-include cloud_select *.png
 recursive-include cloud_select *.sh
 recursive-include cloud_select *
-recursive-include registry *
 recursive-include * *.png
 prune env*
 global-exclude .env
@@ -11,5 +11,4 @@ recursive-exclude .git *
 global-exclude __pycache__
 prune docs*
 prune cloud_select/tests
-prune _docs*
 prune apigen

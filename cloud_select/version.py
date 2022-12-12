@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: (MIT)
 
-__version__ = "0.0.11"
+__version__ = "0.0.12"
 AUTHOR = "Vanessa Sochat"
 EMAIL = "vsoch@users.noreply.github.com"
 NAME = "cloud-select-tool"
@@ -32,8 +32,6 @@ GOOGLE_CLOUD_REQUIRES = (
     ("google-auth", {"min_version": None}),
     ("google-api-python-client", {"min_version": None}),
 )
-
-#            "oauth2client",
 
 TESTS_REQUIRES = (("pytest", {"min_version": "4.6.2"}),)
 

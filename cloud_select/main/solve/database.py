@@ -118,6 +118,29 @@ class Database:
         # We will do a bulk insert
         rows = []
 
+        # Helper function to add a row - handles lists
+        def add_row(item, value):
+            """
+            Add a row, unwrapping a list item if needed.
+            """
+            # Switch off and structure based on what kind of attribute we have.
+            if isinstance(value, str):
+                item.update({"value": value, "value_bool": None, "value_number": None})
+            elif isinstance(value, bool):
+                item.update(
+                    {"value": None, "value_bool": int(value), "value_number": None}
+                )
+
+            # We allow a list - the instance can have more than one property
+            elif isinstance(value, list):
+                for v in value:
+                    add_row(item, v)
+                return
+            else:
+                item.update({"value": None, "value_bool": None, "value_number": value})
+            rows.append(item)
+
+        # Now add the rows!
         for func in instance.attribute_getters:
             value = getattr(instance, func)()
             attr = func.replace("attr_", "")
@@ -127,17 +150,7 @@ class Database:
 
             # Have instance key be name and region
             item = {"cloud": cloud_name, "instance": instance.name, "attribute": attr}
-
-            # Switch off and structure based on what kind of attribute we have.
-            if isinstance(value, str):
-                item.update({"value": value, "value_bool": None, "value_number": None})
-            elif isinstance(value, bool):
-                item.update(
-                    {"value": None, "value_bool": int(value), "value_number": None}
-                )
-            else:
-                item.update({"value": None, "value_bool": None, "value_number": value})
-            rows.append(item)
+            add_row(item, value)
 
         self.execute_many("instances", rows)
 

@@ -32,6 +32,7 @@ allowed_envars = ["HOME"]
 # ORAS annotations (we could do better here)
 default_manifest_annotations = {"tool": "cloud-select"}
 default_config_annotations = {"tool": "cloud-select"}
+default_media_type = "org.llnl.gov.cloud-select.cloud.data"
 
 # The default GitHub registry with recipes (for docgen)
 github_url = "https://github.com/converged-computing/cloud-select"

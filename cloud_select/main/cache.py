@@ -25,6 +25,7 @@ class Cache:
         self.cache_dir = cache_dir
         self._cache = {}
         self._cache_expire_hours = cache_expire
+        self._oras_manifest = None
 
     def __repr__(self):
         return str(self)
@@ -65,17 +66,26 @@ class Cache:
             )
             return
 
+        self.memory_set(cloud_name, items, datatype)
+        utils.write_json(items, cache_file, cls=cls)
+        logger.debug(f"{cloud_name} {datatype} written to {cache_file}.")
+
+    def memory_set(self, cloud_name, items, datatype):
+        """
+        Set the cache only to the instance (e.g., in memory)
+        """
         # Save to "memory" and filesystem cache
         if cloud_name not in self._cache:
             self._cache[cloud_name] = {}
         self._cache[cloud_name][datatype] = items
-        utils.write_json(items, cache_file, cls=cls)
-        logger.debug(f"{cloud_name} {datatype} written to {cache_file}.")
 
     def get_cache_name(self, cloud_name, name):
         """
         Return a json cache entry for a given cloud provider and data type
         """
+        # Enforce using web prices for now.
+        if cloud_name == "google" and name == "prices":
+            name = "prices-web"
         return os.path.join(self.cache_dir, cloud_name, f"{name}.json")
 
     def push(self, uri):
@@ -122,9 +132,13 @@ class Cache:
         """
         Determine if cache data is expired.
         """
-        if self.disable_cache:
+        # If the cache is disabled or already using memory, exit early
+        if self.disable_cache or self.exists_in_memory(cloud_name, datatype):
             return False
+
         cache_file = self.get_cache_name(cloud_name, datatype)
+
+        # One off tweak to use Google Cloud web prices temporarily
         stats = os.stat(cache_file)
 
         # Convert cache_expire hours to seconds
@@ -141,6 +155,46 @@ class Cache:
             return False
         return os.path.exists(self.get_cache_name(cloud_name, datatype))
 
+    def exists_in_memory(self, cloud_name, datatype):
+        """
+        Determine if we are using a memory cache and have it loaded
+        """
+        if cloud_name in self._cache and self._cache[cloud_name].get(datatype):
+            return True
+        return False
+
+    def oras_get(self, cloud_name, datatype, package):
+        """
+        Update the cache from an ORAS package.
+
+        Given a known ORAS (OCI Registry as Storage) package, get an entry
+        from it. We retrieve the manifest and cache it for later use, and only
+        download if the data file is needed (more efficient).
+        """
+        oras_cli = oras.get_oras_client(require_auth=True)
+        # Update our manifest if we don't have one yet
+        if not self._oras_manifest:
+            try:
+                self._oras_manifest = oras_cli.get_manifest(package)
+            except Exception:
+                logger.warning(
+                    f"Issue getting manifest for {package}, check the image and tag name. No cache update from ORAS"
+                )
+                return
+
+        # Download the layer to the cache directory and return the filename
+        # The oras package paths are relative to a root, so we use the cache root
+        datafile = oras_cli.download_layer(
+            cloud_name,
+            datatype,
+            manifest=self._oras_manifest,
+            root=self.cache_dir,
+            package=package,
+        )
+        logger.debug(f"Found oras package data file {datafile}")
+        if datafile:
+            return utils.read_json(datafile)
+
     def get(self, cloud_name, datatype):
         """
         Given a cache name (typically matching the endpoint) retrieve if exists.
@@ -152,6 +206,7 @@ class Cache:
             return self._cache[cloud_name][datatype]
 
         # Now look for filesystem
+        # This is a temporary hack to allow Google prices to be prices-web.json
         cache_file = self.get_cache_name(cloud_name, datatype)
         if not os.path.exists(cache_file):
             return

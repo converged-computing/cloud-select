@@ -3,8 +3,6 @@
 #
 # SPDX-License-Identifier: (MIT)
 
-import re
-
 from cloud_select.logger import logger
 
 
@@ -16,11 +14,14 @@ class Properties:
     # Do not go into the solve (but if defined, used before or after)
     not_solver_properties = ["include_list", "exclude_list"]
 
-    # These aren't added/developed yet (patterns for initial list with "-")
-    skip_patterns = ["price-per-hour"]
-
     # expected to have <name>, <name>_min, <name>_max
-    range_properties = ["cpus", "instance_storage", "memory", "gpu_memory"]
+    range_properties = [
+        "cpus",
+        "instance_storage",
+        "memory",
+        "gpu_memory",
+        "price_per_hour",
+    ]
 
     def __init__(self, properties, **kwargs):
         self._allowed = properties
@@ -33,14 +34,11 @@ class Properties:
 
         We assume that properties coming from argumnts might have a "-" instead of _.
         """
-        skip_pattern = "(%s)" % "|".join(self.skip_patterns)
         properties = {
-            k: v
-            for k, v in kwargs.items()
-            if k.replace("_", "-") in self._allowed and not re.search(skip_pattern, k)
+            k: v for k, v in kwargs.items() if k.replace("_", "-") in self._allowed
         }
         # Instance level properties (to be deleted from selection, used separately)
-        self.set_not_solver_properties(properties)
+        self.set_non_solver_properties(properties)
 
         # The user is asking for these defined
         self.defined = {k: v for k, v in properties.items() if v is not None}
@@ -115,7 +113,7 @@ class Properties:
         # Case 3: Just a gpus is set (exact number) delete the rest
         self._set_range_properties("gpus")
 
-    def set_not_solver_properties(self, properties):
+    def set_non_solver_properties(self, properties):
         """
         These properties are used later (e.g., to filter a final set based on name).
         """

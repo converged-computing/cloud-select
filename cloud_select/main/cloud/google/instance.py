@@ -3,7 +3,10 @@
 #
 # SPDX-License-Identifier: (MIT)
 
+import copy
 import re
+
+from cloud_select.logger import logger
 
 from ..base import Instance, InstanceGroup
 
@@ -17,9 +20,15 @@ class GoogleCloudInstance(Instance):
 
     def attr_memory(self):
         """
-        Memory is in GB
+        Memory is in MB
         """
-        return int(self.data["memoryMb"] / 1024)
+        return self.data.get("memoryMb")
+
+    def attr_price_per_hour(self):
+        """
+        Price in USD per hour.
+        """
+        return self.data.get("price")
 
     def attr_region(self):
         """
@@ -116,13 +125,52 @@ class GoogleCloudInstanceGroup(InstanceGroup):
 
         For now we will filter to "Compute" and "OnDemand" but these could be changed.
         """
-        # Filter down to compute
-        data = [
-            x
-            for x in prices.data
-            if x["category"]["resourceFamily"] == "Compute"
-            and x["category"]["usageType"] == "OnDemand"
-        ]
-        assert data
+        # We currently only support prices-web.json
+        if not prices.data:
+            return
+        if isinstance(prices.data, list):
+            logger.warning("There is no support get for Google Cloud API prices.")
+            return
+
+        logger.warning(
+            "Google Cloud instance prices derived from the web are limited to Iowa (us-centra-1)"
+        )
+
+        # Get actual machine types and convert web listing to types
+        actual_types = set([x["name"] for x in self.data])
+        lookup = {}
+        for _, metadata in prices.data.items():
+            meta = copy.deepcopy(metadata)
+            if not meta.get("table"):
+                continue
+            header = meta["table"].pop(0)
+            for row in meta["table"]:
+                if not row:
+                    continue
+                if row[0] in actual_types:
+
+                    # Find price index
+                    idx = [
+                        i
+                        for i, x in enumerate(header)
+                        if "price" in x.lower() and "spot" not in x.lower()
+                    ]
+                    if not idx:
+                        continue
+                    price = row[idx[0]]
+                    lookup[row[0]] = float(price.replace("$", ""))
+
+        # Now add to data
+        for entry in self.data:
+            if entry["name"] in lookup:
+                entry["price"] = lookup[entry["name"]]
+
+        # This is data from the Google Cloud API which we probably want to use.
+        # data = [
+        #    x
+        #    for x in prices.data
+        #    if x["category"]["resourceFamily"] == "Compute"
+        #    and x["category"]["usageType"] == "OnDemand"
+        # ]
         # TODO - here we have a lsiting with snapshot, CPU, RAM, and I suspect we will need to combine attributes to get costs
         # for instances. This is a TODO I want help with. For now, we do nothing

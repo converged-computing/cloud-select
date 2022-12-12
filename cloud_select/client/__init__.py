@@ -36,6 +36,8 @@ def add_instance_arguments(command):
 
         # It's either a string...
         if typ == "number" or "number" in typ:
+            default_type = float
+        elif typ == "intenger" or "integer" in typ:
             default_type = int
         elif typ == "boolean" or "boolean" in typ:
             default_type = bool

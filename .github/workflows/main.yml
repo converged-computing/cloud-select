@@ -1,11 +1,7 @@
 name: test cloud-select
 
 on:
-  # This should run on a push to any branch except main, gh-pages, and binoc
-  push:
-    branches-ignore:
-    - main
-    - gh-pages
+  pull_request: []
 
 jobs:
   formatting:
@@ -14,7 +10,7 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Setup black linter
-      run: conda create --quiet --name black pyflakes
+      run: conda create --quiet --name black pytest
 
     - name: Check Spelling
       uses: crate-ci/typos@7ad296c72fa8265059cc03d1eda562fbdfcd6df2 # v1.9.0
@@ -27,3 +23,13 @@ jobs:
         source activate black
         pip install -r .github/dev-requirements.txt
         pre-commit run --all-files
+
+    - name: Test
+      env:
+        ORAS_USER: ${{ github.actor }}
+        ORAS_PASS: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        export PATH="/usr/share/miniconda/bin:$PATH"
+        source activate black
+        pip install -e .[all]
+        pytest -xs cloud_select/tests/test*.py

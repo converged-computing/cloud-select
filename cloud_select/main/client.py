@@ -101,10 +101,27 @@ class Client:
         """
         items = {}
         for cloud in self.get_clouds():
-            if self.cache.exists(cloud.name, key):
-                # Load data via the cloud provider
+
+            # Assume we don't find data
+            data = None
+
+            # Load data via the cloud provider
+            if self.cache.exists(cloud.name, key) or self.cache.exists_in_memory(
+                cloud.name, key
+            ):
                 data = self.cache.get(cloud.name, key)
+
+            # First try - if no cache entry exists and we have ORAS support
+            elif (
+                not self.cache.exists(cloud.name, key)
+                and self.settings.cache_oras is not None
+            ):
+                data = self.cache.oras_get(cloud.name, key, self.settings.cache_oras)
+
+            # If we have data from somewhere, update our items
+            if data is not None:
                 items[cloud.name] = getattr(cloud, f"load_{key}")(data)
+
         return items
 
     def update_all(self):
@@ -142,7 +159,7 @@ class Client:
                 items[cloud.name] = updated
         return items
 
-    def instance_select(self, max_results=20, **kwargs):
+    def instance_select(self, **kwargs):
         """
         Select an instance.
         """
@@ -151,6 +168,13 @@ class Client:
         if not instances:
             logger.exit(
                 "You don't have any clouds to search instances or cached data. Set credentials or get an offline cache."
+            )
+
+        # Cut out early if we don't have attributes they need
+        properties = solve.Properties(schemas.instance_properties, **kwargs)
+        for cloud_name, instance_group in instances.items():
+            instance_group.Instance.check_attributes(
+                properties, self.settings.allow_missing_attributes
             )
 
         # Only makes sense to get prices if we have instances!
@@ -163,21 +187,24 @@ class Client:
         if "region" in kwargs:
             del kwargs["region"]
 
-        # By here we have a lookup *by cloud) of instance groups
-        # Filter down kwargs (properties) to those relevant to instances
-        # This is not actually a solve, but it used to be and we kept the name
-        properties = solve.Properties(schemas.instance_properties, **kwargs)
+        # Prepare and do the solve
         solver = solve.Solver()
 
         # 1. write mapping of common features into functions
         # 2. filter down to desired set based on these common functions
         for cloud_name, instance_group in instances.items():
 
+            # Give a warning about properties that aren't supported
+            instance_group.Instance.check_attributes(
+                properties, self.settings.allow_missing_attributes
+            )
+
             # Do we have a request to filter by region?
             if region is not None:
                 instance_group.filter_region(region)
 
-            # Do we have prices for the cloud?
+            # Do we have prices for the cloud? Note prices should be added
+            # first so they can be part of the query
             if cloud_name in prices:
                 instance_group.add_instance_prices(prices[cloud_name])
 
@@ -187,6 +214,8 @@ class Client:
         solver.add_properties(properties.defined)
 
         # Select the instances!
+        # TODO: we need to allow selected to return back more
+        # attributes to determine uniqueness.
         selected = solver.solve().get("instance") or []
 
         # Do we have a request for a pattern to include or exclude?
