@@ -40,8 +40,8 @@ jobs:
       run: |
         tag=${GITHUB_REF#refs/tags/}
         echo "Tagging and releasing ghcr.io/converged-computing/cloud-select:${tag}"
-        docker tag ghcr.io/converged-computing/cloud-select:latest converged-computing/cloud-select:${tag}
-        docker push converged-computing/cloud-select:${tag}
+        docker tag ghcr.io/converged-computing/cloud-select:latest ghcr.io/converged-computing/cloud-select:${tag}
+        docker push ghcr.io/converged-computing/cloud-select:${tag}
 
     - name: Deploy
       if: (github.event_name != 'pull_request')
