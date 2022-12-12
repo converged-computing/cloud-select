@@ -14,6 +14,9 @@ and **Merged pull requests**. Critical items to know are:
 The versions coincide with releases on pip. Only major versions will be released as tags on Github.
 
 ## [0.0.x](https://github.com/converged-computing/cloud-select/tree/main) (0.0.x)
+ - bugfix to allow oras without auth for pull (0.0.13)
+   - addition of basic container tutorial
+   - basic tests for settings (missing add)
  - bug fixes for unauthenticated google cloud (0.0.12)
  - support for cache clear, update, and push commands (0.0.11)
  - addition of docs and bug fixes for instance select (0.0.1)

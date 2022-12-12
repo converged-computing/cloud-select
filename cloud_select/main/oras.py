@@ -26,7 +26,7 @@ def get_oras_client(require_auth=False):
         logger.debug("Found username and password for basic auth")
         reg.set_basic_auth(user, password)
     else:
-        logfunc = logger.exit if require_auth else logger.warning
+        logfunc = logger.exit if require_auth else logger.debug
         logfunc("ORAS_USER or ORAS_PASS is missing, push may have issues.")
     return reg
 
@@ -62,7 +62,7 @@ class Registry(oras.provider.Registry):
             # This gives flexibility to support different variances of prices, etc.
             if datatype in data_found:
 
-                logger.info(f"Downloading data file for {datatype} from ORAS cache...")
+                logger.debug(f"Downloading data file for {datatype} from ORAS cache...")
                 artifact = layer["annotations"]["org.opencontainers.image.title"]
 
                 # Assemble output file name in root

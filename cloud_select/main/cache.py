@@ -171,7 +171,8 @@ class Cache:
         from it. We retrieve the manifest and cache it for later use, and only
         download if the data file is needed (more efficient).
         """
-        oras_cli = oras.get_oras_client(require_auth=True)
+        oras_cli = oras.get_oras_client(require_auth=False)
+
         # Update our manifest if we don't have one yet
         if not self._oras_manifest:
             try:

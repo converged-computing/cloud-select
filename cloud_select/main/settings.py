@@ -106,11 +106,11 @@ class Settings:
         if not path:
             return
 
-        editor = utils.which(path)
+        editor = shutil.which(path)
 
         # Only return the editor name if we find it!
-        if editor["return_code"] == 0:
-            return path
+        if editor is not None:
+            return editor
 
     def get_settings_file(self, settings_file=None):
         """
@@ -174,7 +174,7 @@ class Settings:
         value = self.parse_boolean(value)
 
         # We can only add to lists
-        current = self._settings.get(key)
+        current = self.get(key)
         if current and not isinstance(current, list):
             logger.exit("You cannot only add to a list variable.")
         value = self.parse_null(value)
@@ -182,9 +182,7 @@ class Settings:
         if value not in current:
             # Add to the beginning of the list
             current = [value] + current
-            self._settings[key] = OrderedList()
-            [self._settings[key].append(x) for x in current]
-            self.change_validate(key, value)
+            self.set(key, current)
             logger.warning(
                 "Warning: Check with cloud-select config edit - ordering of list can change."
             )

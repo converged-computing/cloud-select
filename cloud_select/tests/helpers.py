@@ -27,15 +27,23 @@ def parse_args(argstr):
     return args
 
 
+def get_settings(tmpdir):
+    """
+    Create a temporary settings file
+    """
+    settings_file = os.path.join(root, "settings.yml")
+    new_settings = os.path.join(tmpdir, "settings.yml")
+    shutil.copyfile(settings_file, new_settings)
+    return new_settings
+
+
 def init_client(tmpdir, cloud=None):
     """
     Get a common client for some container technology and module system
     """
     clouds = [cloud] if cloud else None
-    settings_file = os.path.join(root, "settings.yml")
-    new_settings = os.path.join(tmpdir, "settings.yml")
+    new_settings = get_settings(tmpdir)
     new_cache = os.path.join(tmpdir, "cache")
-    shutil.copyfile(settings_file, new_settings)
     client = Client(
         quiet=False,
         settings_file=new_settings,

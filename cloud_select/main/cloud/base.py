@@ -44,7 +44,7 @@ class CloudProvider:
         """
         Shared message and empty return if auth not set
         """
-        logger.info(f"{self.name}: cannot retrieve {message}.")
+        logger.debug(f"{self.name}: cannot retrieve {message}.")
         return []
 
 
