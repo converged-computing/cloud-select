@@ -63,6 +63,9 @@ def test_instance_command(tmp_path, cloud, min_instances, name_attribute, min_pr
     assert not os.path.exists(price_cache_file)
     assert not os.path.exists(instance_cache_file)
     instances = client.update_from_cache(client.instances(), "instances")
+
+    # This will fail if oras download failed
+    os.listdir(os.path.join(client.cache.cache_dir, cloud))
     assert os.path.exists(instance_cache_file)
     assert not os.path.exists(price_cache_file)
 
