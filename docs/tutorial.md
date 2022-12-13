@@ -142,7 +142,7 @@ SELECT DISTINCT cloud, instance FROM instances WHERE NOT instance REGEXP 'e2'
 ## Database Tutorial
 
 If you consider yourself an "advanced" user and want a direct interface
-to the in memory sqlite databse, you can use the `dbshell` function:
+to the in memory sqlite database, you can use the `dbshell` function:
 
 ```bash
 $ cloud-select dbshell
