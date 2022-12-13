@@ -122,6 +122,6 @@ result will return a table with only AWS (the query doesn't select any Google).
 
 
 **Note** We are still working on the client, and we don't have tests for a lot of
-functionality (yet) so it's use at your own risk! E.g., include and exlude list are not
+functionality (yet) so it's use at your own risk! E.g., include and exclude list are not
 working yet (and need to be refactored to be a part of the database query). We are thinking about
 use cases and if you have ideas please [contribute them here](https://github.com/converged-computing/cloud-select/issues/14).
