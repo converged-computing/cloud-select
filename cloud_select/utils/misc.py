@@ -3,6 +3,8 @@
 #
 # SPDX-License-Identifier: (MIT)
 
+import copy
+
 
 def chunks(listing, chunk_size):
     """
@@ -37,3 +39,19 @@ def mb_to_bytes(mb):
     Convert mb to bytes, usually so we can derive a better format.
     """
     return mb * (1048576)
+
+
+def get_hash(obj):
+    """
+    Get a hash for a random object (set, tuple, list, dict)
+
+    All nested attributes must at least be hashable!
+    """
+    if isinstance(obj, (set, tuple, list)):
+        return tuple([get_hash(o) for o in obj])
+    if not isinstance(obj, dict):
+        return hash(obj)
+    copied = copy.deepcopy(obj)
+    for k, v in copied.items():
+        copied[k] = get_hash(v)
+    return hash(tuple(frozenset(sorted(copied.items()))))

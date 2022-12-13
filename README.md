@@ -26,15 +26,8 @@ This tool is under development and is not ready for production use. See our
 
 ## TODO and Questions
 
-- [ ] add tests and testing workflow
-  - [ ] properties testing for handling min/max/numbers
-  - [ ] ensure that required set of attributes for each instance are returned (e.g., name, cpu, memory)
 - [ ] should cache be organized by region to allow easier filter (data for AWS doesn't have that attribute)
-- [ ] TODO: we don't currently account for region as unique property in results (and need to)
-  - e.g., in tests the sample has 100 unique, but there are only 69 names. The solver.solve()
-    needs to be able to return back enough metadata to determine uniqueness (not done yet)
-- [ ] go through list of instance features and implement remaining (if possible)
-- [ ] include/exclude list still in old format (need to be added to query proper)
+- [ ] go through list of instance features and implement remaining for Google (if possible)
 
 ### Future desires
 

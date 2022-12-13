@@ -72,19 +72,19 @@ class CloudData:
     def __init__(self, items):
         self.data = items
         self.lookup = {}
-        self.create_lookup()
+        self.add_identifiers()
 
-    def create_lookup(self):
+    def add_identifiers(self):
         """
-        If we have a name attribute and a list of data, cache a lookup for later
+        Cloud data can be unique in different ways, so create uid hash.
         """
-        if not (hasattr(self, "name_attribute") and isinstance(self.data, list)):
-            return
-        key = self.name_attribute
         for item in self.data:
-            if key not in item:
+            if not isinstance(item, dict):
                 continue
-            self.lookup[item[key]] = item
+            # Note that this isn't a stable representation but will work for this case
+            uid = hash(json.dumps(item, sort_keys=True))
+            item["cloud-select-uid"] = uid
+            self.lookup[uid] = item
 
 
 class Instance(CloudData):
@@ -95,6 +95,9 @@ class Instance(CloudData):
     to expose. If a cloud instance (json) result differs, it should
     override this function.
     """
+
+    def uid(self):
+        return self.data["cloud-select-uid"]
 
     @property
     def attribute_getters(self):
@@ -126,7 +129,7 @@ class Instance(CloudData):
         Prices are considered separately and filtered out when missing,
         unless they are disabled.
         """
-        for prop, _ in props.defined.items():
+        for prop in props.instance_props:
             if not cls.has_attribute(prop):
                 if not allow_missing:
                     msg = "Set allow_missing_attributes in your settings.yml to 'true' to continue anyway."
@@ -175,7 +178,7 @@ class Instance(CloudData):
             "price": self.attr_price(),
             "cpus": self.attr_cpus(),
             "gpus": self.attr_gpus(),
-            "region(s)": self.attr_region(),
+            "region": self.attr_region(),
             "description": self.attr_description(),
         }
 

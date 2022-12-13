@@ -22,6 +22,7 @@ def parse_args(argstr):
     Given an argument string for a test, parse it.
     """
     parser = get_parser()
+    parser.prog = "cloud-select"
     args = parser.parse_args(shlex.split(argstr))
     args.debug = True
     return args

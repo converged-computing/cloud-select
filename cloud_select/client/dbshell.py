@@ -4,7 +4,9 @@
 # SPDX-License-Identifier: (MIT)
 
 import cloud_select.utils
+from cloud_select.logger import logger
 from cloud_select.main import Client
+from cloud_select.main.solve.database import create_instances_table
 
 
 def main(args, parser, extra, subparser):
@@ -12,6 +14,9 @@ def main(args, parser, extra, subparser):
     cloud_select.utils.ensure_no_extra(extra)
     lookup = {"ipython": ipython, "python": python, "bpython": bpython}
     shells = ["ipython", "python", "bpython"]
+
+    print("Table prepared for you:")
+    logger.info(create_instances_table)
 
     # The default shell determined by the command line client
     shell = args.interpreter
@@ -32,7 +37,6 @@ def main(args, parser, extra, subparser):
 
 
 def create_client(args):
-
     cli = Client(
         quiet=args.quiet,
         settings_file=args.settings_file,
@@ -51,6 +55,8 @@ def ipython(args):
     client = create_client(args)  # noqa
     from IPython import embed
 
+    db = client.prepare_database().db  # noqa
+
     embed()
 
 
@@ -61,7 +67,8 @@ def bpython(args):
     import bpython
 
     client = create_client(args)
-    bpython.embed(locals_={"client": client})
+    db = client.prepare_database().db
+    bpython.embed(locals_={"client": client, "db": db})
 
 
 def python(args):
@@ -71,4 +78,6 @@ def python(args):
     import code
 
     client = create_client(args)
-    code.interact(local={"client": client})
+    db = client.prepare_database().db
+
+    code.interact(local={"client": client, "db": db})

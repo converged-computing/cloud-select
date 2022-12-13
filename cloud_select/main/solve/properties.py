@@ -11,9 +11,6 @@ class Properties:
     Properties from a schema to go into a solve.
     """
 
-    # Do not go into the solve (but if defined, used before or after)
-    not_solver_properties = ["include_list", "exclude_list"]
-
     # expected to have <name>, <name>_min, <name>_max
     range_properties = [
         "cpus",
@@ -37,14 +34,15 @@ class Properties:
         properties = {
             k: v for k, v in kwargs.items() if k.replace("_", "-") in self._allowed
         }
-        # Instance level properties (to be deleted from selection, used separately)
-        self.set_non_solver_properties(properties)
 
         # The user is asking for these defined
         self.defined = {k: v for k, v in properties.items() if v is not None}
 
         # GPU is handled specially since there is a boolean and min/max/number
         self.set_gpu_properties()
+
+        # include and exclude list
+        self.set_like_properties()
 
         # Here we need custom handling of min / max ranges. E.g., if a single value is
         # provided, we look exactly for that. If a min or max is provided, we look for
@@ -97,7 +95,7 @@ class Properties:
     def set_gpu_properties(self):
         """
         Parse desired properties into single GPU request.
-        There is both a min/max/number specification and a general flag.
+        There is both a min/max/number specification and a general boolean flag.
         """
         # Properties that ask for a specific count
         gpu_props = ["gpus", "gpus_max", "gpus_min"]
@@ -113,14 +111,24 @@ class Properties:
         # Case 3: Just a gpus is set (exact number) delete the rest
         self._set_range_properties("gpus")
 
-    def set_non_solver_properties(self, properties):
+    @property
+    def instance_props(self):
         """
-        These properties are used later (e.g., to filter a final set based on name).
+        Yield properties that are expected to be on instances
         """
-        # Instance level properties (to be deleted from selection, used separately)
-        for prop in self.not_solver_properties:
-            if prop not in properties:
-                setattr(self, prop, None)
+        for prop in self.defined:
+            if prop in ["like", "unlike"]:
                 continue
-            setattr(self, prop, properties.get(prop))
-            del properties[prop]
+            yield prop.replace("range:", "")
+
+    def set_like_properties(self):
+        """
+        include-list or exclude-list are parsed differently.
+        """
+        if "include_list" in self.defined:
+            self.defined["like"] = self.defined["include_list"]
+            del self.defined["include_list"]
+
+        if "exclude_list" in self.defined:
+            self.defined["unlike"] = self.defined["exclude_list"]
+            del self.defined["exclude_list"]

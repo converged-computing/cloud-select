@@ -120,6 +120,7 @@ def test_instance_filters(tmp_path, cloud, prices_file, instances_file, region):
 
     # Set cache data to memory cache (a copy so we can edit it)
     def reset_data():
+
         client.cache.memory_set(cloud, copy.deepcopy(prices_sample), "prices")
         client.cache.memory_set(cloud, copy.deepcopy(instances_sample), "instances")
 
@@ -178,9 +179,6 @@ def test_instance_filters(tmp_path, cloud, prices_file, instances_file, region):
             if prop not in not_defined[cloud]:
                 raise ValueError(f"A function for property {prop} should be defined.")
 
-        # TODO vsoch needs to write specific tests here for filtering
-        # reset_data()
-
     # Turning on prices makes the set smaller
     client.settings.disable_prices = False
     reset_data()
@@ -190,7 +188,215 @@ def test_instance_filters(tmp_path, cloud, prices_file, instances_file, region):
     if cloud == "aws":
         assert len(instances.data) == len(instances_sample)
 
-    # TODO TESTS
-    # min/max setting and which takes preference
-    # add argparsing examples for filters
-    # args = parse_args("")
+
+@pytest.mark.parametrize(
+    "cloud",
+    [
+        ("aws"),
+    ],
+)
+def test_aws_instance_filters(tmp_path, cloud):
+    """
+    Test AWS filters with the client
+    """
+    client = init_client(str(tmp_path), cloud=cloud)
+    client.settings.cache_only = True
+
+    # Test attributes against test data
+    # This ensures when we switch the format of Google price data we are aware of it
+    prices_sample = utils.read_json(os.path.join(testdata, "aws-prices-sample.json"))
+    instances_sample = utils.read_json(
+        os.path.join(testdata, "aws-instances-sample.json")
+    )
+
+    # Set cache data to memory cache (a copy so we can edit it)
+    def reset_data():
+        client.cache.memory_set(cloud, copy.deepcopy(prices_sample), "prices")
+        client.cache.memory_set(cloud, copy.deepcopy(instances_sample), "instances")
+
+    reset_data()
+
+    # Argparsing examples for filters
+    # No query args mean all instances we have
+    args = parse_args("instance")
+    results = client.instance_select(**args.__dict__)
+    assert len(results) == 100
+
+    # Ensure each result has all data
+    for attr in [
+        "cloud",
+        "name",
+        "memory",
+        "price",
+        "cpus",
+        "gpus",
+        "region",
+        "description",
+    ]:
+        for result in results:
+            assert attr in result
+
+    # Note that --max-results is handled by the client directly
+    args = parse_args("instance --price-per-hour-min 1.0")
+    results = client.instance_select(**args.__dict__)
+    assert len(results) == 9
+    for result in results:
+        assert result["price"] >= 1.0
+
+    args = parse_args("instance --price-per-hour-max 2.0")
+    results = client.instance_select(**args.__dict__)
+    assert len(results) == 13
+    for result in results:
+        assert result["price"] <= 2.0
+
+    args = parse_args("instance --price-per-hour-min 1.0 --price-per-hour-max 2.0")
+    results = client.instance_select(**args.__dict__)
+    assert len(results) == 3
+    for result in results:
+        assert result["price"] <= 2.0
+        assert result["price"] >= 1.0
+
+    # Check gpu logic - the gpu flag should not take preference
+    args = parse_args("instance --gpu")
+    results = client.instance_select(**args.__dict__)
+    assert len(results) == 6
+    for result in results:
+        assert result["gpus"] > 0
+
+    args = parse_args("instance --gpus 4")
+    results = client.instance_select(**args.__dict__)
+    assert len(results) == 1
+    assert results[0]["gpus"] == 4
+
+    for q in [
+        "instance --gpus-min 1 --gpus-max 8",
+        "instance --gpus-min 1 --gpus-max 8 --gpu",
+    ]:
+        args = parse_args(q)
+        results = client.instance_select(**args.__dict__)
+        assert len(results) == 6
+        for result in results:
+            assert result["gpus"] >= 1
+            assert result["gpus"] <= 8
+
+    # Note that sorting and fitlering of fields missing is done by table class
+    args = parse_args("instance --memory 1024")
+    results = client.instance_select(**args.__dict__)
+    assert len(results) == 2
+    for result in results:
+        assert result["memory"] == 1024
+
+
+def test_interactive_database_aws(tmp_path):
+    """
+    Test interactive database querying with aws
+
+    We can write a Google Cloud function when we have more
+    attributes that are available.
+    """
+    cloud = "aws"
+    client = init_client(str(tmp_path), cloud=cloud)
+    client.settings.cache_only = True
+
+    # Test attributes against test data
+    # This ensures when we switch the format of Google price data we are aware of it
+    prices_sample = utils.read_json(os.path.join(testdata, "aws-prices-sample.json"))
+    instances_sample = utils.read_json(
+        os.path.join(testdata, "aws-instances-sample.json")
+    )
+
+    # Set cache data to memory cache (a copy so we can edit it)
+    def reset_data():
+        client.cache.memory_set(cloud, copy.deepcopy(prices_sample), "prices")
+        client.cache.memory_set(cloud, copy.deepcopy(instances_sample), "instances")
+
+    reset_data()
+
+    db = client.prepare_database().db
+    attributes = db.execute("SELECT DISTINCT attribute from instances")
+    attributes = [x[0] for x in attributes]
+    for expected in [
+        "cpu_arch",
+        "cpus",
+        "description",
+        "disk_type",
+        "free_tier",
+        "hypervisor",
+        "instance_storage",
+        "ipv6",
+        "memory",
+        "memory_bytes",
+        "price",
+        "price_per_hour",
+        "region",
+        "gpu",
+        "gpu_memory",
+        "gpu_model",
+        "gpu_vendor",
+        "gpus",
+    ]:
+        assert expected in attributes
+
+    # We shouldn't have google sneaking in here
+    aws_instances = db.execute("SELECT * from instances where cloud = 'aws'")
+    all_instances = db.execute("SELECT * from instances")
+    assert len(all_instances) == len(aws_instances)
+
+    results = db.execute("SELECT * from instances where instance = 'i3.8xlarge'")
+    assert len(results) == 11
+
+    results = db.execute(
+        "SELECT * from instances where attribute = 'region' and value NOT NULL AND value = 'us-east-1'"
+    )
+    assert len(results) == 100
+
+    results = db.execute(
+        "SELECT * from instances where attribute = 'gpu' and value_bool NOT NULL AND value_bool = 1"
+    )
+    assert len(results) == 6
+
+    results = db.execute(
+        "SELECT * from instances where attribute = 'gpus' and value_number NOT NULL AND value_number = 4"
+    )
+    assert len(results) == 1
+
+    results = db.execute(
+        "SELECT * from instances where attribute = 'gpus' and value_number NOT NULL AND value_number > 6 and value_number < 10"
+    )
+    assert len(results) == 2
+
+    results = db.execute(
+        "SELECT DISTINCT instance from instances where instance REGEXP 'large'"
+    )
+    length = len(results)
+    assert length == 92
+
+    results = db.execute(
+        "SELECT DISTINCT instance from instances where NOT instance REGEXP 'large'"
+    )
+    assert len(results) == 100 - length
+
+    results = db.execute(
+        "SELECT DISTINCT cloud, instance from instances where cloud = 'aws'"
+    )
+    assert len(results) == 100
+    results = db.execute(
+        "SELECT DISTINCT cloud, cloud_select_id from instances where cloud = 'aws'"
+    )
+    assert len(results) == 100
+
+    # Check result data keys
+    for item in results:
+        cloud, uid = item
+        result = client.groups[cloud].generate_row(uid)
+        for key in [
+            "cloud",
+            "name",
+            "memory",
+            "price",
+            "cpus",
+            "gpus",
+            "region",
+            "description",
+        ]:
+            assert key in result

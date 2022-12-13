@@ -4,6 +4,7 @@
 # SPDX-License-Identifier: (MIT)
 
 
+import re
 import sqlite3
 from functools import partial, update_wrapper
 
@@ -27,6 +28,9 @@ class with_connection:
         return partial(self.__call__, obj)
 
     def __call__(self, cls, *args, **kwargs):
+        """
+        Create the connection
+        """
         cls.conn = cls.db.cursor()
         res = self.func(cls, *args, **kwargs)
         cls.conn.close()
@@ -41,22 +45,25 @@ class Database:
 
     def __init__(self, filename=":memory:"):
         self.db = sqlite3.connect(filename)
+        self.db.create_function("regexp", 2, lambda x, y: 1 if re.search(x, y) else 0)
         self.conn = None
-        self.execute(create_instances_table)
+        self.execute(create_instances_table, fetchall=False)
         self.filename = filename
         # Lookup of table id to instance class
         # If too much memory, can write database to temporary file
         self.lookup = {}
 
     @with_connection
-    def execute(self, command, fetchall=False):
+    def execute(self, command, fetchall=True):
         """
         Create the database, creating the instances table.
+
+        fetch_all (when False) is intended for queries that you don't need a result.
         """
         try:
             if fetchall:
                 return self.conn.execute(command).fetchall()
-            return self.conn.execute(command)
+            self.conn.execute(command)
         except Exception as e:
             logger.exit(e)
 
@@ -84,10 +91,10 @@ class Database:
         """
         Use properties to filter instances down to a desired set based.
         """
-        basequery = "SELECT DISTINCT cloud, instance FROM instances"
+        basequery = "SELECT DISTINCT cloud, cloud_select_id FROM instances"
         # No properties,
         if not props:
-            return {"instance": self.execute(f"{basequery};", fetchall=True)}
+            return {"instance": self.execute(f"{basequery};")}
 
         query = ""
 
@@ -101,15 +108,18 @@ class Database:
             # Case 1: we have a range with lookup min/max
             value = props[key]
 
-            # This returns a completed sql statement
-            if key.startswith("range:"):
+            # Each function here returns a complete sql statement
+            if key in ["like", "unlike"]:
+                value = parse_regex(key, value)
+
+            elif key.startswith("range:"):
                 value = parse_range(key, value)
             else:
                 value = parse_value(key, value)
             query += f" WHERE {value}\n"
 
         logger.debug(query)
-        return {"instance": self.execute(f"{query};", fetchall=True)}
+        return {"instance": self.execute(f"{query};")}
 
     def add_instance(self, cloud_name, instance):
         """
@@ -149,7 +159,12 @@ class Database:
                 continue
 
             # Have instance key be name and region
-            item = {"cloud": cloud_name, "instance": instance.name, "attribute": attr}
+            item = {
+                "cloud": cloud_name,
+                "cloud_select_id": instance.uid(),
+                "instance": instance.name,
+                "attribute": attr,
+            }
             add_row(item, value)
 
         self.execute_many("instances", rows)
@@ -160,6 +175,7 @@ class Database:
 create_instances_table = """
 CREATE TABLE IF NOT EXISTS instances (
     id integer PRIMARY KEY,
+    cloud_select_id integer NOT NULL,
     cloud text NOT NULL,
     instance text NOT NULL,
     attribute text NOT NULL,
@@ -191,6 +207,15 @@ def parse_value(key, value):
 
     # We should not get here
     raise ValueError("A value that isn't bool or string should not be parsed.")
+
+
+def parse_regex(key, value):
+    """
+    SELECT * from person WHERE name REGEXP '^us'
+    """
+    if key == "like":
+        return f"instance REGEXP '{value}'"
+    return f"NOT instance REGEXP '{value}'"
 
 
 def parse_range(key, value):
