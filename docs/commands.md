@@ -259,6 +259,11 @@ Note that (as you can see above) these flags can be used together. The order of 
 - push
 
 It wouldn't make sense to clear and push without an update, so use your noggin when specifying what
-you want to do.
+you want to do. Finally, for cases where you are running this in a CI context and expect
+all data to be retrieved, set the `--require-all` flag:
+
+```bash
+$ cloud-select cache --push ghcr.io/converged-computing/cloud-select-cache:nightly --require-all
+```
 
 [home](/README.md#cloud-select)

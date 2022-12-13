@@ -8,6 +8,7 @@ import shutil
 import time
 from datetime import datetime
 
+import cloud_select.main.cloud as cloud_module
 import cloud_select.main.oras as oras
 import cloud_select.utils as utils
 from cloud_select.logger import logger
@@ -26,6 +27,7 @@ class Cache:
         self._cache = {}
         self._cache_expire_hours = cache_expire
         self._oras_manifest = None
+        self._shown_oras_download_message = False
 
     def __repr__(self):
         return str(self)
@@ -88,7 +90,7 @@ class Cache:
             name = "prices-web"
         return os.path.join(self.cache_dir, cloud_name, f"{name}.json")
 
-    def push(self, uri):
+    def push(self, uri, require_all=False):
         """
         Given an ORAS identifier, save cache to it.
         """
@@ -111,6 +113,15 @@ class Cache:
                     "annotations": annotations,
                 }
             )
+
+        # If require all is set, we need at least two files
+        # (prices and instances) per cloud
+        if require_all:
+            expected = len(cloud_module.cloud_names) * 2
+            if len(archives) < expected:
+                logger.exit(
+                    f"Found {len(archives)} cache entries and expected > {expected}"
+                )
 
         # Push should be relative to cache context
         with utils.workdir(self.cache_dir):
@@ -182,6 +193,13 @@ class Cache:
                     f"Issue getting manifest for {package}, check the image and tag name. No cache update from ORAS"
                 )
                 return
+
+        # Tell them (just once) we are downloading chonkers
+        if not self._shown_oras_download_message:
+            logger.info(
+                "Downloading cached data from ORAS - it is big so this will take a moment."
+            )
+            self._shown_oras_download_message = True
 
         # Download the layer to the cache directory and return the filename
         # The oras package paths are relative to a root, so we use the cache root

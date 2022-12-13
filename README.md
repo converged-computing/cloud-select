@@ -34,6 +34,7 @@ This tool is under development and is not ready for production use. See our
   - e.g., in tests the sample has 100 unique, but there are only 69 names. The solver.solve()
     needs to be able to return back enough metadata to determine uniqueness (not done yet)
 - [ ] go through list of instance features and implement remaining (if possible)
+- [ ] include/exclude list still in old format (need to be added to query proper)
 
 ### Future desires
 
