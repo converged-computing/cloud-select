@@ -4,8 +4,6 @@
 # SPDX-License-Identifier: (MIT)
 
 
-import re
-
 import cloud_select.defaults as defaults
 import cloud_select.main.cache as cache
 import cloud_select.main.cloud as clouds
@@ -26,6 +24,9 @@ class Client:
         self.quiet = kwargs.get("quiet", False)
         self.settings = Settings(kwargs.get("settings_file"), validate)
         self.set_clouds(kwargs.get("clouds"))
+
+        # Keep instance groups populated with prices in sort of cache
+        self.groups = None
 
         # Set the cache and expiration
         self.cache = cache.Cache(
@@ -159,11 +160,12 @@ class Client:
                 items[cloud.name] = updated
         return items
 
-    def instance_select(self, **kwargs):
+    def prepare_database(self, **kwargs):
         """
-        Select an instance.
+        Prepare the handle to the database.
+
+        We have this shared function to assist with dbshell.
         """
-        # Start with already cached data
         instances = self.update_from_cache(self.instances(), "instances")
         if not instances:
             logger.exit(
@@ -187,7 +189,7 @@ class Client:
         if "region" in kwargs:
             del kwargs["region"]
 
-        # Prepare and do the solve
+        # Prepare the database for query
         solver = solve.Solver()
 
         # 1. write mapping of common features into functions
@@ -211,19 +213,21 @@ class Client:
             # Generate facts for instances
             solver.add_instances(cloud_name, instance_group)
 
+        # Save groups so we can use them later
+        self.groups = instances
+
         solver.add_properties(properties.defined)
+        return solver
+
+    def instance_select(self, **kwargs):
+        """
+        Select an instance.
+        """
+        solver = self.prepare_database(**kwargs)
 
         # Select the instances!
-        # TODO: we need to allow selected to return back more
-        # attributes to determine uniqueness.
+        # This returns a cloud and unique ID we can use to get original data
         selected = solver.solve().get("instance") or []
 
-        # Do we have a request for a pattern to include or exclude?
-        if selected:
-            for pattern in properties.include_list or []:
-                selected = [x for x in selected if re.search(pattern, x)]
-            for pattern in properties.exclude_list or []:
-                selected = [x for x in selected if not re.search(pattern, x)]
-
         # Assemble back into complete data based on instance name
-        return [instances[x[0]].generate_row(x[1]) for x in selected]
+        return [self.groups[x[0]].generate_row(x[1]) for x in selected]

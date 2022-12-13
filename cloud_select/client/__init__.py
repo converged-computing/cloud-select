@@ -161,6 +161,21 @@ cloud-select -c rm:registry:/tmp/registry""",
         default="ipython",
     )
 
+    # Database shell
+    dbshell = subparsers.add_parser(
+        "dbshell",
+        description="database shell to interact and query directly.",
+        formatter_class=argparse.RawTextHelpFormatter,
+    )
+    dbshell.add_argument(
+        "--interpreter",
+        "-i",
+        dest="interpreter",
+        help="python interpreter",
+        choices=["ipython", "python", "bpython"],
+        default="ipython",
+    )
+
     config = subparsers.add_parser(
         "config",
         description="update configuration settings. Use set or get to see or set information.",
@@ -326,6 +341,8 @@ def run():
         from .config import main
     elif args.command == "shell":
         from .shell import main
+    elif args.command == "dbshell":
+        from .dbshell import main
 
     # Pass on to the correct parser
     return_code = 0
