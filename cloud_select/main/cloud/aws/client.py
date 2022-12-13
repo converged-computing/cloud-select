@@ -142,8 +142,8 @@ class AmazonCloud(CloudProvider):
 
         import boto3
 
-        self.ec2_client = boto3.client("ec2")
-        self.pricing_cli = boto3.client("pricing")
+        self.ec2_client = boto3.client("ec2", region_name=self.regions[0])
+        self.pricing_cli = boto3.client("pricing", region_name=self.regions[0])
 
         try:
             self.ec2_client.describe_instances()

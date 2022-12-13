@@ -199,6 +199,13 @@ cloud-select config add cloud aws""",
         help="push cache data to GitHub packages URI (use with update to update)",
     )
     cache.add_argument(
+        "--require-all",
+        dest="require_all",
+        help="require all cloud instances/prices to be present to push.",
+        default=False,
+        action="store_true",
+    )
+    cache.add_argument(
         "--update",
         help="force an update of cache data",
         default=False,

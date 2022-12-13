@@ -105,7 +105,7 @@ class Database:
             if key.startswith("range:"):
                 value = parse_range(key, value)
             else:
-                value = parse_value(value)
+                value = parse_value(key, value)
             query += f" WHERE {value}\n"
 
         logger.debug(query)

@@ -31,4 +31,4 @@ def main(args, parser, extra, subparser):
 
     # Push to an ORAS registry (e.g., GitHub packages)
     if args.push:
-        cli.cache.push(args.push)
+        cli.cache.push(args.push, args.require_all)
