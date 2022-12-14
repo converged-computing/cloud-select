@@ -228,7 +228,7 @@ cloud-select config add cloud aws""",
     )
     cache.add_argument(
         "--clear",
-        help="dump output as json to terminal",
+        help="clear the cache",
         default=False,
         action="store_true",
     )
