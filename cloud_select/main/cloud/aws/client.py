@@ -67,7 +67,7 @@ class AmazonCloud(CloudProvider):
                 if "Rate exceeded" not in err.args[0] or retries > self.max_retries:
                     raise
                 retries += 1
-                sleep = self.min_sleep_time * random.randint(1, 2 ** retries)
+                sleep = self.min_sleep_time * random.randint(1, 2**retries)
                 time.sleep(sleep)
                 continue
 
