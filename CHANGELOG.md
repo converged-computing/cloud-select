@@ -14,6 +14,7 @@ and **Merged pull requests**. Critical items to know are:
 The versions coincide with releases on pip. Only major versions will be released as tags on Github.
 
 ## [0.0.x](https://github.com/converged-computing/cloud-select/tree/main) (0.0.x)
+ - exponential backoff added for using aws products/prices api (0.0.15)
  - dbshell command added with tutorial, testing for queries and shell (0.0.14)
  - bugfix to allow oras without auth for pull (0.0.13)
    - addition of basic container tutorial

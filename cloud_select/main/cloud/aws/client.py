@@ -4,7 +4,9 @@
 # SPDX-License-Identifier: (MIT)
 
 import json
+import random
 import re
+import time
 
 import cloud_select.utils as utils
 from cloud_select.logger import logger
@@ -27,6 +29,10 @@ class AmazonCloud(CloudProvider):
         self.ec2_client = None
         self.pricing_cli = None
 
+        # Exponential backoff for prices API
+        self.min_sleep_time = kwargs.get("min_sleep_time") or 1e-2
+        self.max_retries = kwargs.get("max_retries") or 15
+
         # This currently has two pieces - billing and instances (different APIs)
         self._set_services(kwargs.get("cache_only", False))
         super(AmazonCloud, self).__init__()
@@ -38,6 +44,8 @@ class AmazonCloud(CloudProvider):
         if not self.has_pricing_auth:
             return self.fail_message("prices, authentication not set.")
 
+        from botocore.exceptions import ClientError
+
         # Get services first - there are almost 2k! Look for compute engine
         logger.info(f"Retrieving prices for {self.name}.")
 
@@ -45,12 +53,24 @@ class AmazonCloud(CloudProvider):
         regex = "(%s)" % "|".join(self.regions)
         logger.debug(f"Searching for region regex {regex}")
 
+        # Keep track of how many times we've tried
+        retries = 0
         next_token = ""
         prices = []
         while True:
-            response = self.pricing_cli.get_products(
-                ServiceCode="AmazonEC2", NextToken=next_token
-            )
+            try:
+                response = self.pricing_cli.get_products(
+                    ServiceCode="AmazonEC2", NextToken=next_token
+                )
+            # Be generous and retry for any client error
+            except ClientError as err:
+                if "Rate exceeded" not in err.args[0] or retries > self.max_retries:
+                    raise
+                retries += 1
+                sleep = self.min_sleep_time * random.randint(1, 2**retries)
+                time.sleep(sleep)
+                continue
+
             if not response.get("NextToken"):
                 break
             next_token = response.get("NextToken")
