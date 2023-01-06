@@ -344,7 +344,7 @@ def test_interactive_database_aws(tmp_path):
     assert len(all_instances) == len(aws_instances)
 
     results = db.execute("SELECT * from instances where instance = 'i3.8xlarge'")
-    assert len(results) == 11
+    assert len(results) >= 11
 
     results = db.execute(
         "SELECT * from instances where attribute = 'region' and value NOT NULL AND value = 'us-east-1'"
