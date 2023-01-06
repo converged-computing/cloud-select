@@ -163,6 +163,7 @@ def test_instance_filters(tmp_path, cloud, prices_file, instances_file, region):
         "cpu-vendor",
         "gpu-vendor",
         "disk-type",
+        "efa",
     ]
     not_defined = {"aws": ["cpu-vendor"], "google": google_missing}
 
