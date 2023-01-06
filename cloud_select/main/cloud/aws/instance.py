@@ -156,6 +156,12 @@ class AmazonInstance(Instance):
         """
         return self.data.get("NetworkInfo", {}).get("Ipv6Supported")
 
+    def attr_efa(self):
+        """
+        Determine if an instance can support efa networking
+        """
+        return self.data.get("NetworkInfo", {}).get("EfaSupported")
+
     def attr_gpu(self):
         """
         Determine if an instance can support gpu
