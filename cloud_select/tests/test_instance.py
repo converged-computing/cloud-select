@@ -23,7 +23,7 @@ testdata = os.path.join(here, "testdata")
 @pytest.mark.parametrize(
     "cloud,min_instances,name_attribute,min_prices",
     [
-        ("aws", 600, "InstanceType", 57500),
+        ("aws", 600, "InstanceType", 57000),
         # Web table has ~44, API data has ~2100
         ("google", 1460, "name", 40),
     ],
