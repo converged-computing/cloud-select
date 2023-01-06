@@ -19,16 +19,6 @@ keyvals = {
     },
 }
 
-# instance_properties
-# This is a shared list of attributes that could be defined (and shared across clouds)
-# TODO could we do some mapping of zones to generic regions (e.g., east/central/west)
-
-# Things that need common mapping:
-# - architecture
-# - cpus/cores (ranges)?
-
-# We need (in clingo facts) ways to compare things
-
 instance_properties = {
     "gpus": {
         "type": "integer",
@@ -131,6 +121,10 @@ instance_properties = {
         "type": "string",
         "description": "type of disk, hard disk or solid state",
         "enum": ["hdd", "ssd"],
+    },
+    "efa": {
+        "type": "boolean",
+        "description": "Ask for an instance that supports efa networking",
     },
     "exclude-list": {
         "type": "array",

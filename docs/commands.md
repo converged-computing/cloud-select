@@ -26,6 +26,12 @@ Ask for a specific cloud on the command line (note you can also ask via your set
 $ cloud-select --cloud google instance --cpus-min 200 --cpus-max 400
 ```
 
+As for an aws instance that supports efa networking, and support least to most expensive.
+
+```bash
+$ cloud-select --cloud aws instance --efa --sort price --asc
+```
+
 Note that we don't have support for all attributes defined yet! By default, you won't be allowed
 to filter for a property that we cannot derive:
 

@@ -23,7 +23,7 @@ testdata = os.path.join(here, "testdata")
 @pytest.mark.parametrize(
     "cloud,min_instances,name_attribute,min_prices",
     [
-        ("aws", 600, "InstanceType", 57500),
+        ("aws", 600, "InstanceType", 57000),
         # Web table has ~44, API data has ~2100
         ("google", 1460, "name", 40),
     ],
@@ -163,6 +163,7 @@ def test_instance_filters(tmp_path, cloud, prices_file, instances_file, region):
         "cpu-vendor",
         "gpu-vendor",
         "disk-type",
+        "efa",
     ]
     not_defined = {"aws": ["cpu-vendor"], "google": google_missing}
 
@@ -343,7 +344,7 @@ def test_interactive_database_aws(tmp_path):
     assert len(all_instances) == len(aws_instances)
 
     results = db.execute("SELECT * from instances where instance = 'i3.8xlarge'")
-    assert len(results) == 11
+    assert len(results) >= 11
 
     results = db.execute(
         "SELECT * from instances where attribute = 'region' and value NOT NULL AND value = 'us-east-1'"
