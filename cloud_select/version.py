@@ -1,9 +1,9 @@
-# Copyright 2022 Lawrence Livermore National Security, LLC and other
+# Copyright 2022-2023 Lawrence Livermore National Security, LLC and other
 # HPCIC DevTools Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (MIT)
 
-__version__ = "0.0.16"
+__version__ = "0.0.17"
 AUTHOR = "Vanessa Sochat"
 EMAIL = "vsoch@users.noreply.github.com"
 NAME = "cloud-select-tool"
@@ -23,6 +23,7 @@ INSTALL_REQUIRES = (
     ("rich", {"min_version": None}),
     ("oras", {"min_version": None}),
     ("requests", {"min_version": None}),
+    ("pick", {"min_version": None}),
 )
 
 AWS_REQUIRES = (("boto3", {"min_version": None}),)
