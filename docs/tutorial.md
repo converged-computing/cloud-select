@@ -2,6 +2,120 @@
 
 This is a set (will be a set) of tutorials to help you get started with cloud select!
 
+## Selector Tutorial
+
+A selector is a class within cloud select that makes it easy to provide an interactive
+(or otherwise programmatic) interface to use in your Python code to choose resources.
+As an example, let's create a selector to help us choose an AWS instance.
+
+```python
+from cloud_select.main.selectors import InstanceSelector
+selector = InstanceSelector(cloud="aws")
+```
+For the time being, a selector can target one cloud, however this
+can easily be extended to include across clouds (open an issue with your use case)!
+Next, let's say we want to filter based on resources memory and cpus. One option could
+be to do this:
+
+```python
+resources = {"memory": 4000, "cpus" 1}
+```
+
+But you'll find you get a much better selection when you provide a small range, e.g.,:
+
+```python
+resources = {"memory_min": 4000, "memory_max": 4500, "cpus_min": 1, "cpus_max": 3}
+```
+
+Since the default "sort by" field that we try to optimize for is price, the smallest
+resource specs will generally be shown first. Let's provide that to our function,
+first in an interactive mode:
+
+```python
+instance = selector.select_instance(resources)
+```
+```console
+ Please choose an instance type, these are sorted by price, least to greatest.
+
+ =>      t4g.medium 2 vCPUs, 4.0 GiB RAM at 0.0336 $/hour
+         t3a.medium 2 vCPUs, 4.0 GiB RAM at 0.0376 $/hour
+         m6g.medium 1 vCPUs, 4.0 GiB RAM at 0.0385 $/hour
+          t3.medium 2 vCPUs, 4.0 GiB RAM at 0.0416 $/hour
+        m6gd.medium 1 vCPUs, 4.0 GiB RAM at 0.0452 $/hour
+          t2.medium 2 vCPUs, 4.0 GiB RAM at 0.0464 $/hour
+           a1.large 2 vCPUs, 4.0 GiB RAM at 0.051 $/hour
+          c6g.large 2 vCPUs, 4.0 GiB RAM at 0.068 $/hour
+          c7g.large 2 vCPUs, 4.0 GiB RAM at 0.0725 $/hour
+          c6a.large 2 vCPUs, 4.0 GiB RAM at 0.0765 $/hour
+         c6gd.large 2 vCPUs, 4.0 GiB RAM at 0.0768 $/hour
+          c5a.large 2 vCPUs, 4.0 GiB RAM at 0.077 $/hour
+          c6i.large 2 vCPUs, 4.0 GiB RAM at 0.085 $/hour
+           c5.large 2 vCPUs, 4.0 GiB RAM at 0.085 $/hour
+         c5ad.large 2 vCPUs, 4.0 GiB RAM at 0.086 $/hour
+         c6gn.large 2 vCPUs, 4.0 GiB RAM at 0.0864 $/hour
+          c5d.large 2 vCPUs, 4.0 GiB RAM at 0.096 $/hour
+         c6id.large 2 vCPUs, 4.0 GiB RAM at 0.1008 $/hour
+         c6in.large 2 vCPUs, 4.0 GiB RAM at 0.1134 $/hour
+    Exit and start over
+```
+
+And then the instance is returned:
+
+```python
+instance
+'t4g.medium'
+```
+
+If there are no matches, `None` is returned. However,
+if you provide a default, this will be shown to the user as the first option
+and will be returned if there are no matches:
+
+```python
+instance = selector.select_instance(resources, default='my-custom-instance')
+```
+```
+# after I chose default
+instance
+`my-custom-instance`
+```
+
+By default, we are setting the following parameters:
+
+ - **interactive** (True) means that the user will be asked to choose an option from the list (shown above)
+ - **allow_exit** (True) always give the user an option to exit to start over.
+ - **sort_by** (price) A field from cloud select to sort by (defaults.sort_by_fields)
+ - **ascending** (True) Return results with lowest price (or sort by field) at the top
+
+
+If you set interactive to False, you'll get back the list of top results to handle yourself:
+
+```python
+instances = selector.select_instance(resources, interactive=False)
+```
+```console
+[{'cloud': 'aws',
+  'name': 't4g.medium',
+  'memory': 4096,
+  'price': 0.0336,
+  'cpus': 2,
+  'gpus': None,
+  'region': 'us-east-1',
+  'description': '2 vCPUs, 4.0 GiB RAM'},
+ {'cloud': 'aws',
+  'name': 't3a.medium',
+  'memory': 4096,
+  'price': 0.0376,
+  'cpus': 2,
+  'gpus': None,
+  'region': 'us-east-1',
+  'description': '2 vCPUs, 4.0 GiB RAM'}]
+  ...
+```
+
+And that's it! This class should make it easy to add a cloud select process
+to your own Python modules. If you have a feature request or other item
+to discuss, please [let us know](https://github.com/converged-computing/cloud-select/issues).
+
 ## Docker Tutorial
 
 The easiest way to jump in is with docker. We provide a [pre-built container](https://github.com/converged-computing/cloud-select/pkgs/container/cloud-select):

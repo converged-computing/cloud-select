@@ -1,9 +1,11 @@
-# Copyright 2022 Lawrence Livermore National Security, LLC and other
+# Copyright 2022-2023 Lawrence Livermore National Security, LLC and other
 # HPCIC DevTools Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (MIT)
 
 import copy
+
+from pick import pick
 
 
 def chunks(listing, chunk_size):
@@ -39,6 +41,13 @@ def mb_to_bytes(mb):
     Convert mb to bytes, usually so we can derive a better format.
     """
     return mb * (1048576)
+
+
+def choose(options, prompt, default_index=0):
+    """
+    Use pick to choose one of a few options, return the chosen option.
+    """
+    return pick(options, prompt, indicator="=>", default_index=default_index)
 
 
 def get_hash(obj):
