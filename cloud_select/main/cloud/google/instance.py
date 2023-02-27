@@ -133,7 +133,7 @@ class GoogleCloudInstanceGroup(InstanceGroup):
             return
 
         logger.warning(
-            "Google Cloud instance prices derived from the web are limited to Iowa (us-centra-1)"
+            "Google Cloud instance prices derived from the web are limited to Iowa (us-central1)"
         )
 
         # Get actual machine types and convert web listing to types
