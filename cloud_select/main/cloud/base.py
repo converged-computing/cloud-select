@@ -18,7 +18,6 @@ class CloudProvider:
     name = "cloud"
 
     def __init__(self):
-
         # If we weren't created with settings, add empty
         if not hasattr(self, "settings"):
             from cloud_select.main.settings import Settings

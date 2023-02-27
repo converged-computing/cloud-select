@@ -71,7 +71,6 @@ class Table:
         # Ensure fields are present
         for entry in self.data:
             for field in fields:
-
                 if field not in entry:
                     entry[field] = ""
 
@@ -104,7 +103,6 @@ class Table:
         # All keys are lowercase
         column_width = self.available_width(columns)
         for i, row in enumerate(self.data):
-
             # have we gone over the limit?
             if limit and i > limit:
                 return

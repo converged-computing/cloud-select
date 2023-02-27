@@ -120,7 +120,6 @@ def test_instance_filters(tmp_path, cloud, prices_file, instances_file, region):
 
     # Set cache data to memory cache (a copy so we can edit it)
     def reset_data():
-
         client.cache.memory_set(cloud, copy.deepcopy(prices_sample), "prices")
         client.cache.memory_set(cloud, copy.deepcopy(instances_sample), "instances")
 
@@ -169,7 +168,6 @@ def test_instance_filters(tmp_path, cloud, prices_file, instances_file, region):
 
     # Test args for each property - not min and max (will be tested separately)
     for prop, _ in schemas.instance_properties.items():
-
         # Skip min and max for now - will be tested separately
         if "min" in prop or "max" in prop or prop in skips:
             continue

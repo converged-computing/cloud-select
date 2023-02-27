@@ -52,7 +52,6 @@ class Registry(oras.provider.Registry):
         # Find the layer of interest! Currently we look for presence of the string
         # e.g., "prices" can come from "prices" or "prices-web"
         for layer in manifest.get("layers", []):
-
             # E.g., google.prices or google.prices-web or aws.prices
             contents = layer["mediaType"].split("cloud-select.")[-1]
             cloud_found, data_found = contents.split(".")
@@ -61,7 +60,6 @@ class Registry(oras.provider.Registry):
 
             # This gives flexibility to support different variances of prices, etc.
             if datatype in data_found:
-
                 logger.debug(f"Downloading data file for {datatype} from ORAS cache...")
                 artifact = layer["annotations"]["org.opencontainers.image.title"]
 
@@ -82,7 +80,6 @@ class Registry(oras.provider.Registry):
 
         # Upload files as blobs
         for item in archives:
-
             blob = item.get("path")
             media_type = item.get("media_type") or defaults.default_media_type
             annots = item.get("annotations", {})

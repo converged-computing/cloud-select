@@ -8,7 +8,6 @@ from cloud_select.main import Client
 
 
 def main(args, parser, extra, subparser):
-
     utils.ensure_no_extra(extra)
 
     cli = Client(

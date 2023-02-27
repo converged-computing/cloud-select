@@ -10,7 +10,6 @@ from cloud_select.main.solve.database import create_instances_table
 
 
 def main(args, parser, extra, subparser):
-
     cloud_select.utils.ensure_no_extra(extra)
     lookup = {"ipython": ipython, "python": python, "bpython": bpython}
     shells = ["ipython", "python", "bpython"]

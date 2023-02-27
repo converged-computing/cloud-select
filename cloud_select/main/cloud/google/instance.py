@@ -148,7 +148,6 @@ class GoogleCloudInstanceGroup(InstanceGroup):
                 if not row:
                     continue
                 if row[0] in actual_types:
-
                     # Find price index
                     idx = [
                         i
