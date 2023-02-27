@@ -64,6 +64,14 @@ class InstanceSelector:
 
         instances = self.cli.instance_select(**resources)
         subset = [x for x in instances if x.get(sort_by) not in [None, ""]]
+
+        # If sort by price, need to set price to be float
+        if sort_by == "price":
+            for item in subset:
+                if sort_by not in item:
+                    continue
+                item[sort_by] = float(item[sort_by])
+
         selection = sorted(subset, key=lambda x: x[sort_by], reverse=not ascending)
 
         # If not interactive, just return selection
@@ -90,13 +98,25 @@ class InstanceSelector:
 
         return instance
 
-    def get_options(self, selection, default=None, allow_exit=True):
+    def get_options(
+        self,
+        selection,
+        default=None,
+        allow_exit=True,
+    ):
         """
         Get options for cloud select
         """
         options = []
         if default:
             options = [f"     Use default {default}"]
+
+        for instance in selection:
+            name = instance["name"].rjust(15)
+            description = instance["description"].ljust(5)
+            option = f"{name} {description} at {instance['price']} $/hour"
+            options.append(option)
+
         options += [
             f"{x['name'].rjust(15)} {x['description']} at {x['price']} $/hour"
             for x in selection

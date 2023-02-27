@@ -227,10 +227,8 @@ class AmazonInstanceGroup(InstanceGroup):
 
         # Add prices to instances we have prices for
         for instance in self.data:
-
             # Set to unreasonably high so it's not a choice
             if instance["InstanceType"] in lookup:
-
                 # Make a list of prices that matches regions
                 region_prices = {}
                 for region in instance["Regions"]:

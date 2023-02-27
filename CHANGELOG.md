@@ -14,6 +14,7 @@ and **Merged pull requests**. Critical items to know are:
 The versions coincide with releases on pip. Only major versions will be released as tags on Github.
 
 ## [0.0.x](https://github.com/converged-computing/cloud-select/tree/main) (0.0.x)
+ - bugfix for sorting by prices with select (0.0.18)
  - selector class (with interactive or automated select) (0.0.17)
  - support for `--efa` flag to find AWS instances that support it (0.0.16)
  - exponential backoff added for using aws products/prices api (0.0.15)

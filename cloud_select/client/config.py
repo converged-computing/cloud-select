@@ -12,7 +12,6 @@ from cloud_select.main import Client
 
 
 def main(args, parser, extra, subparser):
-
     cloud_select.utils.ensure_no_extra(extra)
 
     # If nothing provided, show help

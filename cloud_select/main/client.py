@@ -72,7 +72,6 @@ class Client:
         # We should always be able to get cloud classes, even without auth
         # The class knows how to parse the data types into a standard space
         for cloud_name, CloudClass in self._cloudclass.items():
-
             # Regions default to settings then defaults
             cloud_settings = getattr(self.settings, cloud_name)
             self._clouds[cloud_name] = CloudClass(
@@ -102,7 +101,6 @@ class Client:
         """
         items = {}
         for cloud in self.get_clouds():
-
             # Assume we don't find data
             data = None
 
@@ -140,7 +138,6 @@ class Client:
         """
         # For every cloud class we have...
         for cloud in self.get_clouds():
-
             # We have the data and it's expired OR we don't have it - update it
             if cloud.name not in items or self.cache.is_expired(cloud.name, datatype):
                 func = getattr(cloud, datatype, None)
@@ -195,7 +192,6 @@ class Client:
         # 1. write mapping of common features into functions
         # 2. filter down to desired set based on these common functions
         for cloud_name, instance_group in instances.items():
-
             # Give a warning about properties that aren't supported
             instance_group.Instance.check_attributes(
                 properties, self.settings.allow_missing_attributes
