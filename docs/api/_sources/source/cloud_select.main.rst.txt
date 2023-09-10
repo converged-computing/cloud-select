@@ -7,8 +7,8 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   cloud_select.main.cloud
-   cloud_select.main.solve
+   cloudselect.main.cloud
+   cloudselect.main.solve
 
 Submodules
 ----------
@@ -16,7 +16,7 @@ Submodules
 cloud\_select.main.cache module
 -------------------------------
 
-.. automodule:: cloud_select.main.cache
+.. automodule:: cloudselect.main.cache
    :members:
    :undoc-members:
    :show-inheritance:
@@ -24,7 +24,7 @@ cloud\_select.main.cache module
 cloud\_select.main.client module
 --------------------------------
 
-.. automodule:: cloud_select.main.client
+.. automodule:: cloudselect.main.client
    :members:
    :undoc-members:
    :show-inheritance:
@@ -32,7 +32,7 @@ cloud\_select.main.client module
 cloud\_select.main.colors module
 --------------------------------
 
-.. automodule:: cloud_select.main.colors
+.. automodule:: cloudselect.main.colors
    :members:
    :undoc-members:
    :show-inheritance:
@@ -40,7 +40,7 @@ cloud\_select.main.colors module
 cloud\_select.main.schemas module
 ---------------------------------
 
-.. automodule:: cloud_select.main.schemas
+.. automodule:: cloudselect.main.schemas
    :members:
    :undoc-members:
    :show-inheritance:
@@ -48,7 +48,7 @@ cloud\_select.main.schemas module
 cloud\_select.main.settings module
 ----------------------------------
 
-.. automodule:: cloud_select.main.settings
+.. automodule:: cloudselect.main.settings
    :members:
    :undoc-members:
    :show-inheritance:
@@ -56,7 +56,7 @@ cloud\_select.main.settings module
 cloud\_select.main.table module
 -------------------------------
 
-.. automodule:: cloud_select.main.table
+.. automodule:: cloudselect.main.table
    :members:
    :undoc-members:
    :show-inheritance:
@@ -64,7 +64,7 @@ cloud\_select.main.table module
 Module contents
 ---------------
 
-.. automodule:: cloud_select.main
+.. automodule:: cloudselect.main
    :members:
    :undoc-members:
    :show-inheritance:

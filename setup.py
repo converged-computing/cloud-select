@@ -10,7 +10,7 @@ from setuptools import find_packages, setup
 
 def get_lookup():
     lookup = dict()
-    version_file = os.path.join("cloud_select", "version.py")
+    version_file = os.path.join("cloudselect", "version.py")
     with open(version_file) as filey:
         exec(filey.read(), lookup)
     return lookup
@@ -107,5 +107,5 @@ if __name__ == "__main__":
             "Operating System :: Unix",
             "Programming Language :: Python :: 3.8",
         ],
-        entry_points={"console_scripts": ["cloud-select=cloud_select.client:run"]},
+        entry_points={"console_scripts": ["cloud-select=cloudselect.client:run"]},
     )

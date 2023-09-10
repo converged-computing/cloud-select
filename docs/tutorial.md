@@ -9,7 +9,7 @@ A selector is a class within cloud select that makes it easy to provide an inter
 As an example, let's create a selector to help us choose an AWS instance.
 
 ```python
-from cloud_select.main.selectors import InstanceSelector
+from cloudselect.main.selectors import InstanceSelector
 selector = InstanceSelector(cloud="aws")
 ```
 For the time being, a selector can target one cloud, however this
@@ -172,7 +172,7 @@ $ cloud-select instance --price-per-hour-min 1.0 --sort-by price --asc
 Or limit to one cloud (on the fly):
 
 ```bash
-$ cloud-select --cloud aws instance
+$ cloud-select instance --cloud aws
 ```
 
 Note that you can always change this to a default
@@ -282,7 +282,7 @@ database each time. You'll find the `db` instance prepared in the shell context:
 
 ```python
 In [1]: db
-Out[1]: <cloud_select.main.solve.database.Database at 0x7f83966b02e0>
+Out[1]: <cloudselect.main.solve.database.Database at 0x7f83966b02e0>
 ```
 
 Let's try some basic queries using the table above! Note that the results
@@ -491,7 +491,7 @@ different regions or memory. Toward this aim, this is where the cloud select id 
 Let's say we filter down to get cloud and cloud select identifier:
 
 ```python
-> instances = db.execute("SELECT DISTINCT cloud, cloud_select_id from instances where cloud = 'aws'")
+> instances = db.execute("SELECT DISTINCT cloud, cloudselect_id from instances where cloud = 'aws'")
 ```
 ```console
  ('aws', -6470275901068330612),

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cloudselect.main.solve package &mdash; Cloud Select 1 documentation</title>
+      <link rel="stylesheet" href="../assets/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../assets/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../assets/js/html5shiv.min.js"></script>
+  <![endif]-->
+
+        <script src="../assets/jquery.js?v=5d32c60e"></script>
+        <script src="../assets/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../assets/documentation_options.js?v=29a6c3e3"></script>
+        <script src="../assets/doctools.js?v=888ff710"></script>
+        <script src="../assets/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../assets/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="cloudselect.tests package" href="cloudselect.tests.html" />
+    <link rel="prev" title="cloudselect.main package" href="cloudselect.main.html" />
+</head>
+
+<body class="wy-body-for-nav">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+
+
+          <a href="../index.html">
+
+              <img src="../assets/cloud-select-transparent.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="cloudselect.html">cloudselect package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="cloudselect.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.client.html">cloudselect.client package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.cloud.html">cloudselect.cloud package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="cloudselect.main.html">cloudselect.main package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="cloudselect.main.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.main.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.main.html#module-cloudselect.main.cache">cloudselect.main.cache module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.main.html#module-cloudselect.main.client">cloudselect.main.client module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.main.html#module-cloudselect.main.colors">cloudselect.main.colors module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.main.html#module-cloudselect.main.oras">cloudselect.main.oras module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.main.html#module-cloudselect.main.schemas">cloudselect.main.schemas module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.main.html#module-cloudselect.main.selectors">cloudselect.main.selectors module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.main.html#module-cloudselect.main.settings">cloudselect.main.settings module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.main.html#module-cloudselect.main.table">cloudselect.main.table module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.main.html#module-cloudselect.main">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.tests.html">cloudselect.tests package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.utils.html">cloudselect.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.html#module-cloudselect.defaults">cloudselect.defaults module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.html#module-cloudselect.logger">cloudselect.logger module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.html#module-cloudselect.version">cloudselect.version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.html#module-cloudselect">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Cloud Select</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="cloudselect.html">cloudselect package</a></li>
+          <li class="breadcrumb-item"><a href="cloudselect.main.html">cloudselect.main package</a></li>
+      <li class="breadcrumb-item active">cloudselect.main.solve package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/cloudselect.main.solve.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+
+  <section id="cloudselect-main-solve-package">
+<h1>cloudselect.main.solve package<a class="headerlink" href="#cloudselect-main-solve-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-cloudselect.main.solve.database">
+<span id="cloudselect-main-solve-database-module"></span><h2>cloudselect.main.solve.database module<a class="headerlink" href="#module-cloudselect.main.solve.database" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="cloudselect.main.solve.database.Database">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cloudselect.main.solve.database.</span></span><span class="sig-name descname"><span class="pre">Database</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">':memory:'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/main/solve/database.html#Database"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.main.solve.database.Database" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>In-memory database to query instances.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.main.solve.database.Database.add_instance">
+<span class="sig-name descname"><span class="pre">add_instance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cloud_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/main/solve/database.html#Database.add_instance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.main.solve.database.Database.add_instance" title="Link to this definition"></a></dt>
+<dd><p>Generic ability to add instance to flat database</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.main.solve.database.Database.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cloudselect.main.solve.database.Database.execute" title="Link to this definition"></a></dt>
+<dd><p>Create the connection</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.main.solve.database.Database.execute_many">
+<span class="sig-name descname"><span class="pre">execute_many</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cloudselect.main.solve.database.Database.execute_many" title="Link to this definition"></a></dt>
+<dd><p>Create the connection</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.main.solve.database.Database.filter_instances">
+<span class="sig-name descname"><span class="pre">filter_instances</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">props</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/main/solve/database.html#Database.filter_instances"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.main.solve.database.Database.filter_instances" title="Link to this definition"></a></dt>
+<dd><p>Use properties to filter instances down to a desired set based.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.main.solve.database.parse_range">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.main.solve.database.</span></span><span class="sig-name descname"><span class="pre">parse_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/main/solve/database.html#parse_range"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.main.solve.database.parse_range" title="Link to this definition"></a></dt>
+<dd><p>Given a stated range, e.g.,:</p>
+<p>range_gpus: {‘min’: 2, ‘max’: None}</p>
+<p>Return either a min/max rule, or just a min,or just a max.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.main.solve.database.parse_regex">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.main.solve.database.</span></span><span class="sig-name descname"><span class="pre">parse_regex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/main/solve/database.html#parse_regex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.main.solve.database.parse_regex" title="Link to this definition"></a></dt>
+<dd><p>SELECT * from person WHERE name REGEXP ‘^us’</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.main.solve.database.parse_value">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.main.solve.database.</span></span><span class="sig-name descname"><span class="pre">parse_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/main/solve/database.html#parse_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.main.solve.database.parse_value" title="Link to this definition"></a></dt>
+<dd><p>Parse a provided attribute value into an query.
+If we get here, it’s not a range.</p>
+<p>True/False -&gt; 1, 0
+string     -&gt; “string”</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cloudselect.main.solve.database.with_connection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cloudselect.main.solve.database.</span></span><span class="sig-name descname"><span class="pre">with_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/main/solve/database.html#with_connection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.main.solve.database.with_connection" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Provide the function with a connection with open and close.</p>
+<p>This is used as a decorator. When added, self.conn of the
+class is instantiated for interacting with, and cleaned up
+at the end.</p>
+</dd></dl>
+
+</section>
+<section id="module-cloudselect.main.solve.properties">
+<span id="cloudselect-main-solve-properties-module"></span><h2>cloudselect.main.solve.properties module<a class="headerlink" href="#module-cloudselect.main.solve.properties" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="cloudselect.main.solve.properties.Properties">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cloudselect.main.solve.properties.</span></span><span class="sig-name descname"><span class="pre">Properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/main/solve/properties.html#Properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.main.solve.properties.Properties" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Properties from a schema to go into a solve.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="cloudselect.main.solve.properties.Properties.instance_props">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">instance_props</span></span><a class="headerlink" href="#cloudselect.main.solve.properties.Properties.instance_props" title="Link to this definition"></a></dt>
+<dd><p>Yield properties that are expected to be on instances</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cloudselect.main.solve.properties.Properties.range_properties">
+<span class="sig-name descname"><span class="pre">range_properties</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['cpus',</span> <span class="pre">'instance_storage',</span> <span class="pre">'memory',</span> <span class="pre">'gpu_memory',</span> <span class="pre">'price_per_hour']</span></em><a class="headerlink" href="#cloudselect.main.solve.properties.Properties.range_properties" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.main.solve.properties.Properties.set_gpu_properties">
+<span class="sig-name descname"><span class="pre">set_gpu_properties</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/main/solve/properties.html#Properties.set_gpu_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.main.solve.properties.Properties.set_gpu_properties" title="Link to this definition"></a></dt>
+<dd><p>Parse desired properties into single GPU request.
+There is both a min/max/number specification and a general boolean flag.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.main.solve.properties.Properties.set_like_properties">
+<span class="sig-name descname"><span class="pre">set_like_properties</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/main/solve/properties.html#Properties.set_like_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.main.solve.properties.Properties.set_like_properties" title="Link to this definition"></a></dt>
+<dd><p>include-list or exclude-list are parsed differently.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.main.solve.properties.Properties.set_properties">
+<span class="sig-name descname"><span class="pre">set_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/main/solve/properties.html#Properties.set_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.main.solve.properties.Properties.set_properties" title="Link to this definition"></a></dt>
+<dd><p>Given an unknown set of command line arguments, parse into known
+instance properties. This resets properties / defined on the instance.</p>
+<p>We assume that properties coming from argumnts might have a “-” instead of _.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.main.solve.properties.Properties.set_range_properties">
+<span class="sig-name descname"><span class="pre">set_range_properties</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/main/solve/properties.html#Properties.set_range_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.main.solve.properties.Properties.set_range_properties" title="Link to this definition"></a></dt>
+<dd><p>Consolidate range into either min/max or one value.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-cloudselect.main.solve.solver">
+<span id="cloudselect-main-solve-solver-module"></span><h2>cloudselect.main.solve.solver module<a class="headerlink" href="#module-cloudselect.main.solve.solver" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="cloudselect.main.solve.solver.Solver">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cloudselect.main.solve.solver.</span></span><span class="sig-name descname"><span class="pre">Solver</span></span><a class="reference internal" href="../modules/cloudselect/main/solve/solver.html#Solver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.main.solve.solver.Solver" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Class to orchestrate a selection Solver.</p>
+<p>This originally used clingo, but since clingo doesn’t support floats (yikes)
+I refactored to create an in memory database to query.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.main.solve.solver.Solver.add_instances">
+<span class="sig-name descname"><span class="pre">add_instances</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cloud_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance_group</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/main/solve/solver.html#Solver.add_instances"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.main.solve.solver.Solver.add_instances" title="Link to this definition"></a></dt>
+<dd><p>Add cloud instances to the database</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.main.solve.solver.Solver.add_properties">
+<span class="sig-name descname"><span class="pre">add_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">props</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/main/solve/solver.html#Solver.add_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.main.solve.solver.Solver.add_properties" title="Link to this definition"></a></dt>
+<dd><p>Add properties to the setup</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.main.solve.solver.Solver.solve">
+<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/main/solve/solver.html#Solver.solve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.main.solve.solver.Solver.solve" title="Link to this definition"></a></dt>
+<dd><p>A manual solve just uses python filtering!</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-cloudselect.main.solve">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-cloudselect.main.solve" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cloudselect.main.html" class="btn btn-neutral float-left" title="cloudselect.main package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cloudselect.tests.html" class="btn btn-neutral float-right" title="cloudselect.tests package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LLNL LLC Converged Computing Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+</body>
+</html>

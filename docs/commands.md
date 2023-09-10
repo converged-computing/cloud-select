@@ -20,16 +20,22 @@ atoms to the screen.
 $ cloud-select instance --memory 4
 ```
 
+You can do a "one off" request to not use the cache:
+
+```bash
+$ cloud-select instance --memory 4 --no-cache
+```
+
 Ask for a specific cloud on the command line (note you can also ask via your settings.yml configuration file for a more permanent default):
 
 ```bash
-$ cloud-select --cloud google instance --cpus-min 200 --cpus-max 400
+$ cloud-select instance --cloud google --cpus-min 200 --cpus-max 400
 ```
 
 As for an aws instance that supports efa networking, and support least to most expensive.
 
 ```bash
-$ cloud-select --cloud aws instance --efa --sort price --asc
+$ cloud-select instance --cloud aws --efa --sort price --asc
 ```
 
 Note that we don't have support for all attributes defined yet! By default, you won't be allowed
@@ -154,7 +160,7 @@ to support having an account we can authenticate from actions to support the cac
 
 ## config
 
-If you want to edit a configuration value, you can either edit the [cloud_select/settings.yml](https://github.com/converged-computing/cloud-select/blob/main/cloud_select/settings.yml).
+If you want to edit a configuration value, you can either edit the [cloudselect/settings.yml](https://github.com/converged-computing/cloud-select/blob/main/cloudselect/settings.yml).
 file directly, or you can use `cloud-select config`, which will accept:
 
  - set to set a parameter and value

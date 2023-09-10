@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cloudselect.tests package &mdash; Cloud Select 1 documentation</title>
+      <link rel="stylesheet" href="../assets/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../assets/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../assets/js/html5shiv.min.js"></script>
+  <![endif]-->
+
+        <script src="../assets/jquery.js?v=5d32c60e"></script>
+        <script src="../assets/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../assets/documentation_options.js?v=29a6c3e3"></script>
+        <script src="../assets/doctools.js?v=888ff710"></script>
+        <script src="../assets/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../assets/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="cloudselect.utils package" href="cloudselect.utils.html" />
+    <link rel="prev" title="cloudselect.main.solve package" href="cloudselect.main.solve.html" />
+</head>
+
+<body class="wy-body-for-nav">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+
+
+          <a href="../index.html">
+
+              <img src="../assets/cloud-select-transparent.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="cloudselect.html">cloudselect package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="cloudselect.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.client.html">cloudselect.client package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.cloud.html">cloudselect.cloud package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.main.html">cloudselect.main package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">cloudselect.tests package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cloudselect.tests.helpers">cloudselect.tests.helpers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cloudselect.tests.test_config">cloudselect.tests.test_config module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cloudselect.tests.test_instance">cloudselect.tests.test_instance module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cloudselect.tests.test_selector">cloudselect.tests.test_selector module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cloudselect.tests.test_settings">cloudselect.tests.test_settings module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cloudselect.tests.test_utils">cloudselect.tests.test_utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cloudselect.tests">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.utils.html">cloudselect.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.html#module-cloudselect.defaults">cloudselect.defaults module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.html#module-cloudselect.logger">cloudselect.logger module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.html#module-cloudselect.version">cloudselect.version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.html#module-cloudselect">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Cloud Select</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="cloudselect.html">cloudselect package</a></li>
+      <li class="breadcrumb-item active">cloudselect.tests package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/cloudselect.tests.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+
+  <section id="cloudselect-tests-package">
+<h1>cloudselect.tests package<a class="headerlink" href="#cloudselect-tests-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-cloudselect.tests.helpers">
+<span id="cloudselect-tests-helpers-module"></span><h2>cloudselect.tests.helpers module<a class="headerlink" href="#module-cloudselect.tests.helpers" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.tests.helpers.get_settings">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.tests.helpers.</span></span><span class="sig-name descname"><span class="pre">get_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmpdir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/tests/helpers.html#get_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.tests.helpers.get_settings" title="Link to this definition"></a></dt>
+<dd><p>Create a temporary settings file</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.tests.helpers.init_client">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.tests.helpers.</span></span><span class="sig-name descname"><span class="pre">init_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmpdir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cloud</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/tests/helpers.html#init_client"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.tests.helpers.init_client" title="Link to this definition"></a></dt>
+<dd><p>Get a common client for some container technology and module system</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.tests.helpers.parse_args">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.tests.helpers.</span></span><span class="sig-name descname"><span class="pre">parse_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">argstr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/tests/helpers.html#parse_args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.tests.helpers.parse_args" title="Link to this definition"></a></dt>
+<dd><p>Given an argument string for a test, parse it.</p>
+</dd></dl>
+
+</section>
+<section id="module-cloudselect.tests.test_config">
+<span id="cloudselect-tests-test-config-module"></span><h2>cloudselect.tests.test_config module<a class="headerlink" href="#module-cloudselect.tests.test_config" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.tests.test_config.test_add_remove">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.tests.test_config.</span></span><span class="sig-name descname"><span class="pre">test_add_remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/tests/test_config.html#test_add_remove"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.tests.test_config.test_add_remove" title="Link to this definition"></a></dt>
+<dd><p>Test add/remove (from list)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.tests.test_config.test_config">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.tests.test_config.</span></span><span class="sig-name descname"><span class="pre">test_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/tests/test_config.html#test_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.tests.test_config.test_config" title="Link to this definition"></a></dt>
+<dd><p>Test config get, set, etc.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.tests.test_config.test_update_param">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.tests.test_config.</span></span><span class="sig-name descname"><span class="pre">test_update_param</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/tests/test_config.html#test_update_param"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.tests.test_config.test_update_param" title="Link to this definition"></a></dt>
+<dd><p>Test general update_param used by client</p>
+</dd></dl>
+
+</section>
+<section id="module-cloudselect.tests.test_instance">
+<span id="cloudselect-tests-test-instance-module"></span><h2>cloudselect.tests.test_instance module<a class="headerlink" href="#module-cloudselect.tests.test_instance" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.tests.test_instance.test_aws_instance_filters">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.tests.test_instance.</span></span><span class="sig-name descname"><span class="pre">test_aws_instance_filters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cloud</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/tests/test_instance.html#test_aws_instance_filters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.tests.test_instance.test_aws_instance_filters" title="Link to this definition"></a></dt>
+<dd><p>Test AWS filters with the client</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.tests.test_instance.test_instance_command">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.tests.test_instance.</span></span><span class="sig-name descname"><span class="pre">test_instance_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cloud</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_instances</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_prices</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/tests/test_instance.html#test_instance_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.tests.test_instance.test_instance_command" title="Link to this definition"></a></dt>
+<dd><p>Test instance commands. We put tests that use data under this function
+to be conservative about download and populating the cache from GitHub
+packages. It would probably be okay, it just takes a little bit of time.
+Instance sample data (for prices/instances) was generated on 12/11/2022
+as follows:</p>
+<p>import random
+random.shuffle(group.data)
+sample = random.sample(group.data, 100)
+outfile = os.path.join(testdata, f”{cloud}-{group_name}-sample.json”)
+utils.write_json(sample, outfile)</p>
+<p># Note that I did some manual shuffling to ensure that the instances
+# we selected for aws were also in the prices, since there are a lot.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.tests.test_instance.test_instance_filters">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.tests.test_instance.</span></span><span class="sig-name descname"><span class="pre">test_instance_filters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cloud</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prices_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instances_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/tests/test_instance.html#test_instance_filters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.tests.test_instance.test_instance_filters" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.tests.test_instance.test_interactive_database_aws">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.tests.test_instance.</span></span><span class="sig-name descname"><span class="pre">test_interactive_database_aws</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/tests/test_instance.html#test_interactive_database_aws"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.tests.test_instance.test_interactive_database_aws" title="Link to this definition"></a></dt>
+<dd><p>Test interactive database querying with aws</p>
+<p>We can write a Google Cloud function when we have more
+attributes that are available.</p>
+</dd></dl>
+
+</section>
+<section id="module-cloudselect.tests.test_selector">
+<span id="cloudselect-tests-test-selector-module"></span><h2>cloudselect.tests.test_selector module<a class="headerlink" href="#module-cloudselect.tests.test_selector" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.tests.test_selector.test_selector">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.tests.test_selector.</span></span><span class="sig-name descname"><span class="pre">test_selector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cloud</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resources</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/tests/test_selector.html#test_selector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.tests.test_selector.test_selector" title="Link to this definition"></a></dt>
+<dd><p>Test our selector (non-interactive)</p>
+</dd></dl>
+
+</section>
+<section id="module-cloudselect.tests.test_settings">
+<span id="cloudselect-tests-test-settings-module"></span><h2>cloudselect.tests.test_settings module<a class="headerlink" href="#module-cloudselect.tests.test_settings" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.tests.test_settings.test_invalid_properties">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.tests.test_settings.</span></span><span class="sig-name descname"><span class="pre">test_invalid_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/tests/test_settings.html#test_invalid_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.tests.test_settings.test_invalid_properties" title="Link to this definition"></a></dt>
+<dd><p>Test invalid setting property</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.tests.test_settings.test_set_get">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.tests.test_settings.</span></span><span class="sig-name descname"><span class="pre">test_set_get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/tests/test_settings.html#test_set_get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.tests.test_settings.test_set_get" title="Link to this definition"></a></dt>
+<dd><p>Test variable set/get</p>
+</dd></dl>
+
+</section>
+<section id="module-cloudselect.tests.test_utils">
+<span id="cloudselect-tests-test-utils-module"></span><h2>cloudselect.tests.test_utils module<a class="headerlink" href="#module-cloudselect.tests.test_utils" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.tests.test_utils.test_check_install">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.tests.test_utils.</span></span><span class="sig-name descname"><span class="pre">test_check_install</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/tests/test_utils.html#test_check_install"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.tests.test_utils.test_check_install" title="Link to this definition"></a></dt>
+<dd><p>check install is used to check if a particular software is installed.
+If no command is provided, singularity is assumed to be the test case</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.tests.test_utils.test_copyfile">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.tests.test_utils.</span></span><span class="sig-name descname"><span class="pre">test_copyfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/tests/test_utils.html#test_copyfile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.tests.test_utils.test_copyfile" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.tests.test_utils.test_get_file_hash">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.tests.test_utils.</span></span><span class="sig-name descname"><span class="pre">test_get_file_hash</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/tests/test_utils.html#test_get_file_hash"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.tests.test_utils.test_get_file_hash" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.tests.test_utils.test_get_installdir">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.tests.test_utils.</span></span><span class="sig-name descname"><span class="pre">test_get_installdir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/tests/test_utils.html#test_get_installdir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.tests.test_utils.test_get_installdir" title="Link to this definition"></a></dt>
+<dd><p>Get install directory should return the base of where cloudselect
+is installed</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.tests.test_utils.test_get_tmpdir_tmpfile">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.tests.test_utils.</span></span><span class="sig-name descname"><span class="pre">test_get_tmpdir_tmpfile</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/tests/test_utils.html#test_get_tmpdir_tmpfile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.tests.test_utils.test_get_tmpdir_tmpfile" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.tests.test_utils.test_mkdir_p">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.tests.test_utils.</span></span><span class="sig-name descname"><span class="pre">test_mkdir_p</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/tests/test_utils.html#test_mkdir_p"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.tests.test_utils.test_mkdir_p" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.tests.test_utils.test_print_json">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.tests.test_utils.</span></span><span class="sig-name descname"><span class="pre">test_print_json</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/tests/test_utils.html#test_print_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.tests.test_utils.test_print_json" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.tests.test_utils.test_run_command">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.tests.test_utils.</span></span><span class="sig-name descname"><span class="pre">test_run_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/tests/test_utils.html#test_run_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.tests.test_utils.test_run_command" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.tests.test_utils.test_write_bad_json">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.tests.test_utils.</span></span><span class="sig-name descname"><span class="pre">test_write_bad_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/tests/test_utils.html#test_write_bad_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.tests.test_utils.test_write_bad_json" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.tests.test_utils.test_write_json">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.tests.test_utils.</span></span><span class="sig-name descname"><span class="pre">test_write_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/tests/test_utils.html#test_write_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.tests.test_utils.test_write_json" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.tests.test_utils.test_write_read_files">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.tests.test_utils.</span></span><span class="sig-name descname"><span class="pre">test_write_read_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/tests/test_utils.html#test_write_read_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.tests.test_utils.test_write_read_files" title="Link to this definition"></a></dt>
+<dd><p>test_write_read_files will test the functions write_file and read_file</p>
+</dd></dl>
+
+</section>
+<section id="module-cloudselect.tests">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-cloudselect.tests" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cloudselect.main.solve.html" class="btn btn-neutral float-left" title="cloudselect.main.solve package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cloudselect.utils.html" class="btn btn-neutral float-right" title="cloudselect.utils package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LLNL LLC Converged Computing Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+</body>
+</html>

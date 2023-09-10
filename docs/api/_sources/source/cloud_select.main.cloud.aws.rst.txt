@@ -7,7 +7,7 @@ Submodules
 cloud\_select.main.cloud.aws.client module
 ------------------------------------------
 
-.. automodule:: cloud_select.main.cloud.aws.client
+.. automodule:: cloudselect.main.cloud.aws.client
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ cloud\_select.main.cloud.aws.client module
 cloud\_select.main.cloud.aws.instance module
 --------------------------------------------
 
-.. automodule:: cloud_select.main.cloud.aws.instance
+.. automodule:: cloudselect.main.cloud.aws.instance
    :members:
    :undoc-members:
    :show-inheritance:
@@ -23,7 +23,7 @@ cloud\_select.main.cloud.aws.instance module
 cloud\_select.main.cloud.aws.prices module
 ------------------------------------------
 
-.. automodule:: cloud_select.main.cloud.aws.prices
+.. automodule:: cloudselect.main.cloud.aws.prices
    :members:
    :undoc-members:
    :show-inheritance:
@@ -31,7 +31,7 @@ cloud\_select.main.cloud.aws.prices module
 Module contents
 ---------------
 
-.. automodule:: cloud_select.main.cloud.aws
+.. automodule:: cloudselect.main.cloud.aws
    :members:
    :undoc-members:
    :show-inheritance:

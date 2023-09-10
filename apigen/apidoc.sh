@@ -2,7 +2,7 @@
 # If the modules changed, the content of "source" should be backed up and
 # new files generated (to update) by doing:
 #
-# sphinx-apidoc -o source/ ../cloud_select
+# sphinx-apidoc -o source/ ../cloudselect
 
 HERE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 BASE=$(dirname $HERE)

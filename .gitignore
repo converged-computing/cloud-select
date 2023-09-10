@@ -1,7 +1,7 @@
 bin/
 lib/
 *.db
-cloud_select_tool.egg-info/
+cloudselect_tool.egg-info/
 env
 .env
 apigen/_build
