@@ -69,8 +69,8 @@ cloud-select -c rm:registry:/tmp/registry""",
     parser.add_argument(
         "--target-units",
         dest="target_units",
-        help="Number of target units for score (defaults to 10)",
-        default=10,
+        help="Number of target units for score (defaults to 100)",
+        default=100,
         type=int,
     )
     parser.add_argument(
