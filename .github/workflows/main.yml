@@ -28,6 +28,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+    - name: Setup black linter
+      run: conda create --quiet --name black pytest
     - name: Test
       env:
         ORAS_USER: ${{ github.actor }}
