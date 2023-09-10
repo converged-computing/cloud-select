@@ -7,9 +7,9 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   cloud_select.client
-   cloud_select.main
-   cloud_select.utils
+   cloudselect.client
+   cloudselect.main
+   cloudselect.utils
 
 Submodules
 ----------
@@ -17,7 +17,7 @@ Submodules
 cloud\_select.defaults module
 -----------------------------
 
-.. automodule:: cloud_select.defaults
+.. automodule:: cloudselect.defaults
    :members:
    :undoc-members:
    :show-inheritance:
@@ -25,7 +25,7 @@ cloud\_select.defaults module
 cloud\_select.logger module
 ---------------------------
 
-.. automodule:: cloud_select.logger
+.. automodule:: cloudselect.logger
    :members:
    :undoc-members:
    :show-inheritance:
@@ -33,7 +33,7 @@ cloud\_select.logger module
 cloud\_select.version module
 ----------------------------
 
-.. automodule:: cloud_select.version
+.. automodule:: cloudselect.version
    :members:
    :undoc-members:
    :show-inheritance:
@@ -41,7 +41,7 @@ cloud\_select.version module
 Module contents
 ---------------
 
-.. automodule:: cloud_select
+.. automodule:: cloudselect
    :members:
    :undoc-members:
    :show-inheritance:

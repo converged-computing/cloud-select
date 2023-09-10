@@ -7,7 +7,7 @@ Submodules
 cloud\_select.main.solve.database module
 ----------------------------------------
 
-.. automodule:: cloud_select.main.solve.database
+.. automodule:: cloudselect.main.solve.database
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ cloud\_select.main.solve.database module
 cloud\_select.main.solve.properties module
 ------------------------------------------
 
-.. automodule:: cloud_select.main.solve.properties
+.. automodule:: cloudselect.main.solve.properties
    :members:
    :undoc-members:
    :show-inheritance:
@@ -23,7 +23,7 @@ cloud\_select.main.solve.properties module
 cloud\_select.main.solve.solver module
 --------------------------------------
 
-.. automodule:: cloud_select.main.solve.solver
+.. automodule:: cloudselect.main.solve.solver
    :members:
    :undoc-members:
    :show-inheritance:
@@ -31,7 +31,7 @@ cloud\_select.main.solve.solver module
 Module contents
 ---------------
 
-.. automodule:: cloud_select.main.solve
+.. automodule:: cloudselect.main.solve
    :members:
    :undoc-members:
    :show-inheritance:

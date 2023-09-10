@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cloudselect.utils package &mdash; Cloud Select 1 documentation</title>
+      <link rel="stylesheet" href="../assets/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../assets/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../assets/js/html5shiv.min.js"></script>
+  <![endif]-->
+
+        <script src="../assets/jquery.js?v=5d32c60e"></script>
+        <script src="../assets/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../assets/documentation_options.js?v=29a6c3e3"></script>
+        <script src="../assets/doctools.js?v=888ff710"></script>
+        <script src="../assets/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../assets/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="../changelog.html" />
+    <link rel="prev" title="cloudselect.tests package" href="cloudselect.tests.html" />
+</head>
+
+<body class="wy-body-for-nav">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+
+
+          <a href="../index.html">
+
+              <img src="../assets/cloud-select-transparent.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="cloudselect.html">cloudselect package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="cloudselect.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.client.html">cloudselect.client package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.cloud.html">cloudselect.cloud package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.main.html">cloudselect.main package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.tests.html">cloudselect.tests package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">cloudselect.utils package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cloudselect.utils.fileio">cloudselect.utils.fileio module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cloudselect.utils.misc">cloudselect.utils.misc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cloudselect.utils.terminal">cloudselect.utils.terminal module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cloudselect.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.html#module-cloudselect.defaults">cloudselect.defaults module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.html#module-cloudselect.logger">cloudselect.logger module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.html#module-cloudselect.version">cloudselect.version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.html#module-cloudselect">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Cloud Select</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="cloudselect.html">cloudselect package</a></li>
+      <li class="breadcrumb-item active">cloudselect.utils package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/cloudselect.utils.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+
+  <section id="cloudselect-utils-package">
+<h1>cloudselect.utils package<a class="headerlink" href="#cloudselect-utils-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-cloudselect.utils.fileio">
+<span id="cloudselect-utils-fileio-module"></span><h2>cloudselect.utils.fileio module<a class="headerlink" href="#module-cloudselect.utils.fileio" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.fileio.can_be_deleted">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.fileio.</span></span><span class="sig-name descname"><span class="pre">can_be_deleted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/fileio.html#can_be_deleted"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.fileio.can_be_deleted" title="Link to this definition"></a></dt>
+<dd><p>A path can be deleted if it contains no entries, <em>or</em>
+if the only files are in ignore_files</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.fileio.copyfile">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.fileio.</span></span><span class="sig-name descname"><span class="pre">copyfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/fileio.html#copyfile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.fileio.copyfile" title="Link to this definition"></a></dt>
+<dd><p>Copy a file from a source to its destination.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.fileio.creation_date">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.fileio.</span></span><span class="sig-name descname"><span class="pre">creation_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/fileio.html#creation_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.fileio.creation_date" title="Link to this definition"></a></dt>
+<dd><p>Get the creation date, and fallback to modified date.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.fileio.get_file_hash">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.fileio.</span></span><span class="sig-name descname"><span class="pre">get_file_hash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sha256'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/fileio.html#get_file_hash"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.fileio.get_file_hash" title="Link to this definition"></a></dt>
+<dd><p>Return an sha256 hash of the file based on a criteria level.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.fileio.get_tmpdir">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.fileio.</span></span><span class="sig-name descname"><span class="pre">get_tmpdir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmpdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">create</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/fileio.html#get_tmpdir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.fileio.get_tmpdir" title="Link to this definition"></a></dt>
+<dd><p>Get a temporary directory for an operation.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.fileio.get_tmpfile">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.fileio.</span></span><span class="sig-name descname"><span class="pre">get_tmpfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmpdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cloud-select-'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/fileio.html#get_tmpfile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.fileio.get_tmpfile" title="Link to this definition"></a></dt>
+<dd><p>Get a temporary file with an optional prefix.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.fileio.mkdir_p">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.fileio.</span></span><span class="sig-name descname"><span class="pre">mkdir_p</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/fileio.html#mkdir_p"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.fileio.mkdir_p" title="Link to this definition"></a></dt>
+<dd><p>Make a directory path if it does not exist, akin to mkdir -p</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.fileio.mkdirp">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.fileio.</span></span><span class="sig-name descname"><span class="pre">mkdirp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirnames</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/fileio.html#mkdirp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.fileio.mkdirp" title="Link to this definition"></a></dt>
+<dd><p>Create one or more directories</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.fileio.print_json">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.fileio.</span></span><span class="sig-name descname"><span class="pre">print_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/fileio.html#print_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.fileio.print_json" title="Link to this definition"></a></dt>
+<dd><p>Print json pretty</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.fileio.read_file">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.fileio.</span></span><span class="sig-name descname"><span class="pre">read_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'r'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/fileio.html#read_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.fileio.read_file" title="Link to this definition"></a></dt>
+<dd><p>Read a file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.fileio.read_json">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.fileio.</span></span><span class="sig-name descname"><span class="pre">read_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'r'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/fileio.html#read_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.fileio.read_json" title="Link to this definition"></a></dt>
+<dd><p>Read a json file to a dictionary.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.fileio.read_yaml">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.fileio.</span></span><span class="sig-name descname"><span class="pre">read_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/fileio.html#read_yaml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.fileio.read_yaml" title="Link to this definition"></a></dt>
+<dd><p>Load a yaml from file, roundtrip to preserve comments</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.fileio.recursive_find">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.fileio.</span></span><span class="sig-name descname"><span class="pre">recursive_find</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/fileio.html#recursive_find"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.fileio.recursive_find" title="Link to this definition"></a></dt>
+<dd><p>Find filenames that match a particular pattern, and yield them.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.fileio.remove_to_base">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.fileio.</span></span><span class="sig-name descname"><span class="pre">remove_to_base</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/fileio.html#remove_to_base"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.fileio.remove_to_base" title="Link to this definition"></a></dt>
+<dd><p>Delete the tree under $path and all the parents
+up to $base_path as long as they are empty</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.fileio.workdir">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.fileio.</span></span><span class="sig-name descname"><span class="pre">workdir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/fileio.html#workdir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.fileio.workdir" title="Link to this definition"></a></dt>
+<dd><p>Provide context for a working directory, e.g.,</p>
+<dl class="simple">
+<dt>with workdir(name):</dt><dd><p># do stuff</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.fileio.write_file">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.fileio.</span></span><span class="sig-name descname"><span class="pre">write_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'w'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/fileio.html#write_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.fileio.write_file" title="Link to this definition"></a></dt>
+<dd><p>Write content to a filename</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.fileio.write_json">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.fileio.</span></span><span class="sig-name descname"><span class="pre">write_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'w'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/fileio.html#write_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.fileio.write_json" title="Link to this definition"></a></dt>
+<dd><p>Write json to a filename</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.fileio.write_yaml">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.fileio.</span></span><span class="sig-name descname"><span class="pre">write_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/fileio.html#write_yaml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.fileio.write_yaml" title="Link to this definition"></a></dt>
+<dd><p>Save yaml to file, also preserving comments.</p>
+</dd></dl>
+
+</section>
+<section id="module-cloudselect.utils.misc">
+<span id="cloudselect-utils-misc-module"></span><h2>cloudselect.utils.misc module<a class="headerlink" href="#module-cloudselect.utils.misc" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.misc.choose">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.misc.</span></span><span class="sig-name descname"><span class="pre">choose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/misc.html#choose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.misc.choose" title="Link to this definition"></a></dt>
+<dd><p>Use pick to choose one of a few options, return the chosen option.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.misc.chunks">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.misc.</span></span><span class="sig-name descname"><span class="pre">chunks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">listing</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/misc.html#chunks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.misc.chunks" title="Link to this definition"></a></dt>
+<dd><p>Yield successive chunks from listing. Chunkify!</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.misc.get_hash">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.misc.</span></span><span class="sig-name descname"><span class="pre">get_hash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/misc.html#get_hash"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.misc.get_hash" title="Link to this definition"></a></dt>
+<dd><p>Get a hash for a random object (set, tuple, list, dict)</p>
+<p>All nested attributes must at least be hashable!</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.misc.mb_to_bytes">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.misc.</span></span><span class="sig-name descname"><span class="pre">mb_to_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/misc.html#mb_to_bytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.misc.mb_to_bytes" title="Link to this definition"></a></dt>
+<dd><p>Convert mb to bytes, usually so we can derive a better format.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.misc.print_bytes">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.misc.</span></span><span class="sig-name descname"><span class="pre">print_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">byt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'B'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/misc.html#print_bytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.misc.print_bytes" title="Link to this definition"></a></dt>
+<dd><p>Pretty format size in bytes</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.misc.slugify">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.misc.</span></span><span class="sig-name descname"><span class="pre">slugify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/misc.html#slugify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.misc.slugify" title="Link to this definition"></a></dt>
+<dd><p>Slugify a name, replacing spaces with - and lowercase.</p>
+</dd></dl>
+
+</section>
+<section id="module-cloudselect.utils.terminal">
+<span id="cloudselect-utils-terminal-module"></span><h2>cloudselect.utils.terminal module<a class="headerlink" href="#module-cloudselect.utils.terminal" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.terminal.check_install">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.terminal.</span></span><span class="sig-name descname"><span class="pre">check_install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">software</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quiet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'--version'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/terminal.html#check_install"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.terminal.check_install" title="Link to this definition"></a></dt>
+<dd><p>check_install will attempt to run the singularity command, and
+return True if installed. The command line utils will not run
+without this check.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>software</strong> (<em>the software to check if installed</em>)</p></li>
+<li><p><strong>quiet</strong> (<em>should we be quiet? (default True)</em>)</p></li>
+<li><p><strong>command</strong> (<em>the command to use to check (defaults to –version)</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.terminal.confirm_action">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.terminal.</span></span><span class="sig-name descname"><span class="pre">confirm_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">question</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/terminal.html#confirm_action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.terminal.confirm_action" title="Link to this definition"></a></dt>
+<dd><p>confirm if the user wants to perform a certain action</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>question</strong> (<em>the question that will be asked</em>)</p></li>
+<li><p><strong>force</strong> (<em>if the user wants to skip the prompt</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.terminal.confirm_uninstall">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.terminal.</span></span><span class="sig-name descname"><span class="pre">confirm_uninstall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/terminal.html#confirm_uninstall"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.terminal.confirm_uninstall" title="Link to this definition"></a></dt>
+<dd><p>confirm if the user wants to uninstall a module</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>the file that will be removed</em>)</p></li>
+<li><p><strong>force</strong> (<em>if the user wants to skip the prompt</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.terminal.ensure_no_extra">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.terminal.</span></span><span class="sig-name descname"><span class="pre">ensure_no_extra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extra</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/terminal.html#ensure_no_extra"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.terminal.ensure_no_extra" title="Link to this definition"></a></dt>
+<dd><p>Ensure no extra arguments (in case typos)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.terminal.get_installdir">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.terminal.</span></span><span class="sig-name descname"><span class="pre">get_installdir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/terminal.html#get_installdir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.terminal.get_installdir" title="Link to this definition"></a></dt>
+<dd><p>get_installdir returns the installation directory of the application</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cloudselect.utils.terminal.run_command">
+<span class="sig-prename descclassname"><span class="pre">cloudselect.utils.terminal.</span></span><span class="sig-name descname"><span class="pre">run_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sudo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stream</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/utils/terminal.html#run_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.utils.terminal.run_command" title="Link to this definition"></a></dt>
+<dd><p>run_command uses subprocess to send a command to the terminal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cmd</strong> (<em>the command to send, should be a list for subprocess</em>)</p></li>
+<li><p><strong>error_message</strong> (<em>the error message to give to user if fails,</em>)</p></li>
+<li><p><strong>if none specified, will alert that command failed.</strong></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-cloudselect.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-cloudselect.utils" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cloudselect.tests.html" class="btn btn-neutral float-left" title="cloudselect.tests package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../changelog.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LLNL LLC Converged Computing Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+</body>
+</html>

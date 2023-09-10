@@ -7,7 +7,7 @@ Submodules
 cloud\_select.client.config module
 ----------------------------------
 
-.. automodule:: cloud_select.client.config
+.. automodule:: cloudselect.client.config
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ cloud\_select.client.config module
 cloud\_select.client.instance module
 ------------------------------------
 
-.. automodule:: cloud_select.client.instance
+.. automodule:: cloudselect.client.instance
    :members:
    :undoc-members:
    :show-inheritance:
@@ -23,7 +23,7 @@ cloud\_select.client.instance module
 cloud\_select.client.shell module
 ---------------------------------
 
-.. automodule:: cloud_select.client.shell
+.. automodule:: cloudselect.client.shell
    :members:
    :undoc-members:
    :show-inheritance:
@@ -31,7 +31,7 @@ cloud\_select.client.shell module
 Module contents
 ---------------
 
-.. automodule:: cloud_select.client
+.. automodule:: cloudselect.client
    :members:
    :undoc-members:
    :show-inheritance:

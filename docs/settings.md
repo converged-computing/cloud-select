@@ -2,8 +2,8 @@
 
 Cloud select supports a settings.yml file, or a configuration file where
 you can define settings and defaults. If you do nothing, the defaults
-settings.yml is found within the cloud_select install directory, and you
-can see it on GitHub [here](https://github.com/converged-computing/cloud-select/blob/main/cloud_select/settings.yml).
+settings.yml is found within the cloudselect install directory, and you
+can see it on GitHub [here](https://github.com/converged-computing/cloud-select/blob/main/cloudselect/settings.yml).
 If you want to customize this file, it's recommended to create one in your
 user home:
 
@@ -80,7 +80,7 @@ aws:
 
 ## Instance Settings
 
-The most up-to-date representation of these settings is in the [cloud_select/main/schemas.py](https://github.com/converged-computing/cloud-select/blob/main/cloud_select/main/schemas.py) file.
+The most up-to-date representation of these settings is in the [cloudselect/main/schemas.py](https://github.com/converged-computing/cloud-select/blob/main/cloudselect/main/schemas.py) file.
 and are all accessible on the command line (see `cloud-select instance --help`). In the `settings.yml` these settings are all under "instances" (and optional) e.g.,:
 
 ```yaml

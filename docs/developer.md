@@ -26,7 +26,7 @@ $ pip install -r requirements.txt
 If you need to generate new source documents (given new structure):
 
 ```bash
-$ sphinx-apidoc -o source/ ../cloud_select
+$ sphinx-apidoc -o source/ ../cloudselect
 ```
 
 And then to generate:

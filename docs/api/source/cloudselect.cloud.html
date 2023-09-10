@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cloudselect.cloud package &mdash; Cloud Select 1 documentation</title>
+      <link rel="stylesheet" href="../assets/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../assets/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../assets/js/html5shiv.min.js"></script>
+  <![endif]-->
+
+        <script src="../assets/jquery.js?v=5d32c60e"></script>
+        <script src="../assets/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../assets/documentation_options.js?v=29a6c3e3"></script>
+        <script src="../assets/doctools.js?v=888ff710"></script>
+        <script src="../assets/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../assets/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="cloudselect.cloud.aws package" href="cloudselect.cloud.aws.html" />
+    <link rel="prev" title="cloudselect.client package" href="cloudselect.client.html" />
+</head>
+
+<body class="wy-body-for-nav">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+
+
+          <a href="../index.html">
+
+              <img src="../assets/cloud-select-transparent.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="cloudselect.html">cloudselect package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="cloudselect.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.client.html">cloudselect.client package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">cloudselect.cloud package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cloudselect.cloud.base">cloudselect.cloud.base module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cloudselect.cloud">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.main.html">cloudselect.main package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.tests.html">cloudselect.tests package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.utils.html">cloudselect.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.html#module-cloudselect.defaults">cloudselect.defaults module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.html#module-cloudselect.logger">cloudselect.logger module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.html#module-cloudselect.version">cloudselect.version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.html#module-cloudselect">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Cloud Select</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="cloudselect.html">cloudselect package</a></li>
+      <li class="breadcrumb-item active">cloudselect.cloud package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/cloudselect.cloud.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+
+  <section id="cloudselect-cloud-package">
+<h1>cloudselect.cloud package<a class="headerlink" href="#cloudselect-cloud-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cloudselect.cloud.aws.html">cloudselect.cloud.aws package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.cloud.aws.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.cloud.aws.html#module-cloudselect.cloud.aws.client">cloudselect.cloud.aws.client module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.client.AmazonCloud"><code class="docutils literal notranslate"><span class="pre">AmazonCloud</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.client.AmazonCloud.instances"><code class="docutils literal notranslate"><span class="pre">AmazonCloud.instances()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.client.AmazonCloud.load_instances"><code class="docutils literal notranslate"><span class="pre">AmazonCloud.load_instances()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.client.AmazonCloud.load_prices"><code class="docutils literal notranslate"><span class="pre">AmazonCloud.load_prices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.client.AmazonCloud.name"><code class="docutils literal notranslate"><span class="pre">AmazonCloud.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.client.AmazonCloud.prices"><code class="docutils literal notranslate"><span class="pre">AmazonCloud.prices()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.cloud.aws.html#module-cloudselect.cloud.aws.instance">cloudselect.cloud.aws.instance module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstance"><code class="docutils literal notranslate"><span class="pre">AmazonInstance</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstance.attr_cpu_arch"><code class="docutils literal notranslate"><span class="pre">AmazonInstance.attr_cpu_arch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstance.attr_cpus"><code class="docutils literal notranslate"><span class="pre">AmazonInstance.attr_cpus()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstance.attr_description"><code class="docutils literal notranslate"><span class="pre">AmazonInstance.attr_description()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstance.attr_disk_type"><code class="docutils literal notranslate"><span class="pre">AmazonInstance.attr_disk_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstance.attr_efa"><code class="docutils literal notranslate"><span class="pre">AmazonInstance.attr_efa()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstance.attr_free_tier"><code class="docutils literal notranslate"><span class="pre">AmazonInstance.attr_free_tier()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstance.attr_gpu"><code class="docutils literal notranslate"><span class="pre">AmazonInstance.attr_gpu()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstance.attr_gpu_memory"><code class="docutils literal notranslate"><span class="pre">AmazonInstance.attr_gpu_memory()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstance.attr_gpu_model"><code class="docutils literal notranslate"><span class="pre">AmazonInstance.attr_gpu_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstance.attr_gpu_vendor"><code class="docutils literal notranslate"><span class="pre">AmazonInstance.attr_gpu_vendor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstance.attr_gpus"><code class="docutils literal notranslate"><span class="pre">AmazonInstance.attr_gpus()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstance.attr_hypervisor"><code class="docutils literal notranslate"><span class="pre">AmazonInstance.attr_hypervisor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstance.attr_instance_storage"><code class="docutils literal notranslate"><span class="pre">AmazonInstance.attr_instance_storage()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstance.attr_ipv6"><code class="docutils literal notranslate"><span class="pre">AmazonInstance.attr_ipv6()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstance.attr_memory"><code class="docutils literal notranslate"><span class="pre">AmazonInstance.attr_memory()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstance.attr_price"><code class="docutils literal notranslate"><span class="pre">AmazonInstance.attr_price()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstance.attr_price_per_hour"><code class="docutils literal notranslate"><span class="pre">AmazonInstance.attr_price_per_hour()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstance.attr_region"><code class="docutils literal notranslate"><span class="pre">AmazonInstance.attr_region()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstance.name"><code class="docutils literal notranslate"><span class="pre">AmazonInstance.name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstanceGroup"><code class="docutils literal notranslate"><span class="pre">AmazonInstanceGroup</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstanceGroup.Instance"><code class="docutils literal notranslate"><span class="pre">AmazonInstanceGroup.Instance</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstanceGroup.add_instance_prices"><code class="docutils literal notranslate"><span class="pre">AmazonInstanceGroup.add_instance_prices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstanceGroup.filter_region"><code class="docutils literal notranslate"><span class="pre">AmazonInstanceGroup.filter_region()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstanceGroup.iter_instances"><code class="docutils literal notranslate"><span class="pre">AmazonInstanceGroup.iter_instances()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.AmazonInstanceGroup.name_attribute"><code class="docutils literal notranslate"><span class="pre">AmazonInstanceGroup.name_attribute</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.instance.build_instance_price_lookup"><code class="docutils literal notranslate"><span class="pre">build_instance_price_lookup()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.cloud.aws.html#module-cloudselect.cloud.aws.prices">cloudselect.cloud.aws.prices module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.cloud.aws.html#cloudselect.cloud.aws.prices.AmazonPrices"><code class="docutils literal notranslate"><span class="pre">AmazonPrices</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.cloud.aws.html#module-cloudselect.cloud.aws">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cloudselect.cloud.google.html">cloudselect.cloud.google package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.cloud.google.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.cloud.google.html#module-cloudselect.cloud.google.client">cloudselect.cloud.google.client module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.cloud.google.html#cloudselect.cloud.google.client.GoogleCloud"><code class="docutils literal notranslate"><span class="pre">GoogleCloud</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.google.html#cloudselect.cloud.google.client.GoogleCloud.instances"><code class="docutils literal notranslate"><span class="pre">GoogleCloud.instances()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.google.html#cloudselect.cloud.google.client.GoogleCloud.load_instances"><code class="docutils literal notranslate"><span class="pre">GoogleCloud.load_instances()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.google.html#cloudselect.cloud.google.client.GoogleCloud.load_prices"><code class="docutils literal notranslate"><span class="pre">GoogleCloud.load_prices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.google.html#cloudselect.cloud.google.client.GoogleCloud.name"><code class="docutils literal notranslate"><span class="pre">GoogleCloud.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.google.html#cloudselect.cloud.google.client.GoogleCloud.prices"><code class="docutils literal notranslate"><span class="pre">GoogleCloud.prices()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.cloud.google.html#module-cloudselect.cloud.google.instance">cloudselect.cloud.google.instance module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.cloud.google.html#cloudselect.cloud.google.instance.GoogleCloudInstance"><code class="docutils literal notranslate"><span class="pre">GoogleCloudInstance</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.google.html#cloudselect.cloud.google.instance.GoogleCloudInstance.attr_cpus"><code class="docutils literal notranslate"><span class="pre">GoogleCloudInstance.attr_cpus()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.google.html#cloudselect.cloud.google.instance.GoogleCloudInstance.attr_free_tier"><code class="docutils literal notranslate"><span class="pre">GoogleCloudInstance.attr_free_tier()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.google.html#cloudselect.cloud.google.instance.GoogleCloudInstance.attr_gpu"><code class="docutils literal notranslate"><span class="pre">GoogleCloudInstance.attr_gpu()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.google.html#cloudselect.cloud.google.instance.GoogleCloudInstance.attr_gpus"><code class="docutils literal notranslate"><span class="pre">GoogleCloudInstance.attr_gpus()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.google.html#cloudselect.cloud.google.instance.GoogleCloudInstance.attr_ipv6"><code class="docutils literal notranslate"><span class="pre">GoogleCloudInstance.attr_ipv6()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.google.html#cloudselect.cloud.google.instance.GoogleCloudInstance.attr_memory"><code class="docutils literal notranslate"><span class="pre">GoogleCloudInstance.attr_memory()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.google.html#cloudselect.cloud.google.instance.GoogleCloudInstance.attr_price"><code class="docutils literal notranslate"><span class="pre">GoogleCloudInstance.attr_price()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.google.html#cloudselect.cloud.google.instance.GoogleCloudInstance.attr_price_per_hour"><code class="docutils literal notranslate"><span class="pre">GoogleCloudInstance.attr_price_per_hour()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.google.html#cloudselect.cloud.google.instance.GoogleCloudInstance.attr_region"><code class="docutils literal notranslate"><span class="pre">GoogleCloudInstance.attr_region()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.cloud.google.html#cloudselect.cloud.google.instance.GoogleCloudInstanceGroup"><code class="docutils literal notranslate"><span class="pre">GoogleCloudInstanceGroup</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.google.html#cloudselect.cloud.google.instance.GoogleCloudInstanceGroup.Instance"><code class="docutils literal notranslate"><span class="pre">GoogleCloudInstanceGroup.Instance</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.google.html#cloudselect.cloud.google.instance.GoogleCloudInstanceGroup.add_instance_prices"><code class="docutils literal notranslate"><span class="pre">GoogleCloudInstanceGroup.add_instance_prices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.google.html#cloudselect.cloud.google.instance.GoogleCloudInstanceGroup.filter_region"><code class="docutils literal notranslate"><span class="pre">GoogleCloudInstanceGroup.filter_region()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cloudselect.cloud.google.html#cloudselect.cloud.google.instance.GoogleCloudInstanceGroup.name_attribute"><code class="docutils literal notranslate"><span class="pre">GoogleCloudInstanceGroup.name_attribute</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.cloud.google.html#module-cloudselect.cloud.google.prices">cloudselect.cloud.google.prices module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cloudselect.cloud.google.html#cloudselect.cloud.google.prices.GoogleCloudPrices"><code class="docutils literal notranslate"><span class="pre">GoogleCloudPrices</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cloudselect.cloud.google.html#module-cloudselect.cloud.google">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-cloudselect.cloud.base">
+<span id="cloudselect-cloud-base-module"></span><h2>cloudselect.cloud.base module<a class="headerlink" href="#module-cloudselect.cloud.base" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.CloudData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cloudselect.cloud.base.</span></span><span class="sig-name descname"><span class="pre">CloudData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/cloud/base.html#CloudData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.cloud.base.CloudData" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An “abstract” class that stores a single data object</p>
+<p>This also stores the encoder for any cloud object so
+we can encode it.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.CloudData.Encoder">
+<span class="sig-name descname"><span class="pre">Encoder</span></span><a class="headerlink" href="#cloudselect.cloud.base.CloudData.Encoder" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#cloudselect.cloud.base.CloudDataEncoder" title="cloudselect.cloud.base.CloudDataEncoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">CloudDataEncoder</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.CloudData.add_identifiers">
+<span class="sig-name descname"><span class="pre">add_identifiers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/cloud/base.html#CloudData.add_identifiers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.cloud.base.CloudData.add_identifiers" title="Link to this definition"></a></dt>
+<dd><p>Cloud data can be unique in different ways, so create uid hash.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.CloudDataEncoder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cloudselect.cloud.base.</span></span><span class="sig-name descname"><span class="pre">CloudDataEncoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skipkeys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ensure_ascii</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_circular</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_nan</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">separators</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/cloud/base.html#CloudDataEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.cloud.base.CloudDataEncoder" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">JSONEncoder</span></code></p>
+<p>Make our group and instance classes json serializable.</p>
+<p>Always return the data!</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.CloudDataEncoder.default">
+<span class="sig-name descname"><span class="pre">default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/cloud/base.html#CloudDataEncoder.default"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.cloud.base.CloudDataEncoder.default" title="Link to this definition"></a></dt>
+<dd><p>Implement this method in a subclass such that it returns
+a serializable object for <code class="docutils literal notranslate"><span class="pre">o</span></code>, or calls the base implementation
+(to raise a <code class="docutils literal notranslate"><span class="pre">TypeError</span></code>).</p>
+<p>For example, to support arbitrary iterators, you could
+implement default like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">iterable</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+    <span class="c1"># Let the base class default method raise the TypeError</span>
+    <span class="k">return</span> <span class="n">JSONEncoder</span><span class="o">.</span><span class="n">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.CloudProvider">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cloudselect.cloud.base.</span></span><span class="sig-name descname"><span class="pre">CloudProvider</span></span><a class="reference internal" href="../modules/cloudselect/cloud/base.html#CloudProvider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.cloud.base.CloudProvider" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A base class for a cloud provider</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.CloudProvider.fail_message">
+<span class="sig-name descname"><span class="pre">fail_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/cloud/base.html#CloudProvider.fail_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.cloud.base.CloudProvider.fail_message" title="Link to this definition"></a></dt>
+<dd><p>Shared message and empty return if auth not set</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.CloudProvider.instances">
+<span class="sig-name descname"><span class="pre">instances</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/cloud/base.html#CloudProvider.instances"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.cloud.base.CloudProvider.instances" title="Link to this definition"></a></dt>
+<dd><p>Retrieve all instances for a cloud.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.CloudProvider.load_instances">
+<span class="sig-name descname"><span class="pre">load_instances</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/cloud/base.html#CloudProvider.load_instances"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.cloud.base.CloudProvider.load_instances" title="Link to this definition"></a></dt>
+<dd><p>Load instance data from json.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.CloudProvider.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cloud'</span></em><a class="headerlink" href="#cloudselect.cloud.base.CloudProvider.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.Instance">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cloudselect.cloud.base.</span></span><span class="sig-name descname"><span class="pre">Instance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/cloud/base.html#Instance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.cloud.base.Instance" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cloudselect.cloud.base.CloudData" title="cloudselect.cloud.base.CloudData"><code class="xref py py-class docutils literal notranslate"><span class="pre">CloudData</span></code></a></p>
+<p>Base of an instance.</p>
+<p>This class defines the different common attributes that we want
+to expose. If a cloud instance (json) result differs, it should
+override this function.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.Instance.attr_description">
+<span class="sig-name descname"><span class="pre">attr_description</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/cloud/base.html#Instance.attr_description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.cloud.base.Instance.attr_description" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.Instance.attr_memory_bytes">
+<span class="sig-name descname"><span class="pre">attr_memory_bytes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/cloud/base.html#Instance.attr_memory_bytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.cloud.base.Instance.attr_memory_bytes" title="Link to this definition"></a></dt>
+<dd><p>Get memory in bytes</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.Instance.attr_zone">
+<span class="sig-name descname"><span class="pre">attr_zone</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/cloud/base.html#Instance.attr_zone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.cloud.base.Instance.attr_zone" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.Instance.attribute_getters">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">attribute_getters</span></span><a class="headerlink" href="#cloudselect.cloud.base.Instance.attribute_getters" title="Link to this definition"></a></dt>
+<dd><p>function names we can call to get an instance attribute.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.Instance.check_attributes">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">check_attributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">props</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_missing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/cloud/base.html#Instance.check_attributes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.cloud.base.Instance.check_attributes" title="Link to this definition"></a></dt>
+<dd><p>Check attributes against a list of properties the user wants.</p>
+<p>Prices are considered separately and filtered out when missing,
+unless they are disabled.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.Instance.cloud">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cloud</span></span><a class="headerlink" href="#cloudselect.cloud.base.Instance.cloud" title="Link to this definition"></a></dt>
+<dd><p>Return the name of the cloud (module) derived from path.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.Instance.generate_row">
+<span class="sig-name descname"><span class="pre">generate_row</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/cloud/base.html#Instance.generate_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.cloud.base.Instance.generate_row" title="Link to this definition"></a></dt>
+<dd><p>Given an instance name, return a row with the cloud
+name and other attributes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.Instance.has_attribute">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_attribute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prop</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/cloud/base.html#Instance.has_attribute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.cloud.base.Instance.has_attribute" title="Link to this definition"></a></dt>
+<dd><p>Determine if the instance class has an attribute</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.Instance.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#cloudselect.cloud.base.Instance.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.Instance.uid">
+<span class="sig-name descname"><span class="pre">uid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/cloud/base.html#Instance.uid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.cloud.base.Instance.uid" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.InstanceGroup">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cloudselect.cloud.base.</span></span><span class="sig-name descname"><span class="pre">InstanceGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/cloud/base.html#InstanceGroup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.cloud.base.InstanceGroup" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cloudselect.cloud.base.CloudData" title="cloudselect.cloud.base.CloudData"><code class="xref py py-class docutils literal notranslate"><span class="pre">CloudData</span></code></a></p>
+<p>A cloud instance group.</p>
+<p>An instance group stores raw data, and allows for query or
+other interaction over instances.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.InstanceGroup.Instance">
+<span class="sig-name descname"><span class="pre">Instance</span></span><a class="headerlink" href="#cloudselect.cloud.base.InstanceGroup.Instance" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.InstanceGroup.add_instance_prices">
+<span class="sig-name descname"><span class="pre">add_instance_prices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prices</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/cloud/base.html#InstanceGroup.add_instance_prices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.cloud.base.InstanceGroup.add_instance_prices" title="Link to this definition"></a></dt>
+<dd><p>Add pricing information to instances</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.InstanceGroup.filter_region">
+<span class="sig-name descname"><span class="pre">filter_region</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">region</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/cloud/base.html#InstanceGroup.filter_region"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.cloud.base.InstanceGroup.filter_region" title="Link to this definition"></a></dt>
+<dd><p>Filter by a region (not required)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.InstanceGroup.generate_row">
+<span class="sig-name descname"><span class="pre">generate_row</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/cloud/base.html#InstanceGroup.generate_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.cloud.base.InstanceGroup.generate_row" title="Link to this definition"></a></dt>
+<dd><p>Given an instance name, return a row with the cloud
+name and other attributes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.InstanceGroup.iter_instances">
+<span class="sig-name descname"><span class="pre">iter_instances</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/cloud/base.html#InstanceGroup.iter_instances"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.cloud.base.InstanceGroup.iter_instances" title="Link to this definition"></a></dt>
+<dd><p>Each client knows how to instantiate its instance type</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cloudselect.cloud.base.Prices">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cloudselect.cloud.base.</span></span><span class="sig-name descname"><span class="pre">Prices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/cloudselect/cloud/base.html#Prices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cloudselect.cloud.base.Prices" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cloudselect.cloud.base.CloudData" title="cloudselect.cloud.base.CloudData"><code class="xref py py-class docutils literal notranslate"><span class="pre">CloudData</span></code></a></p>
+<p>Cloud pricing</p>
+</dd></dl>
+
+</section>
+<section id="module-cloudselect.cloud">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-cloudselect.cloud" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cloudselect.client.html" class="btn btn-neutral float-left" title="cloudselect.client package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cloudselect.cloud.aws.html" class="btn btn-neutral float-right" title="cloudselect.cloud.aws package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LLNL LLC Converged Computing Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+</body>
+</html>

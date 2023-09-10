@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cloudselect.main.solve.properties &mdash; Cloud Select 1 documentation</title>
+      <link rel="stylesheet" href="../../../../assets/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../assets/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../assets/js/html5shiv.min.js"></script>
+  <![endif]-->
+
+        <script src="../../../../assets/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../assets/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../assets/documentation_options.js?v=29a6c3e3"></script>
+        <script src="../../../../assets/doctools.js?v=888ff710"></script>
+        <script src="../../../../assets/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../assets/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+</head>
+
+<body class="wy-body-for-nav">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+
+
+          <a href="../../../../index.html">
+
+              <img src="../../../../assets/cloud-select-transparent.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/cloudselect.html">cloudselect package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Cloud Select</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cloudselect.main.solve.properties</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+
+  <h1>Source code for cloudselect.main.solve.properties</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2022-2023 Lawrence Livermore National Security, LLC and other</span>
+<span class="c1"># HPCIC DevTools Developers. See the top-level COPYRIGHT file for details.</span>
+<span class="c1">#</span>
+<span class="c1"># SPDX-License-Identifier: (MIT)</span>
+
+<span class="kn">from</span> <span class="nn">cloudselect.logger</span> <span class="kn">import</span> <span class="n">logger</span>
+
+
+<div class="viewcode-block" id="Properties">
+<a class="viewcode-back" href="../../../../source/cloudselect.main.solve.html#cloudselect.main.solve.properties.Properties">[docs]</a>
+<span class="k">class</span> <span class="nc">Properties</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Properties from a schema to go into a solve.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># expected to have &lt;name&gt;, &lt;name&gt;_min, &lt;name&gt;_max</span>
+    <span class="n">range_properties</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;cpus&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;instance_storage&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;memory&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;gpu_memory&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;price_per_hour&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_allowed</span> <span class="o">=</span> <span class="n">properties</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_properties</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Properties.set_properties">
+<a class="viewcode-back" href="../../../../source/cloudselect.main.solve.html#cloudselect.main.solve.properties.Properties.set_properties">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given an unknown set of command line arguments, parse into known</span>
+<span class="sd">        instance properties. This resets properties / defined on the instance.</span>
+
+<span class="sd">        We assume that properties coming from argumnts might have a &quot;-&quot; instead of _.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allowed</span>
+        <span class="p">}</span>
+
+        <span class="c1"># The user is asking for these defined</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">defined</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">properties</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span>
+
+        <span class="c1"># GPU is handled specially since there is a boolean and min/max/number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_gpu_properties</span><span class="p">()</span>
+
+        <span class="c1"># include and exclude list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_like_properties</span><span class="p">()</span>
+
+        <span class="c1"># Here we need custom handling of min / max ranges. E.g., if a single value is</span>
+        <span class="c1"># provided, we look exactly for that. If a min or max is provided, we look for</span>
+        <span class="c1"># the range.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_range_properties</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Properties.set_range_properties">
+<a class="viewcode-back" href="../../../../source/cloudselect.main.solve.html#cloudselect.main.solve.properties.Properties.set_range_properties">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_range_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Consolidate range into either min/max or one value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">range_properties</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_range_properties</span><span class="p">(</span><span class="n">prop</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_set_range_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prop</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set range properties for one property in defined.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Case 1: explicitly asking for a number - honor it.</span>
+        <span class="n">range_props</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prop</span><span class="si">}</span><span class="s2">_min&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prop</span><span class="si">}</span><span class="s2">_max&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">prop</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">defined</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">range_prop</span> <span class="ow">in</span> <span class="n">range_props</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">range_prop</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">defined</span><span class="p">:</span>
+                    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">defined</span><span class="p">[</span><span class="n">range_prop</span><span class="p">]</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Case 2: Min and/or max is set - we have a range</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;min&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">range_prop</span> <span class="ow">in</span> <span class="n">range_props</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">range_prop</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">defined</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">defined</span><span class="p">[</span><span class="n">range_prop</span><span class="p">]</span>
+
+                <span class="c1"># Sanity check - always &gt;= 0</span>
+                <span class="k">if</span> <span class="n">value</span> <span class="ow">and</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">range_prop</span><span class="si">}</span><span class="s2"> value &lt; 0: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+                <span class="n">values</span><span class="p">[</span><span class="n">range_prop</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prop</span><span class="si">}</span><span class="s2">_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">defined</span><span class="p">[</span><span class="n">range_prop</span><span class="p">]</span>
+
+        <span class="c1"># If we have min and max, assert max &gt;= min</span>
+        <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;min&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;min&quot;</span><span class="p">]:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Found max </span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;max&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> less than a min </span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;min&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, invalid.&quot;</span>
+                <span class="p">)</span>
+
+        <span class="c1"># Only add if we&#39;ve found a min and/or max</span>
+        <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;min&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">defined</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;range:</span><span class="si">{</span><span class="n">prop</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span>
+
+<div class="viewcode-block" id="Properties.set_gpu_properties">
+<a class="viewcode-back" href="../../../../source/cloudselect.main.solve.html#cloudselect.main.solve.properties.Properties.set_gpu_properties">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_gpu_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse desired properties into single GPU request.</span>
+<span class="sd">        There is both a min/max/number specification and a general boolean flag.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Properties that ask for a specific count</span>
+        <span class="n">gpu_props</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;gpus&quot;</span><span class="p">,</span> <span class="s2">&quot;gpus_max&quot;</span><span class="p">,</span> <span class="s2">&quot;gpus_min&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Case 1: they just provided the &quot;I want gpu don&#39;t care the details&quot; flag</span>
+        <span class="k">if</span> <span class="s2">&quot;gpu&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">defined</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">gpu_props</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">defined</span><span class="p">):</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Case 2: they provided the gpu flag but have other specs, delete GPU flag</span>
+        <span class="k">if</span> <span class="s2">&quot;gpu&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">defined</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">defined</span><span class="p">[</span><span class="s2">&quot;gpu&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Case 3: Just a gpus is set (exact number) delete the rest</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_range_properties</span><span class="p">(</span><span class="s2">&quot;gpus&quot;</span><span class="p">)</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">instance_props</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Yield properties that are expected to be on instances</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">defined</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">prop</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;like&quot;</span><span class="p">,</span> <span class="s2">&quot;unlike&quot;</span><span class="p">]:</span>
+                <span class="k">continue</span>
+            <span class="k">yield</span> <span class="n">prop</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;range:&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Properties.set_like_properties">
+<a class="viewcode-back" href="../../../../source/cloudselect.main.solve.html#cloudselect.main.solve.properties.Properties.set_like_properties">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_like_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        include-list or exclude-list are parsed differently.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;include_list&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">defined</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">defined</span><span class="p">[</span><span class="s2">&quot;like&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">defined</span><span class="p">[</span><span class="s2">&quot;include_list&quot;</span><span class="p">]</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">defined</span><span class="p">[</span><span class="s2">&quot;include_list&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="s2">&quot;exclude_list&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">defined</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">defined</span><span class="p">[</span><span class="s2">&quot;unlike&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">defined</span><span class="p">[</span><span class="s2">&quot;exclude_list&quot;</span><span class="p">]</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">defined</span><span class="p">[</span><span class="s2">&quot;exclude_list&quot;</span><span class="p">]</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LLNL LLC Converged Computing Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+</body>
+</html>

@@ -1,7 +1,7 @@
-cloud_select
-============
+cloudselect
+===========
 
 .. toctree::
    :maxdepth: 4
 
-   cloud_select
+   cloudselect

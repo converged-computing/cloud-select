@@ -8,7 +8,7 @@ Contents:
 .. toctree::
    :maxdepth: 3
 
-   source/cloud_select.rst
+   source/cloudselect.rst
    changelog.md
 
 

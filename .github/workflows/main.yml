@@ -7,7 +7,7 @@ jobs:
   formatting:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Setup black linter
       run: conda create --quiet --name black pytest
@@ -24,6 +24,12 @@ jobs:
         pip install -r .github/dev-requirements.txt
         pre-commit run --all-files
 
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup black linter
+      run: conda create --quiet --name black pytest
     - name: Test
       env:
         ORAS_USER: ${{ github.actor }}
@@ -32,4 +38,4 @@ jobs:
         export PATH="/usr/share/miniconda/bin:$PATH"
         source activate black
         pip install -e .[all]
-        pytest -xs cloud_select/tests/test*.py
+        pytest -xs cloudselect/tests/test*.py

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cloudselect.main.oras &mdash; Cloud Select 1 documentation</title>
+      <link rel="stylesheet" href="../../../assets/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../assets/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../assets/js/html5shiv.min.js"></script>
+  <![endif]-->
+
+        <script src="../../../assets/jquery.js?v=5d32c60e"></script>
+        <script src="../../../assets/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../assets/documentation_options.js?v=29a6c3e3"></script>
+        <script src="../../../assets/doctools.js?v=888ff710"></script>
+        <script src="../../../assets/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../assets/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+</head>
+
+<body class="wy-body-for-nav">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+
+
+          <a href="../../../index.html">
+
+              <img src="../../../assets/cloud-select-transparent.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/cloudselect.html">cloudselect package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Cloud Select</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cloudselect.main.oras</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+
+  <h1>Source code for cloudselect.main.oras</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2022 Lawrence Livermore National Security, LLC and other</span>
+<span class="c1"># HPCIC DevTools Developers. See the top-level COPYRIGHT file for details.</span>
+<span class="c1">#</span>
+<span class="c1"># SPDX-License-Identifier: (MIT)</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">oras.defaults</span>
+<span class="kn">import</span> <span class="nn">oras.oci</span>
+<span class="kn">import</span> <span class="nn">oras.provider</span>
+<span class="kn">import</span> <span class="nn">oras.utils</span>
+<span class="kn">from</span> <span class="nn">oras.decorator</span> <span class="kn">import</span> <span class="n">ensure_container</span>
+
+<span class="kn">import</span> <span class="nn">cloudselect.defaults</span> <span class="k">as</span> <span class="nn">defaults</span>
+<span class="kn">from</span> <span class="nn">cloudselect.logger</span> <span class="kn">import</span> <span class="n">logger</span>
+
+
+<div class="viewcode-block" id="get_oras_client">
+<a class="viewcode-back" href="../../../source/cloudselect.main.html#cloudselect.main.oras.get_oras_client">[docs]</a>
+<span class="k">def</span> <span class="nf">get_oras_client</span><span class="p">(</span><span class="n">require_auth</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Consistent method to get an oras client</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ORAS_USER&quot;</span><span class="p">)</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ORAS_PASS&quot;</span><span class="p">)</span>
+    <span class="n">reg</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">user</span> <span class="ow">and</span> <span class="n">password</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Found username and password for basic auth&quot;</span><span class="p">)</span>
+        <span class="n">reg</span><span class="o">.</span><span class="n">set_basic_auth</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logfunc</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">exit</span> <span class="k">if</span> <span class="n">require_auth</span> <span class="k">else</span> <span class="n">logger</span><span class="o">.</span><span class="n">debug</span>
+        <span class="n">logfunc</span><span class="p">(</span><span class="s2">&quot;ORAS_USER or ORAS_PASS is missing, push may have issues.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">reg</span></div>
+
+
+
+<div class="viewcode-block" id="pull_to_dir">
+<a class="viewcode-back" href="../../../source/cloudselect.main.html#cloudselect.main.oras.pull_to_dir">[docs]</a>
+<span class="k">def</span> <span class="nf">pull_to_dir</span><span class="p">(</span><span class="n">pull_dir</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a URI, pull to an output directory.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">reg</span> <span class="o">=</span> <span class="n">get_oras_client</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">reg</span><span class="o">.</span><span class="n">pull</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">,</span> <span class="n">outdir</span><span class="o">=</span><span class="n">pull_dir</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Registry">
+<a class="viewcode-back" href="../../../source/cloudselect.main.html#cloudselect.main.oras.Registry">[docs]</a>
+<span class="k">class</span> <span class="nc">Registry</span><span class="p">(</span><span class="n">oras</span><span class="o">.</span><span class="n">provider</span><span class="o">.</span><span class="n">Registry</span><span class="p">):</span>
+<div class="viewcode-block" id="Registry.download_layer">
+<a class="viewcode-back" href="../../../source/cloudselect.main.html#cloudselect.main.oras.Registry.download_layer">[docs]</a>
+    <span class="k">def</span> <span class="nf">download_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cloud_name</span><span class="p">,</span> <span class="n">datatype</span><span class="p">,</span> <span class="n">manifest</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">package</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given a manifest of layers, retrieve a layer based on cloud and content type.</span>
+
+<span class="sd">        E.g., org.llnl.gov.cloud-select.google.prices (google and prices). The</span>
+<span class="sd">        oras artifacts are pushed with relative paths to the cache root,</span>
+<span class="sd">        so we can extract them directly to the root path plus their OCI annotation</span>
+<span class="sd">        for the artifact title.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Find the layer of interest! Currently we look for presence of the string</span>
+        <span class="c1"># e.g., &quot;prices&quot; can come from &quot;prices&quot; or &quot;prices-web&quot;</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">manifest</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;layers&quot;</span><span class="p">,</span> <span class="p">[]):</span>
+            <span class="c1"># E.g., google.prices or google.prices-web or aws.prices</span>
+            <span class="n">contents</span> <span class="o">=</span> <span class="n">layer</span><span class="p">[</span><span class="s2">&quot;mediaType&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;cloud-select.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">cloud_found</span><span class="p">,</span> <span class="n">data_found</span> <span class="o">=</span> <span class="n">contents</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">cloud_found</span> <span class="o">!=</span> <span class="n">cloud_name</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># This gives flexibility to support different variances of prices, etc.</span>
+            <span class="k">if</span> <span class="n">datatype</span> <span class="ow">in</span> <span class="n">data_found</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading data file for </span><span class="si">{</span><span class="n">datatype</span><span class="si">}</span><span class="s2"> from ORAS cache...&quot;</span><span class="p">)</span>
+                <span class="n">artifact</span> <span class="o">=</span> <span class="n">layer</span><span class="p">[</span><span class="s2">&quot;annotations&quot;</span><span class="p">][</span><span class="s2">&quot;org.opencontainers.image.title&quot;</span><span class="p">]</span>
+
+                <span class="c1"># Assemble output file name in root</span>
+                <span class="n">outfile</span> <span class="o">=</span> <span class="n">oras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">sanitize_path</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">artifact</span><span class="p">))</span>
+
+                <span class="c1"># download blob ensures we stream, otherwise _get_blob would return request</span>
+                <span class="c1"># this function also handles creating the output directory if does not exist</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">download_blob</span><span class="p">(</span><span class="n">package</span><span class="p">,</span> <span class="n">layer</span><span class="p">[</span><span class="s2">&quot;digest&quot;</span><span class="p">],</span> <span class="n">outfile</span><span class="p">)</span></div>
+
+
+    <span class="nd">@ensure_container</span>
+    <span class="k">def</span> <span class="nf">push</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container</span><span class="p">,</span> <span class="n">archives</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given a list of layer metadata (paths and corresponding mediaType) push.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Prepare a new manifest</span>
+        <span class="n">manifest</span> <span class="o">=</span> <span class="n">oras</span><span class="o">.</span><span class="n">oci</span><span class="o">.</span><span class="n">NewManifest</span><span class="p">()</span>
+
+        <span class="c1"># Upload files as blobs</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">archives</span><span class="p">:</span>
+            <span class="n">blob</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">)</span>
+            <span class="n">media_type</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;media_type&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">defaults</span><span class="o">.</span><span class="n">default_media_type</span>
+            <span class="n">annots</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;annotations&quot;</span><span class="p">,</span> <span class="p">{})</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">blob</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">blob</span><span class="p">):</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Path </span><span class="si">{</span><span class="n">blob</span><span class="si">}</span><span class="s2"> does not exist or is not defineds.&quot;</span><span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Artifact title is basename or user defined</span>
+            <span class="n">blob_name</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">blob</span><span class="p">)</span>
+
+            <span class="c1"># If it&#39;s a directory, we need to compress</span>
+            <span class="n">cleanup_blob</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">blob</span><span class="p">):</span>
+                <span class="n">blob</span> <span class="o">=</span> <span class="n">oras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">make_targz</span><span class="p">(</span><span class="n">blob</span><span class="p">)</span>
+                <span class="n">cleanup_blob</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="c1"># Create a new layer from the blob</span>
+            <span class="n">layer</span> <span class="o">=</span> <span class="n">oras</span><span class="o">.</span><span class="n">oci</span><span class="o">.</span><span class="n">NewLayer</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">media_type</span><span class="p">,</span> <span class="n">is_dir</span><span class="o">=</span><span class="n">cleanup_blob</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Preparing layer </span><span class="si">{</span><span class="n">oras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">print_json</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Update annotations with title we will need for extraction</span>
+            <span class="n">annots</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">oras</span><span class="o">.</span><span class="n">defaults</span><span class="o">.</span><span class="n">annotation_title</span><span class="p">:</span> <span class="n">blob_name</span><span class="p">})</span>
+            <span class="n">layer</span><span class="p">[</span><span class="s2">&quot;annotations&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">annots</span>
+
+            <span class="c1"># update the manifest with the new layer</span>
+            <span class="n">manifest</span><span class="p">[</span><span class="s2">&quot;layers&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+
+            <span class="c1"># Upload the blob layer</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Uploading </span><span class="si">{</span><span class="n">blob</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">container</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upload_blob</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">container</span><span class="p">,</span> <span class="n">layer</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check_200_response</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+            <span class="c1"># Do we need to cleanup a temporary targz?</span>
+            <span class="k">if</span> <span class="n">cleanup_blob</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">blob</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">blob</span><span class="p">)</span>
+
+        <span class="c1"># Prepare manifest and config</span>
+        <span class="n">manifest</span><span class="p">[</span><span class="s2">&quot;annotations&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">defaults</span><span class="o">.</span><span class="n">default_manifest_annotations</span>
+        <span class="n">conf</span><span class="p">,</span> <span class="n">config_file</span> <span class="o">=</span> <span class="n">oras</span><span class="o">.</span><span class="n">oci</span><span class="o">.</span><span class="n">ManifestConfig</span><span class="p">()</span>
+        <span class="n">conf</span><span class="p">[</span><span class="s2">&quot;annotations&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">defaults</span><span class="o">.</span><span class="n">default_config_annotations</span>
+
+        <span class="c1"># Config is just another layer blob!</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upload_blob</span><span class="p">(</span><span class="n">config_file</span><span class="p">,</span> <span class="n">container</span><span class="p">,</span> <span class="n">conf</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_200_response</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+        <span class="c1"># Final upload of the manifest</span>
+        <span class="n">manifest</span><span class="p">[</span><span class="s2">&quot;config&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">conf</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_200_response</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">upload_manifest</span><span class="p">(</span><span class="n">manifest</span><span class="p">,</span> <span class="n">container</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Successfully pushed </span><span class="si">{</span><span class="n">container</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LLNL LLC Converged Computing Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+</body>
+</html>
