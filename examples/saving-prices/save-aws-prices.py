@@ -15,6 +15,7 @@ import os
 import random
 import sys
 
+from cloudselect.logger import setup_logger
 from cloudselect.main import Client
 
 here = os.path.dirname(os.path.abspath(__file__))
@@ -109,6 +110,9 @@ def run():
         for choice, subparser in subparsers_action.choices.items():
             if choice == args.command:
                 break
+
+    # Be more verbose
+    setup_logger(quiet=False, debug=True)
 
     # The client has a cache on it, cli.cache.
     # Set use_cache to False so we don't rely on it
