@@ -110,7 +110,7 @@ class Registry(oras.provider.Registry):
 
             # Upload the blob layer
             logger.info(f"Uploading {blob} to {container.uri}")
-            response = self._upload_blob(blob, container, layer)
+            response = self.upload_blob(blob, container, layer)
             self._check_200_response(response)
 
             # Do we need to cleanup a temporary targz?
@@ -123,7 +123,7 @@ class Registry(oras.provider.Registry):
         conf["annotations"] = defaults.default_config_annotations
 
         # Config is just another layer blob!
-        response = self._upload_blob(config_file, container, conf)
+        response = self.upload_blob(config_file, container, conf)
         self._check_200_response(response)
 
         # Final upload of the manifest
