@@ -14,6 +14,7 @@ and **Merged pull requests**. Critical items to know are:
 The versions coincide with releases on pip. Only major versions will be released as tags on Github.
 
 ## [0.0.x](https://github.com/converged-computing/cloud-select/tree/main) (0.0.x)
+ - add aws price cache example and use non-deprecated oras upload_* functions (0.0.2)
  - rename module to cloudselect (0.0.19)
  - bugfix for sorting by prices with select (0.0.18)
  - selector class (with interactive or automated select) (0.0.17)

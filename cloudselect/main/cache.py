@@ -129,7 +129,7 @@ class Cache:
 
     def iter_cache(self, relative=False):
         """
-        Yield json paths in the cache, either absolte or relative paths.
+        Yield json paths in the cache, either absolute or relative paths.
         """
         for filename in utils.recursive_find(self.cache_dir):
             if not filename.endswith("json"):
