@@ -21,9 +21,9 @@ class Client:
 
     def __init__(self, **kwargs):
         validate = kwargs.get("validate", True)
-        self.setup_cache(kwargs.get("use_cache"))
         self.quiet = kwargs.get("quiet", False)
         self.settings = Settings(kwargs.get("settings_file"), validate)
+        self.setup_cache(kwargs.get("use_cache"))
         self.set_clouds(kwargs.get("clouds"))
 
         # Keep instance groups populated with prices in sort of cache
