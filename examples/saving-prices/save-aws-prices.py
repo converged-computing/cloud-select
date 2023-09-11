@@ -64,7 +64,7 @@ cloud-select -c rm:registry:/tmp/registry""",
         "--push-to",
         dest="push_to",
         action="append",
-        nargs='*',
+        nargs="*",
         help="push cache data to GitHub packages URI (can be used for more than one URI)",
     )
     parser.add_argument(
@@ -114,6 +114,7 @@ def run():
 
     # Be more verbose
     setup_logger(quiet=False, debug=True)
+    print(f"Push to: {args.push_to}")
 
     # The client has a cache on it, cli.cache.
     # Set use_cache to False so we don't rely on it
