@@ -64,7 +64,6 @@ cloud-select -c rm:registry:/tmp/registry""",
         "--push-to",
         dest="push_to",
         action="append",
-        nargs="*",
         help="push cache data to GitHub packages URI (can be used for more than one URI)",
     )
     parser.add_argument(
