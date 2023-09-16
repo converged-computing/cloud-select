@@ -69,8 +69,8 @@ cloud-select -c rm:registry:/tmp/registry""",
     parser.add_argument(
         "--target-units",
         dest="target_units",
-        help="Number of target units for score (defaults to 100)",
-        default=100,
+        help="Number of target units for score (defaults to 50, the default max)",
+        default=50,
         type=int,
     )
     parser.add_argument(
@@ -206,6 +206,10 @@ def run():
             prefix = instance_name.split(".")[0]
             if prefix not in by_prefix:
                 by_prefix[prefix] = []
+            # Don't add metal types
+            if "metal" in instance_name:
+                print(f"Skipping {instance_name}, found metal.")
+                continue
             by_prefix[prefix].append(instance_name)
 
         # Group scores by prefixes
