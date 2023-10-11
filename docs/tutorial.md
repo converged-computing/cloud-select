@@ -18,7 +18,7 @@ Next, let's say we want to filter based on resources memory and cpus. One option
 be to do this:
 
 ```python
-resources = {"memory": 4000, "cpus" 1}
+resources = {"memory": 4000, "cpus": 1}
 ```
 
 But you'll find you get a much better selection when you provide a small range, e.g.,:
