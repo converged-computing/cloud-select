@@ -1,7 +1,7 @@
 # Cloud Select
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 [![PyPI](https://img.shields.io/pypi/v/cloud-select-tool)](https://pypi.org/project/cloud-select-tool/)
 
@@ -49,6 +49,7 @@ tool to generate a contributors graphic below.
   <tbody>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://vsoch.github.io"><img src="https://avatars.githubusercontent.com/u/814322?v=4?s=100" width="100px;" alt="Vanessasaurus"/><br /><sub><b>Vanessasaurus</b></sub></a><br /><a href="https://github.com/converged-computing/cloud-select/commits?author=vsoch" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/xorJane"><img src="https://avatars.githubusercontent.com/u/10688871?v=4?s=100" width="100px;" alt="Jane Herriman"/><br /><sub><b>Jane Herriman</b></sub></a><br /><a href="https://github.com/converged-computing/cloud-select/commits?author=xorJane" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

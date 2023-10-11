@@ -20,6 +20,17 @@
             "avatar_url": [
                 "https://avatars.githubusercontent.com/u/814322?v=4"
             ]
+        },
+        {
+            "login": "xorJane",
+            "name": "Jane Herriman",
+            "contributions": [
+                "code"
+            ],
+            "profile": "https://github.com/xorJane",
+            "avatar_url": [
+                "https://avatars.githubusercontent.com/u/10688871?v=4"
+            ]
         }
     ],
     "contributorsPerLine": 7
