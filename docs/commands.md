@@ -120,7 +120,7 @@ A result might generally be labeled with "region" and include a zone name.
 ### Cache Only
 
 To set a global setting to only use the cache (and skip trying to authenticate)
-you cat set `cache_only` in your settings.yml to true (or false to disable it):
+you can set `cache_only` in your settings.yml to true (or false to disable it):
 
 ```yaml
 cache_only: true
