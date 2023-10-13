@@ -70,13 +70,13 @@ $ cloud-select instance --asc --sort-by memory
 You can always change the max results (which defaults to 25):
 
 ```bash
-$ cloud-select instance --max-results 100
+$ cloud-select --max-results 100 instance
 ```
 
 We currently sort from greatest to least. Set max results to 0 to set no limit.
 
 ```bash
-$ cloud-select instance --max-results 0
+$ cloud-select --max-results 0 instance
 ```
 
 Note that this argument comes before the instance command.
