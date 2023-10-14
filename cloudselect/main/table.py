@@ -104,7 +104,7 @@ class Table:
         column_width = self.available_width(columns)
         for i, row in enumerate(self.data):
             # have we gone over the limit?
-            if limit and i > limit:
+            if limit and i >= limit:
                 return
 
             parsed = []
