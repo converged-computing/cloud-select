@@ -44,15 +44,7 @@ def get_parser():
         formatter_class=argparse.RawTextHelpFormatter,
     )
     gen.add_argument(
-        "--settings-file",
-        dest="settings_file",
-        help="custom path to settings file.",
-    )
-    gen.add_argument(
-        "--cache-dir",
-        dest="cache_dir",
-        help="directory for data cache (defaults to $HERE/cache).",
-        default=os.path.join(here, "cache"),
+        "--no-cache", help="do not use cache", action="store_true", default=False
     )
 
     # On the fly updates to config params
@@ -78,6 +70,15 @@ cloud-select -c rm:registry:/tmp/registry""",
         help="architecture",
     )
 
+    select.add_argument(
+        "--gpu", help="select instances with GPU", action="store_true", default=False
+    )
+    select.add_argument(
+        "--randomize",
+        help="randomize list (do not sort by price)",
+        action="store_true",
+        default=False,
+    )
     select.add_argument("--min-vcpu", help="minimum vCPU", type=int, default=32)
     select.add_argument("--max-vcpu", help="maximum vCPU", type=int, default=64)
     select.add_argument(
@@ -89,6 +90,7 @@ cloud-select -c rm:registry:/tmp/registry""",
     )
     select.add_argument("--min-mem", help="minimum memory MB", type=int)
     select.add_argument("--max-mem", help="maximum memory MB", type=int)
+    select.add_argument("--max-price", help="maximum price to set (USD/hour)", type=int)
     select.add_argument(
         "-n", "--number", help="number to select", type=int, dest="number"
     )
@@ -127,6 +129,9 @@ def run():
             args.min_mem,
             args.max_mem,
             args.number,
+            args.gpu,
+            args.max_price,
+            args.randomize,
         )
 
 
@@ -139,6 +144,9 @@ def select_instances(
     min_mem=None,
     max_mem=None,
     number=None,
+    has_gpu=False,
+    max_price=None,
+    randomize=False,
 ):
     """
     Given a csv of data, filter down / sort and show final set.
@@ -155,51 +163,71 @@ def select_instances(
     subset = subset[subset.vcpu <= max_cpu]
     subset = subset[subset.threads_per_core <= max_threads_per_core]
 
+    # GPU
+    subset = subset[subset.gpu == has_gpu]
+
     # Optional memory
     if min_mem:
         subset = subset[min_mem <= subset.memory_mb]
     if max_mem:
         subset = subset[subset.memory_mb <= max_mem]
+    if max_price:
+        subset = subset[subset.price <= max_price]
 
-    # Sort by vcpu and then price
-    sorted_df = subset.sort_values(["vcpu", "price"])
+    # If not randomize, sort by vcpu and then price
+    if not randomize:
+        sorted_df = subset.sort_values(["vcpu", "price"])
+    else:
+        sorted_df = subset.sample(frac=1)
 
-    print("Selected subset table:")
-    print(sorted_df)
     instance_names = list(sorted_df.instance.values)
 
     # Honor a user threshold, if set
     if number and len(instance_names) > number:
         instance_names = instance_names[:number]
 
+    sorted_df = sorted_df[sorted_df.instance.isin(instance_names)]
+    print("Selected subset table:")
+    print(sorted_df)
+
     print("\n😸️ Final selection of spot:")
     for instance_name in instance_names:
         print(instance_name)
-    return instance_names
+
+    # Give mean cost and std
+    print("\n🤓️ Mean (std) of price")
+    mean = round(sorted_df.price.mean(), 2)
+    std = round(sorted_df.price.std(), 2)
+    print(f"${mean} (${std})")
+    return sorted_df
 
 
-def get_price_lookup(cloud):
+def get_price_lookup(prices):
     """
     Given a cloud, generate lookup of instance type by float price
 
     Note that I'm seeing instance types with USD 0.0 which doesn't make sense...
     """
-    prices = cloud.prices()
-
     # Put together lookup by name
     lookup = {}
     for price in prices.data:
-        if (
-            "OnDemand" not in price["terms"]
-            or "instanceType" not in price["product"]["attributes"]
-        ):
+        # Not an instance!
+        if "instanceType" not in price["product"]["attributes"]:
             continue
         name = price["product"]["attributes"]["instanceType"]
+
+        # No on demand price
+        if "OnDemand" not in price["terms"]:
+            continue
         uid = list(price["terms"]["OnDemand"].keys())[0]
-        lookup[name] = price["terms"]["OnDemand"][uid]
         dims = price["terms"]["OnDemand"][uid]["priceDimensions"]
         uid = list(dims.keys())[0]
-        lookup[name] = float(dims[uid]["pricePerUnit"]["USD"])
+        usd = float(dims[uid]["pricePerUnit"]["USD"])
+
+        # If USD is 0, this is usually an instance with addon like SQL (skip it)
+        if usd == 0:
+            continue
+        lookup[name] = usd
     return lookup
 
 
@@ -210,12 +238,7 @@ def generate_data(args):
     # The client has a cache on it, cli.cache.
     # Set use_cache to False so we don't rely on it
     # This is currently just for aws
-    cli = Client(
-        settings_file=args.settings_file,
-        cache_dir=args.cache_dir,
-        use_cache=False,
-        clouds=["aws"],
-    )
+    cli = Client(use_cache=not args.no_cache, clouds=["aws"])
 
     # Update config settings on the fly
     cli.settings.update_params(args.config_params)
@@ -227,8 +250,9 @@ def generate_data(args):
             continue
 
         # Get prices for sorting!
-        instances = cloud.instances()
-        lookup = get_price_lookup(cloud)
+        instances = cli.instances()["aws"]
+        prices = cli.prices()["aws"]
+        lookup = get_price_lookup(prices)
 
         # Filter down to those that support spot (only a small number don't)
         instances = [x for x in instances.data if "spot" in x["SupportedUsageClasses"]]
@@ -254,6 +278,7 @@ def instances_to_table(instances, lookup):
             "vcpu",
             "threads_per_core",
             "memory_mb",
+            "gpu",
             "price",
         ]
     )
@@ -270,6 +295,7 @@ def instances_to_table(instances, lookup):
                 continue
             # What is the difference between DefaultCores and DefaultVCpu?
             cpus = i["VCpuInfo"]
+            gpu = "GpuInfo" in i
             price = lookup.get(i["InstanceType"])
             df.loc[idx, :] = [
                 i["InstanceType"],
@@ -278,6 +304,7 @@ def instances_to_table(instances, lookup):
                 cpus["DefaultVCpus"],
                 cpus["DefaultThreadsPerCore"],
                 i["MemoryInfo"]["SizeInMiB"],
+                gpu,
                 price,
             ]
             idx += 1
