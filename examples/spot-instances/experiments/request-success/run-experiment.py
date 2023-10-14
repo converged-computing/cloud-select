@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 
-import os
 import argparse
-import sys
-import random
-import json
 import copy
-import time
+import json
+import os
+import random
+import sys
 
 from kubescaler.scaler.aws import EKSCluster
 
@@ -18,7 +17,7 @@ import_dir = os.path.dirname(os.path.dirname(here))
 data_file = os.path.join(import_dir, "instances-aws.csv")
 sys.path.insert(0, import_dir)
 
-import spot_instances as spot_cli
+import spot_instances as spot_cli  # noqa
 
 # Exit early if we haven't generated the data
 if not os.path.exists(data_file):
@@ -222,11 +221,11 @@ def main():
     # plan experiments!
     experiments = plan_experiments(args)
     count = len(range(args.min_spot_request, args.max_spot_request))
-    print(f"🧪️ Experiments:")
+    print("🧪️ Experiments:")
     for exp in experiments:
         print(f"   {exp}")
 
-    print(f"🪴️ Planning to run:")
+    print("🪴️ Planning to run:")
     print(f"   Cluster name        : {args.cluster_name}")
     print(f"   Output File         : {args.outfile}")
     print(f"   Experiments         : {len(experiments)}")
@@ -251,7 +250,7 @@ def main():
 
     # Note we are NOT creating the node group here - just the cluster, so machine types aren't relevant
     # We will add machine types as node groups (to create and delete from the cluster) later
-    cluster_details = cli.create_cluster(create_nodes=False)
+    cli.create_cluster(create_nodes=False)
 
     # Save results as we go!
     original_times = cli.times

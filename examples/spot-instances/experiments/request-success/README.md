@@ -60,7 +60,7 @@ mkdir -p ./data
 python run-experiment.py --outfile ./data/testing-tiny-result.json --cluster-name cluster-tiny --max-instance-types 10 --min-spot-request 3 --max-spot-request 6 --nodes 4
 ```
 
-Note that vcpu (and experiment plans) are set in the experiments defined at the top of "run-experiment.py." This could be tweaked to be elsewhere! 
+Note that vcpu (and experiment plans) are set in the experiments defined at the top of "run-experiment.py." This could be tweaked to be elsewhere!
 Also note that when you create multiple node groups, it will already have an auth config and print an error. You can ignore that :)
 
 ## TODO and questions
