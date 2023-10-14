@@ -21,6 +21,9 @@ from cloudselect.main import Client
 
 here = os.path.dirname(os.path.abspath(__file__))
 
+# Default architecture (also can do arm)
+default_arch = "x86_64"
+
 
 def get_parser():
     parser = argparse.ArgumentParser(
@@ -66,7 +69,7 @@ cloud-select -c rm:registry:/tmp/registry""",
     )
     select.add_argument(
         "--arch",
-        default="x86_64",
+        default=default_arch,
         help="architecture",
     )
 
@@ -122,9 +125,7 @@ def run():
     elif args.command == "select":
         select_instances(
             args.data,
-            args.arch,
             args.min_vcpu,
-            args.max_vcpu,
             args.threads_per_core,
             args.min_mem,
             args.max_mem,
@@ -132,14 +133,16 @@ def run():
             args.gpu,
             args.max_price,
             args.randomize,
+            max_vcpu=args.max_vcpu,
+            arch=args.arch,
         )
 
 
 def select_instances(
     datafile,
-    arch,
-    min_cpu,
-    max_cpu,
+    min_vcpu,
+    max_vcpu=None,
+    arch=default_arch,
     max_threads_per_core=2,
     min_mem=None,
     max_mem=None,
@@ -159,8 +162,8 @@ def select_instances(
 
     # Filter to arch and cpu (required)
     subset = df[df.arch == arch]
-    subset = subset[subset.vcpu >= min_cpu]
-    subset = subset[subset.vcpu <= max_cpu]
+    subset = subset[subset.vcpu >= min_vcpu]
+    subset = subset[subset.vcpu <= max_vcpu]
     subset = subset[subset.threads_per_core <= max_threads_per_core]
 
     # GPU

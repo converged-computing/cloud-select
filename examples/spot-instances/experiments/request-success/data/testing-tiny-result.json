@@ -1,0 +1,28 @@
+{
+    "times": {
+        "create_vpc_stack-size-4": 182.69,
+        "new_cluster-size-4": 484.339,
+        "create_cluster": 667.894
+    },
+    "experiments": {
+        "vcpu-4max-instance-types-10": [
+            {
+                "machine_types": [
+                    "t2.xlarge",
+                    "c5n.xlarge",
+                    "m4.xlarge"
+                ],
+                "count": 3,
+                "times": {
+                    "create_vpc_stack-size-4": 182.69,
+                    "new_cluster-size-4": 484.339,
+                    "create_cluster": 667.894,
+                    "create_nodegroup-size-4": 122.517,
+                    "wait_for_nodes-size-4": 5.115,
+                    "create_cluster_nodes-size-4": 128.213,
+                    "delete_nodegroup-size-4": 151.527
+                }
+            }
+        ]
+    }
+}

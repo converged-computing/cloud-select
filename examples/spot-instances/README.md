@@ -16,13 +16,13 @@ of instances to test.
 First, generate the data [instances-aws.csv](instances-aws.csv).
 
 ```bash
-python spot-instances.py gen
+python spot_instances.py gen
 
 # Don't use a cache
-python spot-instances.py gen --no-cache
+python spot_instances.py gen --no-cache
 ```
 
-Next, filter to your selection! Look at the usage first (`python spot-instances.py select --help`) to see options. Minimally you should choose:
+Next, filter to your selection! Look at the usage first (`python spot_instances.py select --help`) to see options. Minimally you should choose:
 
  - min-vcpu (2 vCPU == 1 CPU)
  - max-vcpu
@@ -31,7 +31,7 @@ And the arch defaults to x86_64. Here are some examples that get me a relatively
 
 ```bash
 # Default is to use the cache, 2 or fewer threads per core, no GPU, us-east-1
-$ python spot-instances.py select --min-vcpu 32 --max-vcpu 32 --number 5
+$ python spot_instances.py select --min-vcpu 32 --max-vcpu 32 --number 5
 ```
 ```console
 Selected subset table:
@@ -57,7 +57,7 @@ Note that by default we sort by price and select the lowest, and show the mean a
 Try setting a max price instead:
 
 ```bash
-$ python spot-instances.py select --min-vcpu 32 --max-vcpu 32 --max-price 3
+$ python spot_instances.py select --min-vcpu 32 --max-vcpu 32 --max-price 3
 ```
 ```console
 Selected subset table:
@@ -108,7 +108,7 @@ $2.01 ($0.42)
 Also try adding `--randomize` so it randomizes the set first (before filtering down to price, for example)
 
 ```bash
-$ python spot-instances.py select --min-vcpu 32 --max-vcpu 32 --number 5 --randomize
+$ python spot_instances.py select --min-vcpu 32 --max-vcpu 32 --number 5 --randomize
 ```
 ```console
 Selected subset table:
