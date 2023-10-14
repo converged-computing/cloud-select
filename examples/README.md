@@ -5,3 +5,4 @@ and more for custom interactions like saving a cache of data, etc.
 
 
 - [Saving prices](saving-prices) for AWS and for On-Demand and Other types.
+- [Spot Instances](spot-instances) for grouping AWS instances into resources ranges that satisfy a minimum criteria.
