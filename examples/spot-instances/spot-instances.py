@@ -12,9 +12,9 @@
 
 import argparse
 import os
-import random
-import pandas
 import sys
+
+import pandas
 
 from cloudselect.logger import setup_logger
 from cloudselect.main import Client
@@ -163,11 +163,16 @@ def select_instances(
 
     # Sort by vcpu and then price
     sorted_df = subset.sort_values(["vcpu", "price"])
+
+    print("Selected subset table:")
+    print(sorted_df)
     instance_names = list(sorted_df.instance.values)
 
     # Honor a user threshold, if set
     if number and len(instance_names) > number:
         instance_names = instance_names[:number]
+
+    print("\n😸️ Final selection of spot:")
     for instance_name in instance_names:
         print(instance_name)
     return instance_names
@@ -232,6 +237,9 @@ def generate_data(args):
 
         # There is more data here, this is what we want for now
         df = instances_to_table(instances, lookup)
+        print(df)
+        print(f"Saving {df.shape[0]} instances in table to {args.data}")
+        df.to_csv(args.data)
 
 
 def instances_to_table(instances, lookup):
@@ -273,9 +281,7 @@ def instances_to_table(instances, lookup):
                 price,
             ]
             idx += 1
-
-    print(f"Saving {df.shape[0]} instances in table to {args.data}")
-    df.to_csv(args.data)
+    return df
 
 
 if __name__ == "__main__":
