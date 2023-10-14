@@ -15,6 +15,7 @@ The versions coincide with releases on pip. Only major versions will be released
 
 ## [0.0.x](https://github.com/converged-computing/cloud-select/tree/main) (0.0.x)
  - fix one-off error for table listing (0.0.21)
+   - support for spot-instance example
  - add aws price cache example and use non-deprecated oras upload_* functions (0.0.2)
  - rename module to cloudselect (0.0.19)
  - bugfix for sorting by prices with select (0.0.18)
