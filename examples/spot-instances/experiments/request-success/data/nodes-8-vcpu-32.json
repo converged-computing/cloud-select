@@ -1,0 +1,195 @@
+{
+    "experiments": {
+        "vcpu-32max-instance-types-10": {
+            "runs": [
+                {
+                    "machine_types": [
+                        "c5ad.8xlarge",
+                        "r5a.8xlarge"
+                    ],
+                    "count": 2,
+                    "times": {
+                        "create_vpc_stack-size-8": 212.732,
+                        "new_cluster-size-8": 484.331,
+                        "create_cluster": 697.967,
+                        "create_nodegroup-size-8": 93.392,
+                        "wait_for_nodes-size-8": 5.158,
+                        "create_cluster_nodes-size-8": 99.104,
+                        "delete_nodegroup-size-8": 272.587
+                    },
+                    "mean_price": 1.7565,
+                    "std_price": 0.30476302269140204
+                },
+                {
+                    "machine_types": [
+                        "m5ad.8xlarge",
+                        "h1.8xlarge",
+                        "r5a.8xlarge"
+                    ],
+                    "count": 3,
+                    "times": {
+                        "create_vpc_stack-size-8": 212.732,
+                        "new_cluster-size-8": 484.331,
+                        "create_cluster": 697.967,
+                        "create_nodegroup-size-8": 92.676,
+                        "wait_for_nodes-size-8": 5.172,
+                        "create_cluster_nodes-size-8": 98.37,
+                        "delete_nodegroup-size-8": 272.647
+                    },
+                    "mean_price": 1.8823333333333334,
+                    "std_price": 0.08497254458549146
+                },
+                {
+                    "machine_types": [
+                        "c7i.8xlarge",
+                        "m5ad.8xlarge",
+                        "h1.8xlarge",
+                        "inf2.8xlarge"
+                    ],
+                    "count": 4,
+                    "times": {
+                        "create_vpc_stack-size-8": 212.732,
+                        "new_cluster-size-8": 484.331,
+                        "create_cluster": 697.967,
+                        "create_nodegroup-size-8": 93.084,
+                        "wait_for_nodes-size-8": 5.176,
+                        "create_cluster_nodes-size-8": 98.891,
+                        "delete_nodegroup-size-8": 273.116
+                    },
+                    "mean_price": 1.778715,
+                    "std_price": 0.2153615368784934
+                },
+                {
+                    "machine_types": [
+                        "c7i.8xlarge",
+                        "m6a.8xlarge",
+                        "c6a.8xlarge",
+                        "m5ad.8xlarge",
+                        "r5a.8xlarge"
+                    ],
+                    "count": 5,
+                    "times": {
+                        "create_vpc_stack-size-8": 212.732,
+                        "new_cluster-size-8": 484.331,
+                        "create_cluster": 697.967,
+                        "create_nodegroup-size-8": 213.097,
+                        "wait_for_nodes-size-8": 5.172,
+                        "create_cluster_nodes-size-8": 218.936,
+                        "delete_nodegroup-size-8": 272.789
+                    },
+                    "mean_price": 1.731488,
+                    "std_price": 0.18626162975771474
+                },
+                {
+                    "machine_types": [
+                        "r6in.8xlarge",
+                        "c7i.8xlarge",
+                        "c5ad.8xlarge",
+                        "m6a.8xlarge",
+                        "h1.8xlarge",
+                        "inf2.8xlarge"
+                    ],
+                    "count": 6,
+                    "times": {
+                        "create_vpc_stack-size-8": 212.732,
+                        "new_cluster-size-8": 484.331,
+                        "create_cluster": 697.967,
+                        "create_nodegroup-size-8": 92.469,
+                        "wait_for_nodes-size-8": 5.199,
+                        "create_cluster_nodes-size-8": 98.182,
+                        "delete_nodegroup-size-8": 333.225
+                    },
+                    "mean_price": 1.6617499999999998,
+                    "std_price": 0.21201821346290042
+                },
+                {
+                    "machine_types": [
+                        "c7i.8xlarge",
+                        "c5ad.8xlarge",
+                        "m6a.8xlarge",
+                        "c6a.8xlarge",
+                        "h1.8xlarge",
+                        "inf2.8xlarge",
+                        "r5a.8xlarge"
+                    ],
+                    "count": 7,
+                    "times": {
+                        "create_vpc_stack-size-8": 212.732,
+                        "new_cluster-size-8": 484.331,
+                        "create_cluster": 697.967,
+                        "create_nodegroup-size-8": 92.653,
+                        "wait_for_nodes-size-8": 5.162,
+                        "create_cluster_nodes-size-8": 98.39,
+                        "delete_nodegroup-size-8": 272.484
+                    },
+                    "mean_price": 1.7479,
+                    "std_price": 0.2015254984693831
+                },
+                {
+                    "machine_types": [
+                        "r6in.8xlarge",
+                        "c7i.8xlarge",
+                        "c5ad.8xlarge",
+                        "m6a.8xlarge",
+                        "c6id.8xlarge",
+                        "m5ad.8xlarge",
+                        "inf2.8xlarge",
+                        "r5a.8xlarge"
+                    ],
+                    "count": 8,
+                    "times": {
+                        "create_vpc_stack-size-8": 212.732,
+                        "new_cluster-size-8": 484.331,
+                        "create_cluster": 697.967,
+                        "create_nodegroup-size-8": 122.704,
+                        "wait_for_nodes-size-8": 5.155,
+                        "create_cluster_nodes-size-8": 128.34,
+                        "delete_nodegroup-size-8": 272.483
+                    },
+                    "mean_price": 1.6927875,
+                    "std_price": 0.20322516293510504
+                },
+                {
+                    "machine_types": [
+                        "r6in.8xlarge",
+                        "c7i.8xlarge",
+                        "c5ad.8xlarge",
+                        "m6a.8xlarge",
+                        "c6id.8xlarge",
+                        "c6a.8xlarge",
+                        "h1.8xlarge",
+                        "inf2.8xlarge",
+                        "r5a.8xlarge"
+                    ],
+                    "count": 9,
+                    "times": {
+                        "create_vpc_stack-size-8": 212.732,
+                        "new_cluster-size-8": 484.331,
+                        "create_cluster": 697.967,
+                        "create_nodegroup-size-8": 92.39,
+                        "wait_for_nodes-size-8": 5.171,
+                        "create_cluster_nodes-size-8": 98.024,
+                        "delete_nodegroup-size-8": 272.661
+                    },
+                    "mean_price": 1.7084555555555554,
+                    "std_price": 0.19750000045007035
+                }
+            ],
+            "plan": {
+                "vcpu": 32,
+                "max-instance-types": 10
+            },
+            "instances": ",instance,bare_metal,arch,vcpu,threads_per_core,memory_mb,gpu,price\n333,r6in.8xlarge,False,x86_64,32,2,262144,False,1.472\n592,c7i.8xlarge,False,x86_64,32,2,65536,False,1.472\n483,c5ad.8xlarge,False,x86_64,32,2,65536,False,1.541\n159,m6a.8xlarge,False,x86_64,32,2,131072,False,1.64564\n727,c6id.8xlarge,False,x86_64,32,2,65536,False,1.6688\n636,c6a.8xlarge,False,x86_64,32,2,65536,False,1.7648\n351,m5ad.8xlarge,False,x86_64,32,2,131072,False,1.803\n513,h1.8xlarge,False,x86_64,32,2,131072,False,1.872\n90,inf2.8xlarge,False,x86_64,32,2,131072,False,1.96786\n416,r5a.8xlarge,False,x86_64,32,2,262144,False,1.972\n",
+            "max_instance_types": 10
+        }
+    },
+    "times": {
+        "create_vpc_stack-size-8": 212.732,
+        "new_cluster-size-8": 484.331,
+        "create_cluster": 697.967,
+        "delete_nodegroup-size-8": 0.304,
+        "_delete_cluster-size-8": 91.064,
+        "delete_vpc_stack-size-8": 91.414,
+        "delete_cluster": 182.781
+    }
+}
