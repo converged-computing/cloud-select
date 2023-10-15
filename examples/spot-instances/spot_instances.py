@@ -33,7 +33,7 @@ def get_parser():
     parser.add_argument(
         "--data",
         help="exported data.csv (to generate or use)",
-        default="instances-aws.csv",
+        default=os.path.join(here, "instances-aws.csv"),
     )
     subparsers = parser.add_subparsers(
         help="cloudselect actions",
@@ -125,16 +125,16 @@ def run():
     elif args.command == "select":
         select_instances(
             args.data,
-            args.min_vcpu,
-            args.threads_per_core,
-            args.min_mem,
-            args.max_mem,
-            args.number,
-            args.gpu,
-            args.max_price,
-            args.randomize,
-            max_vcpu=args.max_vcpu,
             arch=args.arch,
+            number=args.number,
+            has_gpu=args.gpu,
+            min_mem=args.min_mem,
+            max_mem=args.max_mem,
+            min_vcpu=args.min_vcpu,
+            max_vcpu=args.max_vcpu,
+            max_price=args.max_price,
+            randomize=args.randomize,
+            max_threads_per_core=args.threads_per_core,
         )
 
 

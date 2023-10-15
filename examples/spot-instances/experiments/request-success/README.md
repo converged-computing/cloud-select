@@ -63,6 +63,22 @@ python run-experiment.py --outfile ./data/testing-tiny-result.json --cluster-nam
 Note that vcpu (and experiment plans) are set in the experiments defined at the top of "run-experiment.py." This could be tweaked to be elsewhere!
 Also note that when you create multiple node groups, it will already have an auth config and print an error. You can ignore that :)
 
+## Testing Experiments
+
+Here I just want to get several single points (and times) for help with future planning. During
+this testing I also tweaked the output format data a bit preparing for plotting!
+
+```bash
+# See estimated cost per node hour (e.g., multiply by --nodes for total in hour)
+python ../../spot_instances.py select --min-vcpu 32 --max-vcpu 32 --number 10
+
+# Try to get 8 nodes using a range of 2-10 spot instance types selecting from a group of 10
+python run-experiment.py --outfile ./data/nodes-8-vcpu-32.json --cluster-name cluster-8-32vcpu --max-instance-types 10 --min-spot-request 2 --max-spot-request 10 --nodes 8 --plan ./plans/32vcpu.json
+
+# Plot results
+python plot-results.py data/nodes-8-vcpu-32.json 
+```
+
 ## TODO and questions
 
 - We likely want to run some number of iterations. Should that go in the script or should (maybe better) we create clusters at different times to get them? I am just thinking if we are doing spot requests all at once, we are probably likely to be able to get the same nodes again, but maybe I'm wrong.

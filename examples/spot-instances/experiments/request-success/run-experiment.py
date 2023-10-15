@@ -67,6 +67,10 @@ def get_parser():
         help="output json file to save results to (as we go) defaults to cluster name",
     )
     parser.add_argument(
+        "--plan",
+        help="plan (json) file to parse",
+    )
+    parser.add_argument(
         "--nodes",
         help="number of nodes to request (defaults to 4 for testing)",
         type=int,
@@ -110,6 +114,17 @@ class Experiment:
     def max_instance_types(self):
         return self.plan.get("max-instance-types") or self._max_instance_types
 
+    def export(self):
+        """
+        Export experiment metadata
+        """
+        return {
+            "runs": [],
+            "plan": self.plan,
+            "instances": self.df.to_csv(),
+            "max_instance_types": self.max_instance_types,
+        }
+
     @property
     def count(self):
         """
@@ -128,7 +143,7 @@ class Experiment:
         selected = listing[:count]
         subset = self.df[self.df.instance.isin(selected)]
         show_selected(subset)
-        return selected
+        return subset
 
 
 def show_selected(df):
@@ -141,6 +156,12 @@ def show_selected(df):
     mean = round(df.price.mean(), 2)
     std = round(df.price.std(), 2)
     print(f"${mean} (${std})")
+
+
+def read_json(filename):
+    with open(filename, "r") as fd:
+        content = json.loads(fd.read())
+    return content
 
 
 def confirm_action(question):
@@ -160,6 +181,11 @@ def plan_experiments(args):
     Given experiment "plans" create a matrix of actual experiments (and instance types) to run
     """
     experiments = {}
+    # Were we given a plan in json?
+    if args.plan and os.path.exists(args.plan):
+        print(f"Loading plans from {args.plan}")
+        experiment_plans = read_json(args.plan)
+
     for plan in experiment_plans:
         print(f"🧪️ Planning experiments for {plan}")
         exp = Experiment(plan, max_instance_types=args.max_instance_types)
@@ -254,11 +280,18 @@ def main():
 
     # Save results as we go!
     original_times = cli.times
-    results = {"experiments": {}, "times": original_times}
+    results = {
+        "experiments": {},
+        "times": original_times,
+        "nodes": args.nodes,
+        "cluster_name": args.cluster_name,
+    }
 
     for name, exp in experiments.items():
         print(f"== Experiment {exp.id} has {exp.count} instances selected.")
-        results["experiments"][name] = []
+
+        # Add specific experiment to results
+        results["experiments"][name] = exp.export()
 
         # We will generate from args.min (2) up to the count
         for count in range(args.min_spot_request, args.max_spot_request):
@@ -266,7 +299,9 @@ def main():
             cli.times = {}
 
             # Here we select our random machine types from the set (this shows/prints it too)
-            machine_types = exp.select_machine_types(count)
+            # This returns a subset of the data frame. The entire experiment df is saved with experiment
+            subset = exp.select_machine_types(count)
+            machine_types = list(subset.instance.values)
 
             # Now create the node groups!
             cli.create_cluster_nodes(machine_types)
@@ -279,13 +314,16 @@ def main():
             times.update(cli.times)
 
             # Save metadata as we go - the times include for the cluster too
+            # We might as well make mean price easy to see too
             new_result = {
                 "machine_types": machine_types,
                 "count": count,
                 "times": times,
+                "mean_price": subset.price.mean(),
+                "std_price": subset.price.std(),
             }
             print(json.dumps(new_result))
-            results["experiments"][name].append(new_result)
+            results["experiments"][name]["runs"].append(new_result)
             write_json(results, args.outfile)
 
     # When we are done, delete the cluster
