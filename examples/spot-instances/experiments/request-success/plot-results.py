@@ -173,7 +173,7 @@ def plot_data(df, outdir, name):
         palette=palette,
         title="AWS Spot Instance NodeGroup Prices as a Function of Instance Types Count",
         xlabel="Instance Types Allowed (count)",
-        ylabel="Seconds",
+        ylabel="Hourly Price (USD)",
         saveto=os.path.join(outdir, f"{name}-prices.png"),
     )
 
