@@ -3,16 +3,16 @@
 # Analyze results for pod events and make summary plots.
 import argparse
 import collections
+import io
 import json
 import os
 import re
 import sys
-import io
-from matplotlib.ticker import FormatStrFormatter
 
 import matplotlib.pyplot as plt
 import pandas
 import seaborn as sns
+from matplotlib.ticker import FormatStrFormatter
 
 plt.style.use("bmh")
 
@@ -132,7 +132,7 @@ def main():
 
     # plot the results!
     for name in df.experiment.unique():
-        print(f'Plotting results for {name}')
+        print(f"Plotting results for {name}")
         subset = df[df.experiment == name]
         plot_data(subset, args.outdir, name)
 

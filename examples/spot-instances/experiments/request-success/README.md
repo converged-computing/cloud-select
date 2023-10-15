@@ -76,7 +76,7 @@ python ../../spot_instances.py select --min-vcpu 32 --max-vcpu 32 --number 10
 python run-experiment.py --outfile ./data/nodes-8-vcpu-32.json --cluster-name cluster-8-32vcpu --max-instance-types 10 --min-spot-request 2 --max-spot-request 10 --nodes 8 --plan ./plans/32vcpu.json
 
 # Plot results
-python plot-results.py data/nodes-8-vcpu-32.json 
+python plot-results.py data/nodes-8-vcpu-32.json
 ```
 
 ## TODO and questions
