@@ -121,7 +121,7 @@ select on the fly, on the command line.
 | free-tier | boolean | Instance Types that support IPv6 | unset |
 | cpu-arch | string | architecture of the CPU | unset, can be one of "x86_64/amd64", "x86_64_mac", "i386", "arm64" |
 | cpu-vendor | string | manufacturer of CPU | unset can be one of "amd", "intel", "aws" |
-| gpu-vendor | string | Vendor of the GPU | unset can be one of nvidia |
+| gpu-vendor | string | Vendor of the GPU | unset can be one of "AMD", "Habana", "NVIDIA" |
 | disk-type | string | type of disk, hard disk or solid state | unset  can be one of "hdd", "ssd" |
 | exclude-list | array | instance types which should be excluded w/ regex syntax (Example: `m[1-2]\.*)` | unset |
 | include-list | array | instance types which should be included w/ regex syntax (Example: `m[1-2]\.*)` | unset |
