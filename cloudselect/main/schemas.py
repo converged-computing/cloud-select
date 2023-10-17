@@ -116,7 +116,7 @@ instance_properties = {
         "description": "manufacturer of CPU",
         "enum": ["amd", "intel", "aws"],
     },
-    "gpu-vendor": {"type": "string", "enum": ["nvidia"]},
+    "gpu-vendor": {"type": "string", "enum": ["AMD", "Habana", "NVIDIA"]},
     "disk-type": {
         "type": "string",
         "description": "type of disk, hard disk or solid state",
