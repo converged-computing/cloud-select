@@ -14,6 +14,7 @@ and **Merged pull requests**. Critical items to know are:
 The versions coincide with releases on pip. Only major versions will be released as tags on Github.
 
 ## [0.0.x](https://github.com/converged-computing/cloud-select/tree/main) (0.0.x)
+ - aws prices no longer works to receive an empty NextToken (0.0.22)
  - fix one-off error for table listing (0.0.21)
    - support for spot-instance example
  - add aws price cache example and use non-deprecated oras upload_* functions (0.0.2)

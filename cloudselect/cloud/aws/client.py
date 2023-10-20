@@ -55,13 +55,23 @@ class AmazonCloud(CloudProvider):
 
         # Keep track of how many times we've tried
         retries = 0
-        next_token = ""
+        next_token = None
         prices = []
+
         while True:
             try:
-                response = self.pricing_cli.get_products(
-                    ServiceCode="AmazonEC2", NextToken=next_token
-                )
+                # AWS (as of October 2023) no longer accepts an empty NextToken
+                # Max results default has also decreased, so we specify max
+                if not next_token:
+                    response = self.pricing_cli.get_products(
+                        ServiceCode="AmazonEC2", MaxResults=100
+                    )
+                else:
+                    response = self.pricing_cli.get_products(
+                        ServiceCode="AmazonEC2",
+                        NextToken=next_token,
+                        MaxResults=100,
+                    )
             # Be generous and retry for any client error
             except ClientError as err:
                 if "Rate exceeded" not in err.args[0] or retries > self.max_retries:
@@ -73,6 +83,7 @@ class AmazonCloud(CloudProvider):
 
             if not response.get("NextToken"):
                 break
+
             next_token = response.get("NextToken")
             # The prices are actually string - so let's search region of interest via regex
             for pricestr in response["PriceList"]:
@@ -81,7 +92,6 @@ class AmazonCloud(CloudProvider):
                 prices.append(json.loads(pricestr))
             print(f"{len(prices)} total aws prices matching {regex}...", end="\r")
         print()
-
         return self.load_prices(prices)
 
     def instances(self):

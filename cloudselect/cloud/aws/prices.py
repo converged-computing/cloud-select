@@ -8,7 +8,7 @@ from ..base import Prices
 
 class AmazonPrices(Prices):
     """
-    Google Compute Engine prices
+    AWS prices
     """
 
     pass

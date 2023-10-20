@@ -22,7 +22,7 @@ allow_missing_attributes: false
 
 # cloud specific settings
 google:
-  regions: ["us-east1", "us-west1", "us-central1"]
+  regions: [us-east1, us-west1, us-central1]
 
 aws:
-  regions: ["us-east-1"]
+  regions: [us-east-1]
