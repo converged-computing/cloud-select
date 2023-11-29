@@ -7,6 +7,7 @@ import json
 import random
 import re
 import time
+from datetime import datetime
 
 import cloudselect.utils as utils
 from cloudselect.logger import logger
@@ -93,6 +94,83 @@ class AmazonCloud(CloudProvider):
             print(f"{len(prices)} total aws prices matching {regex}...", end="\r")
         print()
         return self.load_prices(prices)
+
+    def spot_prices(self, instances):
+        """
+        Get spot prices for a set of instances and availability zones
+        """
+        from botocore.exceptions import ClientError
+
+        # Filter down to those that support spot
+        instances = [x for x in instances.data if "spot" in x["SupportedUsageClasses"]]
+        names = [x["InstanceType"] for x in instances]
+
+        # Ensure we have services (if cache_only True this won't be set)
+        if not self.has_instance_auth:
+            self._set_services()
+
+        retries = 0
+        prices = {}
+        next_token = ""
+        now = datetime.now()
+        print(f"Getting latest spot prices for {len(names)} instances...")
+        while True:
+            try:
+                response = self.ec2_client.describe_spot_price_history(
+                    InstanceTypes=names,
+                    ProductDescriptions=["Linux/UNIX"],
+                    NextToken=next_token,
+                    MaxResults=1000,
+                    StartTime=now,
+                )
+            except ClientError as err:
+                if "Rate exceeded" not in err.args[0] or retries > self.max_retries:
+                    raise
+                retries += 1
+                sleep = self.min_sleep_time * random.randint(1, 2**retries)
+                time.sleep(sleep)
+                continue
+
+            if not response.get("NextToken"):
+                break
+
+            next_token = response.get("NextToken")
+
+            # Filter down to latest price for each availability zone
+            for price in response["SpotPriceHistory"]:
+                instance_type = price["InstanceType"]
+                zone = price["AvailabilityZone"]
+
+                # Organize by instance type -> availability zone
+                if instance_type not in prices:
+                    prices[instance_type] = {}
+                if zone not in prices[instance_type]:
+                    prices[instance_type][zone] = {}
+
+                # If we already have one, determine if newer
+                if "Timestamp" in prices[instance_type][zone]:
+                    current = prices[instance_type][zone]["Timestamp"]
+                    contender = price["Timestamp"]
+
+                    # Only update if the contender is newer (more recent)
+                    if contender > current:
+                        prices[instance_type][zone] = price
+
+                # We haven't seen this combination yet!
+                else:
+                    prices[instance_type][zone] = price
+
+        # Convert timestamp to strings
+        count = 0
+        for instance_type, spot_prices in prices.items():
+            for zone, spot_price in spot_prices.items():
+                count += 1
+                prices[instance_type][zone]["Timestamp"] = str(
+                    prices[instance_type][zone]["Timestamp"]
+                )
+
+        print(f"Found {count} total aws spot prices")
+        return prices
 
     def instances(self):
         """

@@ -130,6 +130,7 @@ class Client:
 
             # If we have data from somewhere, update our items
             if data is not None:
+                logger.info(f"Loading new prices for {cloud}")
                 items[cloud.name] = getattr(cloud, f"load_{key}")(data)
 
         return items
