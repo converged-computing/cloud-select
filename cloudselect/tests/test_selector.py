@@ -25,9 +25,10 @@ def test_selector(tmp_path, cloud, resources):
     Test our selector (non-interactive)
     """
     selector = selectors.InstanceSelector(cloud=cloud)
-    instances = selector.select_instance(resources, interactive=False)
+
+    # Google prices aren't reliable, so sort by name
+    instances = selector.select_instance(resources, interactive=False, sort_by="name")
     assert len(instances) > 10
-    assert instances[0]["price"] < instances[-1]["price"]
 
     # Ensure each without our range!
     for instance in instances:
