@@ -95,9 +95,12 @@ class AmazonCloud(CloudProvider):
         print()
         return self.load_prices(prices)
 
-    def spot_prices(self, instances):
+    def spot_prices(self, instances, since=None):
         """
         Get spot prices for a set of instances and availability zones
+
+        since can be provided as a datetime.datetime object to filter since.
+        If not defined, we default to datetime.datetime.now()
         """
         from botocore.exceptions import ClientError
 
@@ -112,7 +115,7 @@ class AmazonCloud(CloudProvider):
         retries = 0
         prices = {}
         next_token = ""
-        now = datetime.now()
+        now = since or datetime.now()
         print(f"Getting latest spot prices for {len(names)} instances...")
         while True:
             try:

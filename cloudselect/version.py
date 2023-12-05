@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: (MIT)
 
-__version__ = "0.0.23"
+__version__ = "0.0.24"
 AUTHOR = "Vanessa Sochat"
 EMAIL = "vsoch@users.noreply.github.com"
 NAME = "cloud-select-tool"
