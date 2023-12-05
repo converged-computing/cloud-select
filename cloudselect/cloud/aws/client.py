@@ -95,12 +95,13 @@ class AmazonCloud(CloudProvider):
         print()
         return self.load_prices(prices)
 
-    def spot_prices(self, instances, since=None):
+    def spot_prices(self, instances, since=None, latest=True):
         """
         Get spot prices for a set of instances and availability zones
 
         since can be provided as a datetime.datetime object to filter since.
-        If not defined, we default to datetime.datetime.now()
+        If not defined, we default to datetime.datetime.now(). If latest is False,
+        we do not organize based on the latest timestamp.
         """
         from botocore.exceptions import ClientError
 
@@ -113,7 +114,7 @@ class AmazonCloud(CloudProvider):
             self._set_services()
 
         retries = 0
-        prices = {}
+        prices = {} if latest else []
         next_token = ""
         now = since or datetime.now()
         print(f"Getting latest spot prices for {len(names)} instances...")
@@ -144,6 +145,11 @@ class AmazonCloud(CloudProvider):
                 instance_type = price["InstanceType"]
                 zone = price["AvailabilityZone"]
 
+                # This returns all raw data, no organizing
+                if not latest:
+                    prices.append(price)
+                    continue
+
                 # Organize by instance type -> availability zone
                 if instance_type not in prices:
                     prices[instance_type] = {}
@@ -162,6 +168,11 @@ class AmazonCloud(CloudProvider):
                 # We haven't seen this combination yet!
                 else:
                     prices[instance_type][zone] = price
+
+        # If we just want the latest list, return early
+        if not latest:
+            print(f"Found {len(prices)} total aws spot prices")
+            return prices
 
         # Convert timestamp to strings
         count = 0

@@ -13,6 +13,8 @@ of instances to test.
 
 ## Usage
 
+### spot_instances.py
+
 First, generate the data [instances-aws.csv](instances-aws.csv).
 
 ```bash
@@ -132,3 +134,13 @@ $5.7 ($5.12)
 
 Use that with caution since it will select from the higher priced instances!
 Note that we may need more filters for the above! This is a testing script right now.
+
+### spot_prices_delta.py
+
+Is a small script to look at deltas of price instances for the last day.
+Note that we organize by instance type, then availability zone, and then provide
+the same value in seconds, minutes, and hours (for human understanding).
+
+```bash
+python spot_prices_delta.py
+```

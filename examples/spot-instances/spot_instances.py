@@ -12,6 +12,7 @@
 
 import argparse
 import os
+import statistics
 import sys
 
 import pandas
@@ -72,9 +73,15 @@ cloud-select -c rm:registry:/tmp/registry""",
         default=default_arch,
         help="architecture",
     )
-
+    select.add_argument("--hypervisor", help="hypervisor")
     select.add_argument(
         "--gpu", help="select instances with GPU", action="store_true", default=False
+    )
+    select.add_argument(
+        "--bare-metal",
+        help="select instances with bare metal",
+        action="store_true",
+        default=False,
     )
     select.add_argument(
         "--randomize",
@@ -82,14 +89,15 @@ cloud-select -c rm:registry:/tmp/registry""",
         action="store_true",
         default=False,
     )
-    select.add_argument("--min-vcpu", help="minimum vCPU", type=int, default=32)
-    select.add_argument("--max-vcpu", help="maximum vCPU", type=int, default=64)
+    select.add_argument("--min-cores", help="minimum physical cores", type=int)
+    select.add_argument("--max-cores", help="maximum physical cores", type=int)
+    select.add_argument("--min-vcpu", help="minimum vCPU", type=int)
+    select.add_argument("--max-vcpu", help="maximum vCPU", type=int)
     select.add_argument(
         "--max-threads-per-core",
         dest="threads_per_core",
         help="threads per core",
         type=int,
-        default=2,
     )
     select.add_argument("--min-mem", help="minimum memory MB", type=int)
     select.add_argument("--max-mem", help="maximum memory MB", type=int)
@@ -130,29 +138,40 @@ def run():
             has_gpu=args.gpu,
             min_mem=args.min_mem,
             max_mem=args.max_mem,
+            min_cores=args.min_cores,
+            max_cores=args.max_cores,
             min_vcpu=args.min_vcpu,
             max_vcpu=args.max_vcpu,
             max_price=args.max_price,
             randomize=args.randomize,
             max_threads_per_core=args.threads_per_core,
+            bare_metal=args.bare_metal,
+            hypervisor=args.hypervisor,
         )
 
 
 def select_instances(
     datafile,
-    min_vcpu,
+    max_cores=None,
+    min_cores=None,
+    min_vcpu=None,
     max_vcpu=None,
     arch=default_arch,
-    max_threads_per_core=2,
+    max_threads_per_core=None,
     min_mem=None,
     max_mem=None,
     number=None,
     has_gpu=False,
     max_price=None,
+    max_spot_price=None,
     randomize=False,
+    bare_metal=False,
+    hypervisor=None,
 ):
     """
     Given a csv of data, filter down / sort and show final set.
+
+    Arch defaults to x86_64 and gpu none
     """
     if not os.path.exists(datafile):
         sys.exit(f"Input data table {datafile} does not exist.")
@@ -160,14 +179,24 @@ def select_instances(
     # Read in data frame
     df = pandas.read_csv(datafile, index_col=0)
 
-    # Filter to arch and cpu (required)
+    # Filter to arch and cores
     subset = df[df.arch == arch]
-    subset = subset[subset.vcpu >= min_vcpu]
-    subset = subset[subset.vcpu <= max_vcpu]
-    subset = subset[subset.threads_per_core <= max_threads_per_core]
+
+    if min_cores:
+        subset = subset[subset.cores >= min_cores]
+    if max_cores:
+        subset = subset[subset.cores <= max_cores]
 
     # GPU
     subset = subset[subset.gpu == has_gpu]
+
+    # More detail about cpu / threads
+    if min_vcpu:
+        subset = subset[subset.vcpu >= min_vcpu]
+    if max_vcpu:
+        subset = subset[subset.vcpu <= max_vcpu]
+    if max_threads_per_core:
+        subset = subset[subset.threads_per_core <= max_threads_per_core]
 
     # Optional memory
     if min_mem:
@@ -176,61 +205,94 @@ def select_instances(
         subset = subset[subset.memory_mb <= max_mem]
     if max_price:
         subset = subset[subset.price <= max_price]
+    if max_spot_price:
+        subset = subset[subset.spot_price <= max_spot_price]
+    if hypervisor:
+        subset = subset[subset.hypervisor == hypervisor]
+
+    if bare_metal:
+        subset = subset[subset.bare_metal is True]
+    else:
+        subset = subset[subset.bare_metal is False]
 
     # If not randomize, sort by vcpu and then price
     if not randomize:
-        sorted_df = subset.sort_values(["vcpu", "price"])
+        sorted_df = subset.sort_values(["vcpu", "spot_price"])
     else:
         sorted_df = subset.sample(frac=1)
 
     instance_names = list(sorted_df.instance.values)
+
+    # Show the user the maximum price in the current set
+    max_spot = sorted_df.spot_price.max()
+    min_spot = sorted_df.spot_price.min()
+    print(f"\n☝️  Max spot price: {max_spot}")
+    print(f"👇️ Min spot price: {min_spot}")
 
     # Honor a user threshold, if set
     if number and len(instance_names) > number:
         instance_names = instance_names[:number]
 
     sorted_df = sorted_df[sorted_df.instance.isin(instance_names)]
-    print("Selected subset table:")
+    print("\n😸️ Filtered selection of spot:")
     print(sorted_df)
 
-    print("\n😸️ Final selection of spot:")
-    for instance_name in instance_names:
-        print(instance_name)
-
     # Give mean cost and std
-    print("\n🤓️ Mean (std) of price")
-    mean = round(sorted_df.price.mean(), 2)
-    std = round(sorted_df.price.std(), 2)
-    print(f"${mean} (${std})")
+    print("\n🤓️ Mean (std) of spot price")
+    mean = round(sorted_df.spot_price.mean(), 2)
+    std = round(sorted_df.spot_price.std(), 2)
+    print(f"${mean} (${std})\n")
     return sorted_df
 
 
-def get_price_lookup(prices):
+def get_price_lookup(prices, spot_prices):
     """
     Given a cloud, generate lookup of instance type by float price
 
     Note that I'm seeing instance types with USD 0.0 which doesn't make sense...
     """
-    # Put together lookup by name
+    # Put together lookup by name. We will take mean across availability zones
     lookup = {}
+    means = {}
+    for instance_type, zones in spot_prices.items():
+        sps = [float(x["SpotPrice"]) for _, x in zones.items()]
+        means[instance_type] = statistics.mean(sps)
+
     for price in prices.data:
-        # Not an instance!
         if "instanceType" not in price["product"]["attributes"]:
+            continue
+        if price["product"]["attributes"]["operatingSystem"] != "Linux":
+            continue
+        # WARNING: this is hard coded here to match the prices data default
+        if price["product"]["attributes"]["regionCode"] != "us-east-1":
             continue
         name = price["product"]["attributes"]["instanceType"]
 
-        # No on demand price
+        # Skip instance that don't have spot
+        if name not in means:
+            continue
+
+        # We need OnDemand too
         if "OnDemand" not in price["terms"]:
             continue
-        uid = list(price["terms"]["OnDemand"].keys())[0]
-        dims = price["terms"]["OnDemand"][uid]["priceDimensions"]
-        uid = list(dims.keys())[0]
-        usd = float(dims[uid]["pricePerUnit"]["USD"])
 
-        # If USD is 0, this is usually an instance with addon like SQL (skip it)
-        if usd == 0:
+        # This seems to be the best way to find the on demand linux for the instance type
+        # There are a LOT
+        usd = None
+        for _, meta in price["terms"].items():
+            for _, pds in meta.items():
+                for _, pd in pds["priceDimensions"].items():
+                    if pd["unit"] != "Hrs":
+                        continue
+                    if f"On Demand Linux {name}" in pd["description"]:
+                        usd = pd["pricePerUnit"]["USD"]
+
+        # This isn't the right instance type
+        if not usd:
             continue
-        lookup[name] = usd
+        if usd and name in lookup:
+            print(f"Warning: found previous price for {name}: {lookup[name]}")
+        lookup[name] = {"price": float(usd), "spot_price": means[name]}
     return lookup
 
 
@@ -251,11 +313,12 @@ def generate_data(args):
         # Spot instances are aws for now
         if cloud.name != "aws":
             continue
-
-        # Get prices for sorting!
         instances = cli.instances()["aws"]
         prices = cli.prices()["aws"]
-        lookup = get_price_lookup(prices)
+
+        # Get spot prices
+        spot_prices = cloud.spot_prices(instances)
+        lookup = get_price_lookup(prices, spot_prices)
 
         # Filter down to those that support spot (only a small number don't)
         instances = [x for x in instances.data if "spot" in x["SupportedUsageClasses"]]
@@ -279,9 +342,12 @@ def instances_to_table(instances, lookup):
             "bare_metal",
             "arch",
             "vcpu",
+            "cores",  # this is physical cores
             "threads_per_core",
             "memory_mb",
+            "hypervisor",
             "gpu",
+            "spot_price",
             "price",
         ]
     )
@@ -299,15 +365,32 @@ def instances_to_table(instances, lookup):
             # What is the difference between DefaultCores and DefaultVCpu?
             cpus = i["VCpuInfo"]
             gpu = "GpuInfo" in i
-            price = lookup.get(i["InstanceType"])
+            price = lookup.get(i["InstanceType"])["price"]
+            spot_price = lookup.get(i["InstanceType"])["spot_price"]
+            hypervisor = i.get("Hypervisor")
+
+            # If 1 thread not possible, don't include
+            if cpus["DefaultThreadsPerCore"] != 1:
+                if (
+                    "ValidThreadsPerCore" not in cpus
+                    or 1 not in cpus["ValidThreadsPerCore"]
+                ):
+                    print(
+                        f'Skipping {i["InstanceType"]}, does not support 1 thread per core.'
+                    )
+                    continue
+
             df.loc[idx, :] = [
                 i["InstanceType"],
                 i["BareMetal"],
                 arch,
                 cpus["DefaultVCpus"],
+                cpus["DefaultCores"],
                 cpus["DefaultThreadsPerCore"],
                 i["MemoryInfo"]["SizeInMiB"],
+                hypervisor,
                 gpu,
+                spot_price,
                 price,
             ]
             idx += 1
