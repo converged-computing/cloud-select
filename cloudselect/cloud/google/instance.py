@@ -3,10 +3,8 @@
 #
 # SPDX-License-Identifier: (MIT)
 
-import copy
+import math
 import re
-
-from cloudselect.logger import logger
 
 from ..base import Instance, InstanceGroup
 
@@ -23,12 +21,6 @@ class GoogleCloudInstance(Instance):
         Memory is in MB
         """
         return self.data.get("memoryMb")
-
-    def attr_price_per_hour(self):
-        """
-        Price in USD per hour.
-        """
-        return self.data.get("price")
 
     def attr_region(self):
         """
@@ -63,6 +55,12 @@ class GoogleCloudInstance(Instance):
         This is not added for Google yet
         """
         return self.data.get("price")
+
+    def attr_spot_price(self):
+        """
+        Spot price of an instance, USD per hour.
+        """
+        return self.data.get("spot_price")
 
     def attr_gpu(self):
         """
@@ -123,53 +121,144 @@ class GoogleCloudInstanceGroup(InstanceGroup):
         And these usage types:
           - {'Commit1Mo', 'Commit1Yr', 'Commit3Yr', 'OnDemand', 'Preemptible'}
 
-        For now we will filter to "Compute" and "OnDemand" but these could be changed.
+        For now we will filter to "Compute" and "OnDemand/Preemtible"
         """
-        # We currently only support prices-web.json
         if not prices.data:
             return
-        if isinstance(prices.data, list):
-            logger.warning("There is no support get for Google Cloud API prices.")
-            return
 
-        logger.warning(
-            "Google Cloud instance prices derived from the web are limited to Iowa (us-central1)"
-        )
+        # I'm writing this out stupidly / in detail so the logic is clear.
+        # Filter prices down to compute (and then separate on demand from spot) for each of CPU and memory
+        data = [x for x in prices.data if x["category"]["resourceFamily"] == "Compute"]
 
-        # Get actual machine types and convert web listing to types
-        actual_types = set([x["name"] for x in self.data])
-        lookup = {}
-        for _, metadata in prices.data.items():
-            meta = copy.deepcopy(metadata)
-            if not meta.get("table"):
+        # Get rid of sole tenancy - it's hard to use anyway
+        data = [x for x in data if "sole tenancy" not in x["description"].lower()]
+
+        # Also get rid of AMD and reserved I'm not interested for now
+        data = [
+            x
+            for x in data
+            if not re.search("(reserved|amd|premium)", x["description"].lower())
+        ]
+        data = [
+            x
+            for x in data
+            if re.search(
+                "(compute optimized|instance core|ram)", x["description"].lower()
+            )
+        ]
+
+        on_demand = [x for x in data if x["category"]["usageType"] == "OnDemand"]
+        preemptible = [x for x in data if x["category"]["usageType"] == "Preemptible"]
+
+        # Just organizing for myself
+        on_demand_cpu = [
+            x for x in on_demand if x["category"]["resourceGroup"] == "CPU"
+        ]
+        preemptible_cpu = [
+            x for x in preemptible if x["category"]["resourceGroup"] == "CPU"
+        ]
+
+        on_demand_mem = [
+            x for x in on_demand if x["category"]["resourceGroup"] == "RAM"
+        ]
+        preemptible_mem = [
+            x for x in preemptible if x["category"]["resourceGroup"] == "RAM"
+        ]
+
+        # So... we have to use regex to match to instance types? 😕️
+        # Find the instance core type based on X instance core
+        on_demand_lookup = {}
+        preemptible_lookup = {}
+        janky_price_parsing(on_demand_cpu, "cpu", on_demand_lookup)
+        janky_price_parsing(on_demand_mem, "mem", on_demand_lookup)
+        janky_price_parsing(preemptible_cpu, "cpu", preemptible_lookup)
+        janky_price_parsing(preemptible_mem, "mem", preemptible_lookup)
+
+        # At this point we have lookups for each of spot / on demand, cpu and mem dollars / hour
+        # Add to the data!
+        for item in self.data:
+            # We aren't calculating accelerators (GPU) pricing for now...
+            if item.get("accelerators"):
                 continue
-            header = meta["table"].pop(0)
-            for row in meta["table"]:
-                if not row:
-                    continue
-                if row[0] in actual_types:
-                    # Find price index
-                    idx = [
-                        i
-                        for i, x in enumerate(header)
-                        if "price" in x.lower() and "spot" not in x.lower()
-                    ]
-                    if not idx:
-                        continue
-                    price = row[idx[0]]
-                    lookup[row[0]] = float(price.replace("$", ""))
 
-        # Now add to data
-        for entry in self.data:
-            if entry["name"] in lookup:
-                entry["price"] = lookup[entry["name"]]
+            prefix = item["name"].split("-")[0]
 
-        # This is data from the Google Cloud API which we probably want to use.
-        # data = [
-        #    x
-        #    for x in prices.data
-        #    if x["category"]["resourceFamily"] == "Compute"
-        #    and x["category"]["usageType"] == "OnDemand"
-        # ]
-        # TODO - here we have a lsiting with snapshot, CPU, RAM, and I suspect we will need to combine attributes to get costs
-        # for instances. This is a TODO I want help with. For now, we do nothing
+            # We assume the pricing / instance data are paired
+            region = item["zone"].rsplit("-", 1)[0]
+
+            # 2 vcpu == 1 actual cpu, but I think they are doing vcpu?
+            actual_cpu = item["guestCpus"]
+            actual_mem_gb = item["memoryMb"] / 1000
+
+            # This would be the price for the instance type per hour
+            # Just try for both
+            try:
+                spot_price = (
+                    actual_cpu * preemptible_lookup[prefix]["cpu"][region]
+                    + actual_mem_gb * preemptible_lookup[prefix]["mem"][region]
+                )
+                item["spot_price"] = spot_price
+            except Exception:
+                pass
+
+            try:
+                demand_price = (
+                    actual_cpu * on_demand_lookup[prefix]["cpu"][region]
+                    + actual_mem_gb * on_demand_lookup[prefix]["mem"][region]
+                )
+                item["price"] = demand_price
+            except Exception:
+                pass
+
+
+def janky_price_parsing(data, key, lookup=None):
+    """
+    Jankily parse the billing API output into a lookup.
+
+    If one is provided, we update it with the key. This generates
+    a lookup by instance prefix, unit (cpu/mem unit) and price/hour.
+    """
+    # These are special identifiers for different families
+    # Custom is hard, it's just something with custom in the name...
+    families = {
+        "Memory-optimized": {"m1", "m2", "m3"},
+        "Compute optimized": {"h3", "c2d", "c2"},
+    }
+
+    # Not in family regex
+    not_in_family = "(%s)" % "|".join(list(families.keys()))
+
+    def add_instance(instance_name, item):
+        """
+        Helper function to add an instance item to the lookup
+        """
+        if instance_name not in lookup:
+            lookup[instance_name] = {}
+        if key not in lookup[instance_name]:
+            lookup[instance_name][key] = {}
+
+        for region in item["serviceRegions"]:
+            # See https://cloud.google.com/recommender/docs/reference/rest/Shared.Types/Money
+            # We divide by 10^9 to convert nanos to USD/hour (per unit like cpu)
+            nanos = item["pricingInfo"][0]["pricingExpression"]["tieredRates"][0][
+                "unitPrice"
+            ]["nanos"]
+
+            # This is USD / unit (cpu or mem) / hour
+            lookup[instance_name][key][region] = nanos / math.pow(10, 9)
+
+    # Do this for each of cpu and memory
+    for item in data:
+        # For spot, we need to remove this prefix
+        description = item["description"].replace("Spot Preemptible", "").strip()
+        for family, instance_names in families.items():
+            if family in description:
+                for instance_name in instance_names:
+                    add_instance(instance_name, item)
+
+            # Otherwise, it's a type we can parse
+            elif not re.search(not_in_family, description):
+                instance_name = (
+                    description.split("Instance Type")[0].strip().lower().split(" ")[0]
+                )
+                add_instance(instance_name, item)

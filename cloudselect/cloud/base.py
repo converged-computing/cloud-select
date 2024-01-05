@@ -175,6 +175,7 @@ class Instance(CloudData):
             "name": self.name,
             "memory": self.attr_memory(),
             "price": self.attr_price(),
+            "spot_price": self.attr_spot_price(),
             "cpus": self.attr_cpus(),
             "gpus": self.attr_gpus(),
             "region": self.attr_region(),

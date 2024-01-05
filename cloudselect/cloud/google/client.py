@@ -28,6 +28,8 @@ class GoogleCloud(CloudProvider):
         self.regions = kwargs.get("regions") or ["us-east1", "us-west1", "us-central1"]
         self.project = None
         self.compute_cli = None
+        # This is the pricing api - billing is for our usage
+        # https://cloud.google.com/billing/docs/how-to/get-pricing-information-api
         self.billing_cli = None
         try:
             self._set_services(kwargs.get("cache_only"))
@@ -35,6 +37,15 @@ class GoogleCloud(CloudProvider):
             logger.warning(f"Cannot create Google Cloud clients {e}")
             self.has_auth = False
         super(GoogleCloud, self).__init__()
+
+    def spot_prices(self, instances, since=None, latest=True):
+        """
+        Get spot prices for a set of instances and availability zones
+
+        This is currently not implemented because we add spot prices to
+        the normal pricing data, but could be added if needed.
+        """
+        pass
 
     def prices(self):
         """
@@ -116,7 +127,9 @@ class GoogleCloud(CloudProvider):
         # Get accelerator types (for GPU) to add to them?
         # TODO - I don't see where we can get memory for GPUs :(
         # https://cloud.google.com/compute/docs/reference/rest/v1/acceleratorTypes
-        # accels = self._retry_request(self.compute_cli.acceleratorTypes().aggregatedList(project=self.project))
+        # accels = self._retry_request(
+        #    self.compute_cli.acceleratorTypes().aggregatedList(project=self.project)
+        # )
 
         # Return a wrapped set of instances
         return self.load_instances(machine_types)
