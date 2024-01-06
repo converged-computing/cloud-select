@@ -17,7 +17,8 @@ class Properties:
         "instance_storage",
         "memory",
         "gpu_memory",
-        "price_per_hour",
+        "spot_price",
+        "price",
     ]
 
     def __init__(self, properties, **kwargs):

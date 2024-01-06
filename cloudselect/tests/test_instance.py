@@ -157,7 +157,6 @@ def test_instance_filters(tmp_path, cloud, prices_file, instances_file, region):
         "gpu-model",
         "hypervisor",
         "instance-storage",
-        "price-per-hour",
         "cpu-arch",
         "cpu-vendor",
         "gpu-vendor",
@@ -236,19 +235,19 @@ def test_aws_instance_filters(tmp_path, cloud):
             assert attr in result
 
     # Note that --max-results is handled by the client directly
-    args = parse_args("instance --price-per-hour-min 1.0")
+    args = parse_args("instance --price-min 1.0")
     results = client.instance_select(**args.__dict__)
     assert len(results) == 9
     for result in results:
         assert result["price"] >= 1.0
 
-    args = parse_args("instance --price-per-hour-max 2.0")
+    args = parse_args("instance --price-max 2.0")
     results = client.instance_select(**args.__dict__)
     assert len(results) == 13
     for result in results:
         assert result["price"] <= 2.0
 
-    args = parse_args("instance --price-per-hour-min 1.0 --price-per-hour-max 2.0")
+    args = parse_args("instance --price-min 1.0 --price-max 2.0")
     results = client.instance_select(**args.__dict__)
     assert len(results) == 3
     for result in results:
@@ -326,7 +325,6 @@ def test_interactive_database_aws(tmp_path):
         "memory",
         "memory_bytes",
         "price",
-        "price_per_hour",
         "region",
         "gpu",
         "gpu_memory",

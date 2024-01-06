@@ -157,14 +157,14 @@ $ cloud-select --max-results 100 instance
 Or try filtering by price:
 
 ```bash
-$ cloud-select instance --price-per-hour-min 1.0
+$ cloud-select instance --price-min 1.0
 ```
 
 And also sorting, of course, either default or ascending:
 
 ```bash
-$ cloud-select instance --price-per-hour-min 1.0 --sort-by price
-$ cloud-select instance --price-per-hour-min 1.0 --sort-by price --asc
+$ cloud-select instance --price-min 1.0 --sort-by price
+$ cloud-select instance --price-min 1.0 --sort-by price --asc
 ```
 
 ![img/cloud-select-prices.png](img/cloud-select-prices.png)
@@ -273,7 +273,6 @@ CREATE TABLE IF NOT EXISTS instances (
     value_bool number NULLABLE,
     value_number number NULLABLE
 );
-Google Cloud instance prices derived from the web are limited to Iowa (us-centra-1)
 ```
 
 This will prepare the same database for you as used in the command line
@@ -317,7 +316,7 @@ What attributes are available for query (aside from exact fields shown above)? L
  ('memory',),
  ('memory_bytes',),
  ('price',),
- ('price_per_hour',),
+ ('spot_price',),
  ('region',),
  ('zone',)]
 ```
@@ -348,7 +347,6 @@ out for the remainder of these examples. Here is querying for an instance name:
 ```
 ```console
  (23252, ..., 'google', 'n2d-highcpu-224', 'price', None, None, 6.986112),
- (23253, ..., 'google', 'n2d-highcpu-224', 'price_per_hour', None, None, 6.986112),
  (23254, ..., 'google', 'n2d-highcpu-224', 'region', 'us-west1-a', None, None),
  (23255, ..., 'google', 'n2d-highcpu-224', 'zone', 'us-west1-a', None, None)]
 ```

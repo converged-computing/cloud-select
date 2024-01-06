@@ -115,9 +115,12 @@ select on the fly, on the command line.
 | cpus |number |Number of vcpus available to the instance type. Sets min and -max to the same value. | unset |
 | cpus-min | number | Minimum number of vcpus available to the instance type. If max not set, is infinity. | unset |
 | cpus-max | number | Maximum number of vcpus available to the instance type. If min not set, is 0. | unset |
-| price-per-hour | number | Price/hour in dollars (e.g., 0.09) (sets min and max to the same value) | unset |
-| price-per-hour-min | number | Minimum price/hour in dollars. If max not set, is infinity. | unset |
-| price-per-hour-max | number |Maximum price/hour in dollars. If min not set, is 0." | unset |
+| price | number | Price/hour in dollars (e.g., 0.09) (sets min and max to the same value) | unset |
+| price-min | number | Minimum price/hour in dollars. If max not set, is infinity. | unset |
+| price-max | number | Maximum price/hour in dollars. If min not set, is 0." | unset |
+| spot-price | number | Spot Price/hour in dollars (e.g., 0.09) (sets min and max to the same value) | unset |
+| spot-price-min | number | Minimum spot price/hour in dollars. If max not set, is infinity. | unset |
+| spot-price-max | number | Maximum spot price/hour in dollars. If min not set, is 0." | unset |
 | free-tier | boolean | Instance Types that support IPv6 | unset |
 | cpu-arch | string | architecture of the CPU | unset, can be one of "x86_64/amd64", "x86_64_mac", "i386", "arm64" |
 | cpu-vendor | string | manufacturer of CPU | unset can be one of "amd", "intel", "aws" |

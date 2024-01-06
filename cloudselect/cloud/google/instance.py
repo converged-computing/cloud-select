@@ -126,7 +126,21 @@ class GoogleCloudInstanceGroup(InstanceGroup):
         if not prices.data:
             return
 
-        # I'm writing this out stupidly / in detail so the logic is clear.
+        print(
+            "⚠️ WARNING: prices are experimental, and often slightly (cents) low (compared to the web UI)"
+        )
+
+        # Note from here https://cloud.google.com/compute/disks-image-pricing
+        # standard provisioned space (for us regions) is 0.04 / gb per month
+        # the default machine comes with 20, so let's assume that
+        # 4 cents per GB per month x 20 / 730 hours per month
+        # Trivial, but let's add it
+        disk_cost = 0.04 * 20 / 730
+
+        # Keep a subset of data for the base network
+        # Not sure if total network vm bandwidth is considered in the web UI
+        # network = [x for x in prices.data if "bandwidth" in x['description']]
+
         # Filter prices down to compute (and then separate on demand from spot) for each of CPU and memory
         data = [x for x in prices.data if x["category"]["resourceFamily"] == "Compute"]
 
@@ -193,20 +207,16 @@ class GoogleCloudInstanceGroup(InstanceGroup):
             # This would be the price for the instance type per hour
             # Just try for both
             try:
-                spot_price = (
-                    actual_cpu * preemptible_lookup[prefix]["cpu"][region]
-                    + actual_mem_gb * preemptible_lookup[prefix]["mem"][region]
-                )
-                item["spot_price"] = spot_price
+                cpu_price = actual_cpu * preemptible_lookup[prefix]["cpu"][region]
+                mem_price = actual_mem_gb * preemptible_lookup[prefix]["mem"][region]
+                item["spot_price"] = cpu_price + mem_price + disk_cost
             except Exception:
                 pass
 
             try:
-                demand_price = (
-                    actual_cpu * on_demand_lookup[prefix]["cpu"][region]
-                    + actual_mem_gb * on_demand_lookup[prefix]["mem"][region]
-                )
-                item["price"] = demand_price
+                cpu_price = actual_cpu * on_demand_lookup[prefix]["cpu"][region]
+                mem_price = actual_mem_gb * on_demand_lookup[prefix]["mem"][region]
+                item["price"] = cpu_price + mem_price + disk_cost
             except Exception:
                 pass
 
@@ -240,9 +250,11 @@ def janky_price_parsing(data, key, lookup=None):
         for region in item["serviceRegions"]:
             # See https://cloud.google.com/recommender/docs/reference/rest/Shared.Types/Money
             # We divide by 10^9 to convert nanos to USD/hour (per unit like cpu)
-            nanos = item["pricingInfo"][0]["pricingExpression"]["tieredRates"][0][
-                "unitPrice"
-            ]["nanos"]
+            info = item["pricingInfo"]
+            assert len(info) == 1
+            rates = info[0]["pricingExpression"]["tieredRates"]
+            assert len(rates) == 1
+            nanos = rates[0]["unitPrice"]["nanos"]
 
             # This is USD / unit (cpu or mem) / hour
             lookup[instance_name][key][region] = nanos / math.pow(10, 9)

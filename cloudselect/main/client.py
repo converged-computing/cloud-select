@@ -111,6 +111,11 @@ class Client:
         returns data we have available.
         """
         items = {}
+
+        # If directed not to use a cache, return early
+        if not self.use_cache:
+            return items
+
         for cloud in self.get_clouds():
             # Assume we don't find data
             data = None
