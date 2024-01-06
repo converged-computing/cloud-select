@@ -1,4 +1,4 @@
-# Copyright 2022-2023 Lawrence Livermore National Security, LLC and other
+# Copyright 2022-2024 Lawrence Livermore National Security, LLC and other
 # HPCIC DevTools Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (MIT)
@@ -17,7 +17,8 @@ class Properties:
         "instance_storage",
         "memory",
         "gpu_memory",
-        "price_per_hour",
+        "spot_price",
+        "price",
     ]
 
     def __init__(self, properties, **kwargs):

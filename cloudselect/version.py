@@ -1,9 +1,9 @@
-# Copyright 2022-2023 Lawrence Livermore National Security, LLC and other
+# Copyright 2022-2024 Lawrence Livermore National Security, LLC and other
 # HPCIC DevTools Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (MIT)
 
-__version__ = "0.0.24"
+__version__ = "0.0.25"
 AUTHOR = "Vanessa Sochat"
 EMAIL = "vsoch@users.noreply.github.com"
 NAME = "cloud-select-tool"

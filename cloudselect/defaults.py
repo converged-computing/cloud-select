@@ -1,4 +1,4 @@
-# Copyright 2022-2023 Lawrence Livermore National Security, LLC and other
+# Copyright 2022-2024 Lawrence Livermore National Security, LLC and other
 # HPCIC DevTools Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (MIT)
@@ -23,7 +23,7 @@ cache_dir = os.path.join(userhome, "cache")
 cache_expire = 128  # one week is 128 hours
 
 # Fields and arguments for client
-sort_by_fields = ["name", "memory", "cpus", "gpus", "price"]
+sort_by_fields = ["name", "memory", "cpus", "gpus", "price", "spot_price"]
 table_descriptors = {"price": "*Price in USD/hour"}
 
 # variables in settings that allow environment variable expansion

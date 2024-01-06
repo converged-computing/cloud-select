@@ -1,4 +1,4 @@
-# Copyright 2022 Lawrence Livermore National Security, LLC and other
+# Copyright 2022-2024 Lawrence Livermore National Security, LLC and other
 # HPCIC DevTools Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (MIT)
@@ -6,6 +6,7 @@
 import json
 import random
 import re
+import statistics
 import time
 from datetime import datetime
 
@@ -93,6 +94,36 @@ class AmazonCloud(CloudProvider):
                 prices.append(json.loads(pricestr))
             print(f"{len(prices)} total aws prices matching {regex}...", end="\r")
         print()
+
+        # Try to add current spot
+        try:
+            updated = []
+            instances = self.instances()
+            spot_prices = self.spot_prices(instances)
+            for p in prices:
+                instance_type = p["product"]["attributes"].get("instanceType")
+                if not instance_type or instance_type not in spot_prices:
+                    continue
+                region = p["product"]["attributes"]["regionCode"]
+
+                # Save the availability zones, and the mean across
+                sps = {
+                    v["AvailabilityZone"]: float(v["SpotPrice"])
+                    for k, v in spot_prices[instance_type].items()
+                    if k.startswith(region)
+                }
+                if not sps:
+                    continue
+
+                p["terms"]["SpotPrices"] = sps
+                p["terms"]["SpotPrice"] = statistics.mean(list(sps.values()))
+                updated.append(p)
+            prices = updated
+
+        except Exception as e:
+            print(f"Issue with parsing spot prices: {e}")
+            pass
+
         return self.load_prices(prices)
 
     def spot_prices(self, instances, since=None, latest=True):

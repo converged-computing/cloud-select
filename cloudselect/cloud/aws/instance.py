@@ -1,4 +1,4 @@
-# Copyright 2022-2023 Lawrence Livermore National Security, LLC and other
+# Copyright 2022-2024 Lawrence Livermore National Security, LLC and other
 # HPCIC DevTools Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (MIT)
@@ -33,6 +33,12 @@ class AmazonInstance(Instance):
         enabled and present for the region.
         """
         return self.data.get("Price")
+
+    def attr_spot_price(self):
+        """
+        Spot price of an instance, USD per hour.
+        """
+        return self.data.get("SpotPrice")
 
     def attr_region(self):
         """
@@ -89,12 +95,6 @@ class AmazonInstance(Instance):
         Return if the instance suports storage
         """
         return self.data.get("InstanceStorageSupported")
-
-    def attr_price_per_hour(self):
-        """
-        Return price per hour, if known.
-        """
-        return self.data.get("Price")
 
     def attr_gpu_model(self):
         """
@@ -213,7 +213,8 @@ class AmazonInstanceGroup(InstanceGroup):
             # Provide finally as single region and price
             for region in regions:
                 item["Region"] = region
-                item["Price"] = item.get("Prices", {}).get(region)
+                item["Price"] = item.get("Prices", {}).get(region, {}).get("OnDemand")
+                item["SpotPrice"] = item.get("Prices", {}).get(region, {}).get("Spot")
                 yield self.Instance(item)
 
     def add_instance_prices(self, prices):
@@ -234,7 +235,7 @@ class AmazonInstanceGroup(InstanceGroup):
                 for region in instance["Regions"]:
                     if region in lookup[instance["InstanceType"]]:
                         region_prices[region] = lookup[instance["InstanceType"]][region]
-                    instance["Prices"] = region_prices
+                instance["Prices"] = region_prices
 
 
 def build_instance_price_lookup(prices):
@@ -270,6 +271,9 @@ def build_instance_price_lookup(prices):
         location = price["product"]["attributes"]["regionCode"]
         instance_type = price["product"]["attributes"]["instanceType"]
 
+        # If we have a spot price
+        spot_price = price["terms"].get("SpotPrice")
+
         assert len(price["terms"]["OnDemand"]) == 1
         priceid = list(price["terms"]["OnDemand"].keys())[0]
         for _, rate in price["terms"]["OnDemand"][priceid]["priceDimensions"].items():
@@ -278,8 +282,12 @@ def build_instance_price_lookup(prices):
                     lookup[instance_type] = {}
                 if location in lookup[instance_type]:
                     logger.warning(
-                        f"Found two rates for {instance_type} in {location} - we will choose one but this likely should not happen."
+                        f"Found more than one entry for {instance_type} in {location} - we will choose one but this likely should not happen."
                     )
+
                 # These are provided as strings, since the original data is completely string
-                lookup[instance_type][location] = float(rate["pricePerUnit"]["USD"])
+                lookup[instance_type][location] = {
+                    "OnDemand": float(rate["pricePerUnit"]["USD"]),
+                    "Spot": spot_price,
+                }
     return lookup

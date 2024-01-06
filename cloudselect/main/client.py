@@ -1,4 +1,4 @@
-# Copyright 2022-2023 Lawrence Livermore National Security, LLC and other
+# Copyright 2022-2024 Lawrence Livermore National Security, LLC and other
 # HPCIC DevTools Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (MIT)
@@ -111,6 +111,11 @@ class Client:
         returns data we have available.
         """
         items = {}
+
+        # If directed not to use a cache, return early
+        if not self.use_cache:
+            return items
+
         for cloud in self.get_clouds():
             # Assume we don't find data
             data = None

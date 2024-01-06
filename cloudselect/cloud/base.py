@@ -1,4 +1,4 @@
-# Copyright 2022 Lawrence Livermore National Security, LLC and other
+# Copyright 2022-2024 Lawrence Livermore National Security, LLC and other
 # HPCIC DevTools Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (MIT)
@@ -175,6 +175,7 @@ class Instance(CloudData):
             "name": self.name,
             "memory": self.attr_memory(),
             "price": self.attr_price(),
+            "spot_price": self.attr_spot_price(),
             "cpus": self.attr_cpus(),
             "gpus": self.attr_gpus(),
             "region": self.attr_region(),

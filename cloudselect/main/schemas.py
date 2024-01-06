@@ -1,4 +1,4 @@
-# Copyright 2022 Lawrence Livermore National Security, LLC and other
+# Copyright 2022-2024 Lawrence Livermore National Security, LLC and other
 # HPCIC DevTools Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (MIT)
@@ -92,17 +92,29 @@ instance_properties = {
         "description": "Maximum number of vcpus available to the instance type. If min not set, is 0.",
     },
     # It seems unlikely to find an exact price, but might as well be consistent!
-    "price-per-hour": {
+    "price": {
         "type": "number",
         "description": "Price/hour in dollars (e.g., 0.09) (sets min and max to the same value)",
     },
-    "price-per-hour-min": {
+    "price-min": {
         "type": "number",
         "description": "Minimum price/hour in dollars. If max not set, is infinity.",
     },
-    "price-per-hour-max": {
+    "price-max": {
         "type": "number",
         "description": "Maximum price/hour in dollars. If min not set, is 0.",
+    },
+    "spot-price": {
+        "type": "number",
+        "description": "Price/hour for spot in dollars (e.g., 0.09) (sets min and max to the same value)",
+    },
+    "spot-price-min": {
+        "type": "number",
+        "description": "Minimum spot price/hour in dollars. If max not set, is infinity.",
+    },
+    "spot-price-max": {
+        "type": "number",
+        "description": "Maximum spot price/hour in dollars. If min not set, is 0.",
     },
     "free-tier": {"type": "boolean", "description": "Free tier only."},
     "ipv6": {"type": "boolean", "description": "Instance Types that support IPv6"},
@@ -137,24 +149,6 @@ instance_properties = {
         "description": "instance types which should be included w/ regex syntax (Example: m[1-2]\.*)",  # noqa
     },
 }
-
-# These are not added yet (and available for AWS) if we want to add them
-#      --network-encryption                             Instance Types that support automatic network encryption in-transit
-#      --network-interfaces int                         Number of network interfaces (ENIs) that can be attached to the instance (sets --network-interfaces-min and -max to the same value)
-#      --network-interfaces-max int                     Maximum Number of network interfaces (ENIs) that can be attached to the instance If --network-interfaces-min is not specified, the lower bound will be 0
-#      --network-interfaces-min int                     Minimum Number of network interfaces (ENIs) that can be attached to the instance If --network-interfaces-max is not specified, the upper bound will be infinity
-#      --network-performance int                        Bandwidth in Gib/s of network performance (Example: 100) (sets --network-performance-min and -max to the same value)
-#      --network-performance-max int                    Maximum Bandwidth in Gib/s of network performance (Example: 100) If --network-performance-min is not specified, the lower bound will be 0
-#      --network-performance-min int                    Minimum Bandwidth in Gib/s of network performance (Example: 100) If --network-performance-max is not specified, the upper bound will be infinity
-#      --nvme                                           EBS or local instance storage where NVME is supported or required
-#      --placement-group-strategy string                Placement group strategy: [cluster, partition, spread]
-#  -u, --usage-class string                             Usage class: [spot or on-demand]
-#      --virtualization-type string                     Virtualization Type supported: [hvm or pv]
-#  -o, --output string           Specify the output format (table, table-wide, one-line, interactive)
-#      --profile string          AWS CLI profile to use for credentials and config
-#  -r, --region string           AWS Region to use for API requests (NOTE: if not passed in, uses AWS SDK default precedence)
-#      --sort-by string          Specify the field to sort by. Quantity flags present in this CLI (memory, gpus, etc.) or a JSON path to the appropriate instance type field (Ex: ".MemoryInfo.SizeInMiB") is acceptable. (default ".InstanceType")
-#      --sort-direction string   Specify the direction to sort in (ascending, asc, descending, desc) (default "ascending")
 
 ## Settings.yml (loads as json)
 
