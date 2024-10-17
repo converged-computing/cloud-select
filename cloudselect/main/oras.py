@@ -15,27 +15,27 @@ import cloudselect.defaults as defaults
 from cloudselect.logger import logger
 
 
-def get_oras_client(require_auth=False):
+def get_oras_client(require_auth=False, insecure=False):
     """
     Consistent method to get an oras client
     """
     user = os.environ.get("ORAS_USER")
     password = os.environ.get("ORAS_PASS")
-    reg = Registry()
+    reg = Registry(auth_backend="basic", insecure=insecure)
     if user and password:
         logger.debug("Found username and password for basic auth")
-        reg.set_basic_auth(user, password)
+        reg.login(username=user, password=password)
     else:
         logfunc = logger.exit if require_auth else logger.debug
         logfunc("ORAS_USER or ORAS_PASS is missing, push may have issues.")
     return reg
 
 
-def pull_to_dir(pull_dir, target):
+def pull_to_dir(pull_dir, target, insecure=False):
     """
     Given a URI, pull to an output directory.
     """
-    reg = get_oras_client()
+    reg = get_oras_client(insecure=insecure)
     return reg.pull(target=target, outdir=pull_dir)
 
 

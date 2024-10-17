@@ -14,6 +14,7 @@ and **Merged pull requests**. Critical items to know are:
 The versions coincide with releases on pip. Only major versions will be released as tags on Github.
 
 ## [0.0.x](https://github.com/converged-computing/cloud-select/tree/main) (0.0.x)
+ - update oras python to use updated auth backend (0.0.26)
  - support for parsing Google prices and preemptible (spot) instances (0.0.25)
  - add support for since to aws spot prices (0.0.24)
  - support for aws spot prices (function to request) (0.0.23)
