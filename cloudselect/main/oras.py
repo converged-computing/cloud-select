@@ -24,7 +24,7 @@ def get_oras_client(require_auth=False):
     reg = Registry()
     if user and password:
         logger.debug("Found username and password for basic auth")
-        reg.set_basic_auth(user, password)
+        reg.auth.set_basic_auth(user, password)
     else:
         logfunc = logger.exit if require_auth else logger.debug
         logfunc("ORAS_USER or ORAS_PASS is missing, push may have issues.")
