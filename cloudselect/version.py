@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: (MIT)
 
-__version__ = "0.0.25"
+__version__ = "0.1.0"
 AUTHOR = "Vanessa Sochat"
 EMAIL = "vsoch@users.noreply.github.com"
 NAME = "cloud-select-tool"
@@ -21,7 +21,7 @@ INSTALL_REQUIRES = (
     ("ruamel.yaml", {"min_version": None}),
     ("jsonschema", {"min_version": None}),
     ("rich", {"min_version": None}),
-    ("oras", {"min_version": None}),
+    ("oras", {"min_version": "0.2.25 "}),
     ("requests", {"min_version": None}),
     ("pick", {"min_version": None}),
 )
